@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { DnDBeyondCharacter } from './types';
 
 export interface GetCharacterStatsProps {
-    characterUrl: string;
+    characterId: string;
 }
 
 export interface CharacterStats {
@@ -12,13 +13,15 @@ export interface CharacterStats {
     passivePerception: number;
 }
 
-const getCharacterStats = async ({ characterUrl }: GetCharacterStatsProps) => {
-    const response = await axios({ method: 'GET', url: characterUrl });
-    const html = response.data;
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    console.log(doc);
+const getCharacterStats = async ({ characterId }: GetCharacterStatsProps): Promise<DnDBeyondCharacter | null> => {
+    const jsonUrl = `https://www.dndbeyond.com/character/${characterId}/json`;
 
-    return html;
+    try {
+        const response = await axios({ method: 'GET', url: jsonUrl, withCredentials: false });
+        return response.data as DnDBeyondCharacter;
+    } catch {
+        return null;
+    }
 };
 
 export default getCharacterStats;

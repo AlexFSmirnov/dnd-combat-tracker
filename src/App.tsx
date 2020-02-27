@@ -1,27 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { getCharacterStats } from './helpers/dnd-beyond';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { persistor, store } from './redux';
+import { LoadingView } from './components';
+// import { RootComponent, LoadingView } from './components';
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    {getCharacterStats({ characterUrl: 'https://www.dndbeyond.com/profile/LanceHclaw/characters/10386345' }).toString()}
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-          Learn React
-                </a>
-            </header>
-        </div>
-    );
-}
+const App = () => (
+    <Provider store={store}>
+        <PersistGate loading={<LoadingView />} persistor={persistor}>
+            <LoadingView />
+        </PersistGate>
+    </Provider>
+);
 
 export default App;

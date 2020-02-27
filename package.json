@@ -13,7 +13,11 @@
     "react": "^0.0.0-experimental-d28bd2994",
     "react-dom": "^0.0.0-experimental-d28bd2994",
     "react-is": "^16.13.0",
+    "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
@@ -22,6 +26,10 @@
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/react-is": "^16.7.1",
+    "@types/react-redux": "^7.1.7",
+    "@types/redux": "^3.6.0",
+    "@types/redux-persist": "^4.3.1",
+    "@types/redux-thunk": "^2.1.0",
     "@types/styled-components": "^5.0.1",
     "eslint": "^6.8.0",
     "typescript": "^3.8.2"
