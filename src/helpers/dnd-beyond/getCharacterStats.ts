@@ -13,15 +13,11 @@ export interface CharacterStats {
     passivePerception: number;
 }
 
-const getCharacterStats = async ({ characterId }: GetCharacterStatsProps): Promise<DnDBeyondCharacter | null> => {
+const getCharacterStats = async ({ characterId }: GetCharacterStatsProps): Promise<DnDBeyondCharacter> => {
     const jsonUrl = `https://www.dndbeyond.com/character/${characterId}/json`;
 
-    try {
-        const response = await axios({ method: 'GET', url: jsonUrl, withCredentials: false });
-        return response.data as DnDBeyondCharacter;
-    } catch {
-        return null;
-    }
+    const response = await axios({ method: 'GET', url: jsonUrl, withCredentials: false });
+    return response.data as DnDBeyondCharacter;
 };
 
 export default getCharacterStats;
