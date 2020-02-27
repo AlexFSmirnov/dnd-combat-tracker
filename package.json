@@ -5,19 +5,25 @@
   "scripts": {
     "start": "react-scripts start",
     "typescript": "tsc",
+    "lint": "npx eslint . --ext .ts,.tsx",
     "build": "react-scripts build"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "react": "^0.0.0-experimental-d28bd2994",
     "react-dom": "^0.0.0-experimental-d28bd2994",
+    "react-is": "^16.13.0",
     "react-scripts": "3.4.0",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/node": "^13.7.6",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@types/react-is": "^16.7.1",
     "@types/styled-components": "^5.0.1",
+    "eslint": "^6.8.0",
     "typescript": "^3.8.2"
   },
   "eslintConfig": {
