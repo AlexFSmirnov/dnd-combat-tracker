@@ -1,5 +1,5 @@
-export interface Store {
-    characters: Character[];
+export interface State {
+    characters?: Character[];
 }
 
 export interface Character {

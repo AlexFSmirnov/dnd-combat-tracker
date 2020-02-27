@@ -4,7 +4,6 @@ module.exports = {
         'es6': true
     },
     'extends': [
-        'plugin:react/recommended',
         'plugin:@typescript-eslint/eslint-recommended'
     ],
     'globals': {

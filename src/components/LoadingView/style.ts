@@ -22,6 +22,7 @@ export const LoadingViewImage = styled.img`
 `;
 
 export const LoadingViewText = styled.div`
+    font-family: 'Yeon Sung';
     font-size: 40px;
     line-height: 40px;
     color: orange;

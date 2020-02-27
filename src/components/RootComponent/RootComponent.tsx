@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCharacterByUrl } from '../../redux/actions/characters';
+import { EntityList } from '../EntityList';
 
 // @ts-ignore
 const RootComponent = ({ addCharacterByUrl }) => {
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value);
+    const handleButtonClick = () => addCharacterByUrl(inputValue, 10);
+
     return (
         <>
-            <p>Loaded</p>
-            <button onClick={() => addCharacterByUrl('https://www.dndbeyond.com/characters/10807027', 150)}>test</button>
+            <input value={inputValue} onChange={handleInputChange} />
+            <button onClick={handleButtonClick}>Add</button>
+            <EntityList />
         </>
     );
 };
 
-const mapStateToProps = null;
-const mapDispatchToProps = {
-    addCharacterByUrl,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RootComponent);
+// export default RootComponent;
+export default connect(null, { addCharacterByUrl })(RootComponent);
