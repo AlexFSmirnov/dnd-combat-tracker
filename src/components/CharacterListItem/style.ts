@@ -51,14 +51,17 @@ export const SavesContainer = styled.div`
 
 export const HitPointsContainer = styled.div`
     height: 64px;
+    width: 200px;
     margin-left: auto;
-    margin-right: 8px;
+    margin-right: 16px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 `;
 
-export const HitPoints = styled.div`
+export const HitPoints = styled.div<{ width: number }>`
     font-size: 32px;
     line-height: 32px;
+    width: ${props => props.width}px;
+    text-align: center;
 `;

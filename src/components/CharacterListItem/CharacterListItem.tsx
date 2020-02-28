@@ -28,7 +28,10 @@ const CharacterListItem: React.FC<CharacterListItemProps & DispatchProps> = ({ c
                     <SavesContainer />
                 </NameAndSavesContainer>
                 <HitPointsContainer>
-                    <HitPoints>{maxHitPoints - removedHitPoints} / {maxHitPoints} [{temporaryHitPoints}]</HitPoints>
+                    <HitPoints width={64}>{maxHitPoints - removedHitPoints}</HitPoints>
+                    <HitPoints width={16} style={{ color: 'grey' }}>/</HitPoints>
+                    <HitPoints width={64}>{maxHitPoints}</HitPoints>
+                    <HitPoints width={48} style={{ color: 'grey' }}>[{temporaryHitPoints}]</HitPoints>
                 </HitPointsContainer>
             </CharacterListItemWrapper>
         </CharacterListItemContainer>
