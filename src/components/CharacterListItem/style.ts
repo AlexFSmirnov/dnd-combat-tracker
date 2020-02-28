@@ -1,25 +1,36 @@
 import styled from 'styled-components';
 
 export const CharacterListItemContainer = styled.div`
-    height: 72px;
-    margin: 8px 0;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    border: 3px solid blue;
-    background-color: white;
+    position: relative;
+    height: 80px;
+    max-width: 600px;
+
+    &:not(:last-child) {
+        margin-bottom: 8px;
+    }
 `;
 
-export const Avatar = styled.img`
+export const CharacterListItemWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+`;
+
+export const Avatar = styled.img<{ color?: string }>`
     border-radius: 16px;
-    height: 60px;
-    width: 60px;
-    margin-right: 8px;
-    border: 1px solid red;
+    height: 64px;
+    width: 64px;
+    margin: 0 8px;
+    border: 2px solid ${props => props.color || 'black'};
+    box-sizing: border-box;
 `;
 
 export const NameAndSavesContainer = styled.div`
-    height: 60px;
+    height: 64px;
     margin-right: 8px;
     display: flex;
     flex-direction: column;
@@ -36,13 +47,12 @@ export const Name = styled.div`
 export const SavesContainer = styled.div`
     height: 20px;
     width: 100%;
-    border: 1px solid yellow;
 `;
 
 export const HitPointsContainer = styled.div`
-    height: 60px;
-    border: 1px solid green;
+    height: 64px;
     margin-left: auto;
+    margin-right: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;

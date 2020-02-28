@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCharacterByUrl } from '../../redux/actions/characters';
 import { EntityList } from '../EntityList';
-import { RootComponentContainer } from './style';
+import { RootComponentContainer, ContentContainer } from './style';
 import { State } from '../../redux/types';
 
 // @ts-ignore
@@ -14,9 +14,11 @@ const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
 
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
-            <input value={inputValue} onChange={handleInputChange} />
-            <button onClick={handleButtonClick}>Add</button>
-            <EntityList />
+            <ContentContainer>
+                <input value={inputValue} onChange={handleInputChange} />
+                <button onClick={handleButtonClick}>Add</button>
+                <EntityList />
+            </ContentContainer>
         </RootComponentContainer>
     );
 };
