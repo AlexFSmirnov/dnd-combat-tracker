@@ -4,9 +4,10 @@ export const CharacterListItemContainer = styled.div`
     height: 72px;
     margin: 8px 0;
     padding: 6px;
-    border: 1px solid blue;
     display: flex;
     align-items: center;
+    border: 3px solid blue;
+    background-color: white;
 `;
 
 export const Avatar = styled.img`

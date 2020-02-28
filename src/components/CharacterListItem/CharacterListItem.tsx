@@ -18,14 +18,14 @@ const CharacterListItem: React.FC<CharacterListItemProps & DispatchProps> = ({ c
     useEffect(() => updateCharacterById(id, maxHitPoints), [id, maxHitPoints, updateCharacterById]);
 
     return (
-        <CharacterListItemContainer>
+        <CharacterListItemContainer style={{ borderColor: (themeColor && themeColor.themeColor) || undefined }}>
             <Avatar src={avatarUrl || '/avatar-placeholder.png'} />
             <NameAndSavesContainer>
                 <Name>{name}</Name>
                 <SavesContainer />
             </NameAndSavesContainer>
             <HitPointsContainer>
-                <HitPoints>{maxHitPoints - removedHitPoints}/{maxHitPoints} [{temporaryHitPoints}]</HitPoints>
+                <HitPoints>{maxHitPoints - removedHitPoints} / {maxHitPoints} [{temporaryHitPoints}]</HitPoints>
             </HitPointsContainer>
         </CharacterListItemContainer>
     );

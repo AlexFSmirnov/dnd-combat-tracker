@@ -26,3 +26,10 @@ export interface ThemeColor {
     themeColor: string;
     backgroundColor: string;
 }
+
+export interface DefaultBackdrop {
+    backdropAvatarUrl: string;
+    smallBackdropAvatarUrl: string;
+    largeBackdropAvatarUrl: string;
+    thumbnailBackdropAvatarUrl: string;
+}
