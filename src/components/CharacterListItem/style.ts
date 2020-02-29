@@ -1,13 +1,19 @@
 import styled from 'styled-components';
+import { SquareFrame } from '../Frame';
 
-export const CharacterListItemContainer = styled.div`
-    position: relative;
+export const CharacterListItemScrollContainer = styled.div`
     height: 80px;
     max-width: 600px;
 
     &:not(:last-child) {
         margin-bottom: 8px;
     }
+`;
+
+export const CharacterListItemContainer = styled.div`
+    position: relative;
+    height: 100%;
+    border-radius: 20px;
 `;
 
 export const CharacterListItemWrapper = styled.div`
@@ -25,8 +31,10 @@ export const Avatar = styled.img<{ color?: string }>`
     height: 64px;
     width: 64px;
     margin: 0 8px;
-    border: 2px solid ${props => props.color || 'black'};
+    border: 3px solid ${props => props.color || '#b13735'};
+    box-shadow: 0 0 10px grey;
     box-sizing: border-box;
+    object-fit: cover;
 `;
 
 export const NameAndSavesContainer = styled.div`

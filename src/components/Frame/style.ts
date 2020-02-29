@@ -26,6 +26,7 @@ export const FrameMiddleFill = styled.div<FramePartProps>`
     width: ${props => props.width}px;
     height: ${props => props.height}px;
     ${props => props.backgroundColor && `background-color: ${props.backgroundColor};`}
+    transition: background-color 0.3s;
 `;
 
 const CornerBaseStyles = css<FramePartProps>`

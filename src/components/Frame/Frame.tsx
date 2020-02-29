@@ -16,10 +16,12 @@ import {
     RightStyles,
 } from './style';
 import { SquareCorner, SquareTop, SquareSide } from './svg/square';
+import { ScrollCorner, ScrollTop, ScrollSide } from './svg/scroll';
 
 export interface FrameProps {
     color?: string;
     backgroundColor?: string;
+    className?: string;
 }
 
 export interface FrameFactoryProps {
@@ -32,7 +34,6 @@ export interface FrameFactoryProps {
 export interface FramePartProps extends FrameProps {
     width: number;
     height: number;
-    className?: string;
 }
 
 const frameFactory = ({
@@ -50,7 +51,7 @@ const frameFactory = ({
     const FrameLeft = styled(Side)`${LeftStyles}`;
     const FrameRight = styled(Side)`${RightStyles}`;
 
-    const Frame: React.FC<FrameProps> = ({ color = 'b13735', backgroundColor }) => {
+    const Frame: React.FC<FrameProps> = ({ color = '#b13735', backgroundColor, className }) => {
         const containerRef = useRef<HTMLDivElement | null>(null);
 
         const [topPartWidth, setTopPartWidth] = useState<number>(partSize);
@@ -76,7 +77,7 @@ const frameFactory = ({
         const framePartProps: FramePartProps = { color, backgroundColor, width: partSize, height: partSize };
 
         return (
-            <FrameContainer ref={containerRef}>
+            <FrameContainer ref={containerRef} className={className}>
                 {containerRef.current
                     ? (
                         <React.Fragment>
@@ -107,5 +108,6 @@ const frameFactory = ({
 };
 
 export const SquareFrame = frameFactory({ partSize: 32, Corner: SquareCorner, Top: SquareTop, Side: SquareSide });
+export const ScrollFrame = frameFactory({ partSize: 32, Corner: ScrollCorner, Top: ScrollTop, Side: ScrollSide });
 
 export default frameFactory;

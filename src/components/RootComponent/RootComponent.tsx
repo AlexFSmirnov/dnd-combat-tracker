@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCharacterByUrl } from '../../redux/actions/characters';
 import { EntityList } from '../EntityList';
-import { RootComponentContainer, ContentContainer } from './style';
+import { RootComponentContainer, ContentContainer, ListAndNumpadContainer } from './style';
 import { State } from '../../redux/types';
+import { Numpad } from '../Numpad';
 
 // @ts-ignore
 const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
@@ -17,7 +18,10 @@ const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
             <ContentContainer>
                 <input value={inputValue} onChange={handleInputChange} />
                 <button onClick={handleButtonClick}>Add</button>
-                <EntityList />
+                <ListAndNumpadContainer>
+                    <EntityList />
+                    <Numpad />
+                </ListAndNumpadContainer>
             </ContentContainer>
         </RootComponentContainer>
     );

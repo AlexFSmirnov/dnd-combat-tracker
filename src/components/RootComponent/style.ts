@@ -20,3 +20,13 @@ export const ContentContainer = styled.div`
     height: 100%;
     max-width: 1200px;
 `;
+
+export const ListAndNumpadContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    & > :not(:last-child) {
+        margin-right: 32px;
+    }
+`;

@@ -11,7 +11,7 @@ const getSquarePart = (transform?: string): React.FC<FramePartProps> => ({
     <svg className={className} data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
         {backgroundColor
             ? (
-                <path style={{ fill: backgroundColor, zIndex: -1 }} transform={transform}
+                <path style={{ fill: backgroundColor, zIndex: -1, transition: 'fill 0.3s' }} transform={transform}
                     d="M615.2,646.2c-1.7,5.7-12.9,11.7-14.5,11.7H22.5c-1.7,0-12.8-6-14.5-11.7L8.2,19.3V12S16.1,2.3,23.4,1.4H599.80005c7.3.8,15.1,10.6,15.1,10.6v7.3Z"
                 />
             )
