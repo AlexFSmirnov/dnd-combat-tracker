@@ -51,6 +51,7 @@ const Numpad = () => {
 
     return (
         <NumpadFrameContainer>
+            <FancyFrame backgroundColor="rgba(255, 255, 255, 0.8)" />
             <NumpadContainer>
                 <NumpadValueContainer onClick={handleValueClick}>
                     <NumpadValueWrapper>
@@ -71,7 +72,6 @@ const Numpad = () => {
                 <NumpadButton onClick={handleButtonClick(0)}>0</NumpadButton>
                 <NumpadButton onClick={handleSubmit(1)} paddingBottom="8px" color='#08a300'>+</NumpadButton>
             </NumpadContainer>
-            <FancyFrame />
         </NumpadFrameContainer>
     );
 };

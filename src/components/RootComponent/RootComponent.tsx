@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCharacterByUrl } from '../../redux/actions/characters';
-import { EntityList } from '../EntityList';
-import { RootComponentContainer, ContentContainer, ListAndNumpadContainer } from './style';
 import { State } from '../../redux/types';
+import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
-import { FancyFrame } from '../Frame';
+import { Notes } from '../Notes';
+import { RootComponentContainer, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
 
 // @ts-ignore
 const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
@@ -23,6 +23,9 @@ const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
                     <EntityList />
                     <Numpad />
                 </ListAndNumpadContainer>
+                <NotesContainer>
+                    <Notes />
+                </NotesContainer>
             </ContentContainer>
         </RootComponentContainer>
     );
