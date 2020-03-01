@@ -5,10 +5,11 @@ export const FrameContainer = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    max-width: 600px;
-    max-height: 600px;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
+    pointer-events: none;
 `;
 
 export const FrameTopRowContainer = styled.div`

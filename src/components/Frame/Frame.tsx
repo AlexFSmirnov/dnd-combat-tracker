@@ -17,6 +17,7 @@ import {
 } from './style';
 import { SquareCorner, SquareTop, SquareSide } from './svg/square';
 import { ScrollCorner, ScrollTop, ScrollSide } from './svg/scroll';
+import { FancyCorner, FancyTop, FancySide } from './svg/fancy';
 
 export interface FrameProps {
     color?: string;
@@ -109,5 +110,6 @@ const frameFactory = ({
 
 export const SquareFrame = frameFactory({ partSize: 32, Corner: SquareCorner, Top: SquareTop, Side: SquareSide });
 export const ScrollFrame = frameFactory({ partSize: 32, Corner: ScrollCorner, Top: ScrollTop, Side: ScrollSide });
+export const FancyFrame = frameFactory({ partSize: 128, Corner: FancyCorner, Top: FancyTop, Side: FancySide });
 
 export default frameFactory;

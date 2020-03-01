@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { SquareFrame } from '../Frame';
 
 export const CharacterListItemScrollContainer = styled.div`
     height: 80px;
-    max-width: 600px;
 
     &:not(:last-child) {
         margin-bottom: 8px;

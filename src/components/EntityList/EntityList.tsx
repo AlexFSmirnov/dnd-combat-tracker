@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { State, Character } from '../../redux/types';
+import { FancyFrame } from '../Frame';
 import { CharacterListItem } from '../CharacterListItem';
-import { EntityListContainer } from './style';
+import { EntityListContainer, EntityListWrapper, EntityListBottomFade, EntityListTopFade } from './style';
 
 interface StateProps {
     characters: Character[];
@@ -11,9 +12,14 @@ interface StateProps {
 const EntityList: React.FC<StateProps> = ({ characters }) => {
     return (
         <EntityListContainer>
-            {characters.map(c => (
-                <CharacterListItem key={c.id} character={c} />
-            ))}
+            <EntityListWrapper>
+                {characters.map(c => (
+                    <CharacterListItem key={c.id} character={c} />
+                ))}
+            </EntityListWrapper>
+            <EntityListTopFade />
+            <EntityListBottomFade />
+            <FancyFrame />
         </EntityListContainer>
     );
 };

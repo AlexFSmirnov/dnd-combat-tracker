@@ -5,6 +5,7 @@ import { EntityList } from '../EntityList';
 import { RootComponentContainer, ContentContainer, ListAndNumpadContainer } from './style';
 import { State } from '../../redux/types';
 import { Numpad } from '../Numpad';
+import { FancyFrame } from '../Frame';
 
 // @ts-ignore
 const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {

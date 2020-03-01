@@ -24,5 +24,7 @@ const getSquarePart = (transform?: string): React.FC<FramePartProps> => ({
 );
 
 export const SquareCorner = getSquarePart();
-export const SquareTop = getSquarePart('translate(-32,0)');
 export const SquareSide = getSquarePart('translate(0,-32)');
+export const SquareTop: React.FC<FramePartProps> = ({ color, backgroundColor, width, height, className }) => (
+    <div className={className} style={{ backgroundColor, width, height, borderTop: `3px solid ${color}`, boxSizing: 'border-box', transition: 'background-color 0.3s' }} />
+);

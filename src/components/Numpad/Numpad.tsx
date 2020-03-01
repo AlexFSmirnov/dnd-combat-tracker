@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { SquareFrame, ScrollFrame } from '../Frame';
-import { NumpadContainer, NumpadValueContainer, NumpadValueWrapper, NumpadValue, NumpadButtonContainer, NumpadButtonValueContainer, NumpadButtonValue } from './style';
+import { SquareFrame, ScrollFrame, FancyFrame } from '../Frame';
+import {
+    NumpadFrameContainer,
+    NumpadContainer,
+    NumpadValueContainer,
+    NumpadValueWrapper,
+    NumpadValue,
+    NumpadButtonContainer,
+    NumpadButtonValueContainer,
+    NumpadButtonValue,
+} from './style';
 
 interface NumpadButtonProps {
     children: React.ReactNode;
@@ -41,26 +50,29 @@ const Numpad = () => {
     };
 
     return (
-        <NumpadContainer>
-            <NumpadValueContainer onClick={handleValueClick}>
-                <NumpadValueWrapper>
-                    <ScrollFrame color="#555" backgroundColor="white" />
-                    <NumpadValue>{currentValue || ''}</NumpadValue>
-                </NumpadValueWrapper>
-            </NumpadValueContainer>
-            <NumpadButton onClick={handleButtonClick(7)}>7</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(8)}>8</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(9)}>9</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(4)}>4</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(5)}>5</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(6)}>6</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(1)}>1</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(2)}>2</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(3)}>3</NumpadButton>
-            <NumpadButton onClick={handleSubmit(-1)} paddingBottom="6px" color='#b13735'>-</NumpadButton>
-            <NumpadButton onClick={handleButtonClick(0)}>0</NumpadButton>
-            <NumpadButton onClick={handleSubmit(1)} paddingBottom="8px" color='#08a300'>+</NumpadButton>
-        </NumpadContainer>
+        <NumpadFrameContainer>
+            <NumpadContainer>
+                <NumpadValueContainer onClick={handleValueClick}>
+                    <NumpadValueWrapper>
+                        <NumpadValue>{currentValue || ''}</NumpadValue>
+                        <ScrollFrame color="#555" backgroundColor="white" />
+                    </NumpadValueWrapper>
+                </NumpadValueContainer>
+                <NumpadButton onClick={handleButtonClick(7)}>7</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(8)}>8</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(9)}>9</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(4)}>4</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(5)}>5</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(6)}>6</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(1)}>1</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(2)}>2</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(3)}>3</NumpadButton>
+                <NumpadButton onClick={handleSubmit(-1)} paddingBottom="6px" color='#b13735'>-</NumpadButton>
+                <NumpadButton onClick={handleButtonClick(0)}>0</NumpadButton>
+                <NumpadButton onClick={handleSubmit(1)} paddingBottom="8px" color='#08a300'>+</NumpadButton>
+            </NumpadContainer>
+            <FancyFrame />
+        </NumpadFrameContainer>
     );
 };
 

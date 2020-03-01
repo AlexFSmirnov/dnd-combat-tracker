@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 
+export const NumpadFrameContainer = styled.div`
+    position: relative;
+    width: 288px;
+    height: 480px;
+`;
+
 export const NumpadContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+
     width: 256px;
-    padding: 8px;
+    height: 460px;
+    padding: 16px;
     padding-bottom: 0;
-    border: 2px solid #b13735;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #333;
-    background-color: rgba(255, 255, 255, 0.5);
+
     display: flex;
     flex-wrap: wrap;
 `;
