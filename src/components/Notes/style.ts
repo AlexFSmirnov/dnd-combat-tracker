@@ -7,12 +7,12 @@ export const NotesContainer = styled.div`
     margin-top: 16px;
 `;
 
-export const NotesWrapper = styled.div`
+export const NotesCanvas = styled.canvas`
     position: absolute;
     top: 0;
     left: 0;
     width: calc(100% - 24px);
     height: calc(100% - 16px);
     margin: 8px 12px;
-    background-color: cyan;
+    touch-action: none;
 `;
