@@ -1,32 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { connect } from 'react-redux';
-import { addCharacterByUrl } from '../../redux/actions/characters';
+import { IconButton, Dialog } from '@material-ui/core';
+import { People, Close } from '@material-ui/icons';
 import { State } from '../../redux/types';
+import { Navbar } from '../Navbar';
+import { Tooltip } from '../Tooltip';
 import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
-import { RootComponentContainer, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
+import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
 
-// @ts-ignore
-const RootComponent = ({ addCharacterByUrl, currentBackgroundUrl }) => {
-    const [inputValue, setInputValue] = useState('');
+export interface StateProps {
+    currentBackgroundUrl?: string;
+}
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value);
-    const handleButtonClick = () => addCharacterByUrl(inputValue, 10);
+const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
+    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(false);
+
+    const openCharacterDialog = () => setIsCharacterDialogOpen(true);
+    const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
 
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
-            <ContentContainer>
-                <input value={inputValue} onChange={handleInputChange} />
-                <button onClick={handleButtonClick}>Add</button>
-                <ListAndNumpadContainer>
-                    <EntityList />
-                    <Numpad />
-                </ListAndNumpadContainer>
-                <NotesContainer>
-                    <Notes />
-                </NotesContainer>
-            </ContentContainer>
+            <Navbar>
+                <Tooltip title="View and edit saved characters">
+                    <IconButton color="inherit" onClick={openCharacterDialog}>
+                        <People fontSize="large" />
+                    </IconButton>
+                </Tooltip>
+            </Navbar>
+            <RootComponentWrapper>
+                <ContentContainer>
+                    <ListAndNumpadContainer>
+                        <EntityList />
+                        <Numpad />
+                    </ListAndNumpadContainer>
+                    <NotesContainer>
+                        <Notes />
+                    </NotesContainer>
+                </ContentContainer>
+            </RootComponentWrapper>
+            <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
+                <Navbar color="primary">
+                    <IconButton color="inherit" onClick={closeCharacterDialog}>
+                        <Close fontSize="large" />
+                    </IconButton>
+                </Navbar>
+            </Dialog>
         </RootComponentContainer>
     );
 };
@@ -35,4 +55,4 @@ const mapStateToProps = (state: State) => ({
     currentBackgroundUrl: state.characters && state.characters[1] && state.characters[1].defaultBackdrop.largeBackdropAvatarUrl,
 });
 
-export default connect(mapStateToProps, { addCharacterByUrl })(RootComponent);
+export default connect(mapStateToProps)(RootComponent);

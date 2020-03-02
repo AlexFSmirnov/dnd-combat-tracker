@@ -1,5 +1,7 @@
+import { CharactersState } from './reducers/characters';
+
 export interface State {
-    characters?: Character[];
+    characters?: CharactersState;
 }
 
 export interface Character {

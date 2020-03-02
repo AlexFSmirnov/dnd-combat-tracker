@@ -5,12 +5,21 @@ export interface RootComponentContainerProps {
 }
 
 export const RootComponentContainer = styled.div<RootComponentContainerProps>`
+    position: relative;
     width: 100%;
     height: 100%;
     background-image: url("${props => props.backgroundImageSrc}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+`;
+
+export const RootComponentWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
 `;

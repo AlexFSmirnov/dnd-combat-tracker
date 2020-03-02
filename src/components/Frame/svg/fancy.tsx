@@ -26,5 +26,5 @@ const getSquarePart = (transform?: string): React.FC<FramePartProps> => ({
 export const FancyCorner = getSquarePart();
 export const FancySide = getSquarePart('translate(0,-100)');
 export const FancyTop: React.FC<FramePartProps> = ({ color, backgroundColor, width, height, className }) => (
-    <div className={className} style={{ backgroundColor, width, height, borderTop: `4px solid ${color}`, boxSizing: 'border-box' }} />
+    <div className={className} style={{ backgroundColor, width, height, borderTop: `3.5px solid ${color}`, boxSizing: 'border-box' }} />
 );

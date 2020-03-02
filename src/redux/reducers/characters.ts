@@ -7,7 +7,9 @@ import {
     CharacterActionType,
 } from '../actions/types';
 
-const initialState: Character[] = [];
+export type CharactersState = Character[];
+
+const initialState: CharactersState = [];
 
 export const characters = (state = initialState, action: CharacterActionType) => {
     switch (action.type) {
