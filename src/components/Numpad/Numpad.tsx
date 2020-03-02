@@ -10,15 +10,16 @@ import {
     NumpadButtonValueContainer,
     NumpadButtonValue,
 } from './style';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
 
 interface NumpadButtonProps {
     children: React.ReactNode;
     onClick?: () => void;
     color?: string;
-    paddingBottom?: string;
+    padding?: string;
 }
 
-const NumpadButton: React.FC<NumpadButtonProps> = ({ children, paddingBottom, color, onClick }) => {
+const NumpadButton: React.FC<NumpadButtonProps> = ({ children, padding, color, onClick }) => {
     const [backgroundColor, setBackgroundColor] = useState('white');
 
     const handleClick = () => {
@@ -33,7 +34,7 @@ const NumpadButton: React.FC<NumpadButtonProps> = ({ children, paddingBottom, co
         <NumpadButtonContainer onClick={handleClick}>
             <SquareFrame color={color || '#555'} backgroundColor={backgroundColor} />
             <NumpadButtonValueContainer>
-                <NumpadButtonValue style={{ paddingBottom }}>{children}</NumpadButtonValue>
+                <NumpadButtonValue style={{ padding }}>{children}</NumpadButtonValue>
             </NumpadButtonValueContainer>
         </NumpadButtonContainer>
     );
@@ -68,9 +69,9 @@ const Numpad = () => {
                 <NumpadButton onClick={handleButtonClick(1)}>1</NumpadButton>
                 <NumpadButton onClick={handleButtonClick(2)}>2</NumpadButton>
                 <NumpadButton onClick={handleButtonClick(3)}>3</NumpadButton>
-                <NumpadButton onClick={handleSubmit(-1)} paddingBottom="6px" color='#b13735'>-</NumpadButton>
+                <NumpadButton onClick={handleSubmit(-1)} padding='8px 0 0 0' color='#b13735'><KeyboardArrowDown fontSize="large" /></NumpadButton>
                 <NumpadButton onClick={handleButtonClick(0)}>0</NumpadButton>
-                <NumpadButton onClick={handleSubmit(1)} paddingBottom="8px" color='#08a300'>+</NumpadButton>
+                <NumpadButton onClick={handleSubmit(1)} padding='8px 0 0 0' color='#08a300'><KeyboardArrowUp fontSize="large" /></NumpadButton>
             </NumpadContainer>
         </NumpadFrameContainer>
     );
