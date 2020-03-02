@@ -9,6 +9,7 @@ import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
 import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
+import { CharacterDialogContent } from '../CharacterDialogContent';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
@@ -49,6 +50,7 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
                         Saved Characters
                     </Typography>
                 </Navbar>
+                <CharacterDialogContent />
             </Dialog>
         </RootComponentContainer>
     );

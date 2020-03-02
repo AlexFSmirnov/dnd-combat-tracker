@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { getCharacterStats } from '../../helpers/dnd-beyond';
 import { State, Character } from '../types';
-import { CHARACTER_ADDED, CHARACTER_UPDATED, CHARACTER_FETCH_FAILED, CHARACTER_ALREADY_EXISTS } from './types';
+import { CHARACTER_ADDED, CHARACTER_UPDATED, CHARACTER_MAX_HP_UPDATED, CHARACTER_FETCH_FAILED, CHARACTER_ALREADY_EXISTS, CHARACTER_DELETED } from './types';
 
 export const addCharacterByUrl = (url: string, maxHitPoints: number) => (dispatch: Dispatch<any>, getState: () => State) => {
     const characterId = url.split('/')[url.split('/').length - 1];
@@ -47,6 +47,16 @@ export const addCharacter = (character: Character) => ({
 export const updateCharacter = (id: number, character: Character) => ({
     type: CHARACTER_UPDATED,
     payload: { id, character },
+});
+
+export const updateCharacterMaxHp = (id: number, maxHp: number) => ({
+    type: CHARACTER_MAX_HP_UPDATED,
+    payload: { id, maxHp },
+}); 
+
+export const deleteCharacter = (id: number) => ({
+    type: CHARACTER_DELETED,
+    payload: { id },
 });
 
 export const characterFetchFailed = (error: string) => ({

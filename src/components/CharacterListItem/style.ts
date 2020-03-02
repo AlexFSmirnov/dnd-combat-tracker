@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Avatar as AvatarMui } from '@material-ui/core';
 
 export const CharacterListItemScrollContainer = styled.div`
     height: 80px;
@@ -24,15 +25,12 @@ export const CharacterListItemWrapper = styled.div`
     box-sizing: border-box;
 `;
 
-export const Avatar = styled.img<{ color?: string }>`
-    border-radius: 16px;
-    height: 64px;
-    width: 64px;
+export const Avatar = styled(AvatarMui)`
+    && {
+        height: 60px;
+        width: 60px;
+    }
     margin: 0 8px;
-    border: 3px solid ${props => props.color || '#b13735'};
-    box-shadow: 0 0 10px grey;
-    box-sizing: border-box;
-    object-fit: cover;
 `;
 
 export const NameAndSavesContainer = styled.div`

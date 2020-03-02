@@ -7,8 +7,8 @@ import {
     CharacterListItemScrollContainer,
     CharacterListItemContainer,
     CharacterListItemWrapper,
-    Avatar,
     NameAndSavesContainer,
+    Avatar,
     Name,
     SavesContainer,
     HitPointsContainer,
@@ -33,7 +33,7 @@ const CharacterListItem: React.FC<CharacterListItemProps & DispatchProps> = ({ c
             <CharacterListItemContainer>
                 <SquareFrame color={(themeColor && themeColor.themeColor) || undefined} backgroundColor="white" />
                 <CharacterListItemWrapper>
-                    <Avatar src={avatarUrl || `${process.env.PUBLIC_URL}/avatar-placeholder.png`} color={(themeColor && themeColor.themeColor) || undefined} />
+                    <Avatar src={avatarUrl} variant="rounded" />
                     <NameAndSavesContainer>
                         <Name>{name}</Name>
                         <SavesContainer />
