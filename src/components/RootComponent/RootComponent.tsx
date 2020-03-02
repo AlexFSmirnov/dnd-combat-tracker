@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { connect } from 'react-redux';
-import { IconButton, Dialog } from '@material-ui/core';
+import { IconButton, Dialog, Typography } from '@material-ui/core';
 import { People, Close } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { Navbar } from '../Navbar';
@@ -45,6 +45,9 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
                         <Close fontSize="large" />
                     </IconButton>
+                    <Typography variant="h5" style={{ marginLeft: '8px' }}>
+                        Saved Characters
+                    </Typography>
                 </Navbar>
             </Dialog>
         </RootComponentContainer>

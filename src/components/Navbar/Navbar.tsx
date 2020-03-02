@@ -1,14 +1,14 @@
 import React from 'react';
-import { AppBar, AppBarProps } from '@material-ui/core';
-import { NavbarContainer, NavbarContentWrapper } from './style';
+import { AppBar, AppBarProps, Toolbar } from '@material-ui/core';
+import { NavbarContainer } from './style';
 
 const Navbar: React.FC<AppBarProps> = ({ children, ...other }) => {
     return (
         <NavbarContainer>
-            <AppBar position="sticky" color="secondary" {...other}>
-                <NavbarContentWrapper>
+            <AppBar position="relative" color="secondary" {...other}>
+                <Toolbar>
                     {children}
-                </NavbarContentWrapper>
+                </Toolbar>
             </AppBar>
         </NavbarContainer>
     );
