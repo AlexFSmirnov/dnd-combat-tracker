@@ -33,7 +33,7 @@ const CharacterListItem: React.FC<CharacterListItemProps & DispatchProps> = ({ c
             <CharacterListItemContainer>
                 <SquareFrame color={(themeColor && themeColor.themeColor) || undefined} backgroundColor="white" />
                 <CharacterListItemWrapper>
-                    <Avatar src={avatarUrl || '/avatar-placeholder.png'} color={(themeColor && themeColor.themeColor) || undefined} />
+                    <Avatar src={avatarUrl || `${process.env.PUBLIC_URL}/avatar-placeholder.png`} color={(themeColor && themeColor.themeColor) || undefined} />
                     <NameAndSavesContainer>
                         <Name>{name}</Name>
                         <SavesContainer />

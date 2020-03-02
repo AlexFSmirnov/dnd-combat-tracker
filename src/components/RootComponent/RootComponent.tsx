@@ -25,7 +25,7 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
             <Navbar>
                 <Tooltip title="View and edit saved characters">
                     <IconButton color="inherit" onClick={openCharacterDialog}>
-                        <People fontSize="large" />
+                        <People />
                     </IconButton>
                 </Tooltip>
             </Navbar>
@@ -43,9 +43,9 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
             <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
                 <Navbar color="primary">
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
-                        <Close fontSize="large" />
+                        <Close />
                     </IconButton>
-                    <Typography variant="h5" style={{ marginLeft: '8px' }}>
+                    <Typography variant="h6" style={{ marginLeft: '8px' }}>
                         Saved Characters
                     </Typography>
                 </Navbar>
