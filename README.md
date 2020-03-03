@@ -16,8 +16,9 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Breakpoints
 - [ ] UI for the admin panel 
   - [x] Player character list 
-  - [ ] NPC list 
-    - [ ] New NPC dialog
+  - [x] NPC list 
+    - [x] New NPC dialog
+  - [x] Breakpoints
 - [ ] Data storage 
   - [x] Player Characters 
   - [x] NPC 
