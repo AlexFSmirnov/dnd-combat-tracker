@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
 import { addNPC } from '../../redux/actions/npcs';
 import { State, NPC } from '../../redux/types';
 import { SavedNPCsListItem } from '../SavedNPCsListItem';
@@ -15,10 +15,10 @@ interface DispatchProps {
 }
 
 export interface SavedCharactersListProps {
-
+    small: boolean;
 }
 
-const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ npcs, addNPC }) => {
+const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, npcs, addNPC }) => {
     const [isNewNPCDialogOpen, setIsNewNPCDialogOpen] = useState<boolean>(false);
     const [NPCName, setNPCName] = useState<string>('');
     const [NPCMaxHitPoints, setNPCMaxHitPoints] = useState<string>('');
@@ -42,7 +42,8 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
     };
 
     return (
-        <SavedNPCsListContainer>
+        <SavedNPCsListContainer small={small}>
+            <Typography variant="h5">NPCs</Typography>
             {npcs.map(c => (
                 <SavedNPCsListItem key={c.name} npc={c} />
             ))}

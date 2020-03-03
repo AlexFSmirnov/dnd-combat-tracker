@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
 import { addCharacterByUrl } from '../../redux/actions/characters';
 import { State, Character } from '../../redux/types';
 import { SavedCharacterListItem } from '../SavedCharacterListItem';
@@ -15,10 +15,10 @@ interface DispatchProps {
 }
 
 export interface SavedCharactersListProps {
-
+    small: boolean;
 }
 
-const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ characters, addCharacterByUrl }) => {
+const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, characters, addCharacterByUrl }) => {
     const [isNewCharacterDialogOpen, setIsNewCharacterDailogOpen] = useState<boolean>(false);
     const [characterURL, setCharacterURL] = useState<string>('');
     const [characterMaxHitPoints, setCharacterMaxHitPoints] = useState<string>('');
@@ -37,7 +37,8 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
     };
 
     return (
-        <SavedCharactersListContainer>
+        <SavedCharactersListContainer small={small}>
+            <Typography variant="h5">Characters</Typography>
             {characters.map(c => (
                 <SavedCharacterListItem key={c.id} character={c} />
             ))}
