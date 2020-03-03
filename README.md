@@ -8,6 +8,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
     - [x] Player Character List Item 
     - [ ] NPC List item 
     - [ ] Animations
+    - [ ] Keyboard control for HP management
   - [x] Numpad 
   - [ ] Notepad 
     - [x] Touch notepad 
