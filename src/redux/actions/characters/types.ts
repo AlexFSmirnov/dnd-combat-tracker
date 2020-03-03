@@ -1,4 +1,4 @@
-import { Character } from '../types';
+import { Character } from '../../types';
 
 export const CHARACTER_ADDED = 'CHARACTER_ADDED';
 export const CHARACTER_UPDATED = 'CHARACTER_UPDATED';

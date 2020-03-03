@@ -1,7 +1,9 @@
 import { CharactersState } from './reducers/characters';
+import { NPCState } from './reducers/npcs';
 
 export interface State {
     characters?: CharactersState;
+    npcs?: NPCState;
 }
 
 export interface Character {
@@ -34,4 +36,10 @@ export interface DefaultBackdrop {
     smallBackdropAvatarUrl: string;
     largeBackdropAvatarUrl: string;
     thumbnailBackdropAvatarUrl: string;
+}
+
+export interface NPC {
+    name: string;
+    maxHitPoints: number;
+    avatarUrl?: string;
 }

@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import { getCharacterStats } from '../../helpers/dnd-beyond';
-import { State, Character } from '../types';
+import { getCharacterStats } from '../../../helpers/dnd-beyond';
+import { State, Character } from '../../types';
 import { CHARACTER_ADDED, CHARACTER_UPDATED, CHARACTER_MAX_HP_UPDATED, CHARACTER_FETCH_FAILED, CHARACTER_ALREADY_EXISTS, CHARACTER_DELETED } from './types';
 
 export const addCharacterByUrl = (url: string, maxHitPoints: number) => (dispatch: Dispatch<any>, getState: () => State) => {

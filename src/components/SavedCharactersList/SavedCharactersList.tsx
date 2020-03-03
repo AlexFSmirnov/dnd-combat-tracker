@@ -31,8 +31,9 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
 
     const handleImportConfirmed = () => {
         closeNewCharacterDialog();
-        setCharacterURL('');
         addCharacterByUrl(characterURL, parseInt(characterMaxHitPoints) || 0);
+        setCharacterURL('');
+        setCharacterMaxHitPoints('');
     };
 
     return (
@@ -50,7 +51,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                         Optionally, specify character's maximum hit points. You will be able to change them later.
                     </DialogContentText>
                     <TextField autoFocus fullWidth margin="dense" label="Character URL" value={characterURL} onChange={handleCharacterURLChange} />
-                    <TextField fullWidth margin="dense" label="Max Hit Points" value={characterMaxHitPoints} onChange={handleMaxHitPointsChange} />
+                    <TextField fullWidth type="number" margin="dense" label="Max Hit Points" value={characterMaxHitPoints} onChange={handleMaxHitPointsChange} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeNewCharacterDialog} color="secondary">Cancel</Button>

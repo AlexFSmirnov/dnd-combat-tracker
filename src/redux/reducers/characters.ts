@@ -10,7 +10,7 @@ import {
     CharacterMaxHpUpdatedAction,
     CharacterActionType,
     CharacterDeletedAction,
-} from '../actions/types';
+} from '../actions/characters';
 
 export type CharactersState = Character[];
 
