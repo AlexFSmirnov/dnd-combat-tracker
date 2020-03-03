@@ -20,7 +20,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
     - [ ] New NPC dialog
 - [ ] Data storage 
   - [x] Player Characters 
-  - [ ] NPC 
+  - [x] NPC 
   - [ ] Current encounter 
     - [ ] Initiative 
     - [ ] HP 
