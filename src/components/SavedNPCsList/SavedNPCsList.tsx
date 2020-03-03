@@ -44,9 +44,16 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
     return (
         <SavedNPCsListContainer small={small}>
             <Typography variant="h5">NPCs</Typography>
-            {npcs.map(c => (
-                <SavedNPCsListItem key={c.name} npc={c} />
-            ))}
+            {npcs.length > 0
+                ? (
+                    npcs.map(c => (
+                        <SavedNPCsListItem key={c.name} npc={c} />
+                    ))
+                )
+                : (
+                    <Typography variant="body1">Currently you don't have any saved NPCs.</Typography>
+                )
+            }
             <Button variant="outlined" color="primary" onClick={openNewNPCDialog}>Add NPC</Button>
             <Dialog open={isNewNPCDialogOpen} onClose={closeNewNPCDialog}>
                 <DialogTitle>Create new NPC</DialogTitle>
