@@ -25,3 +25,6 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
     - [ ] Initiative 
     - [ ] HP 
 - [ ] Offline mode 
+- [ ] Nice to have
+  - [ ] Animations for background image switching
+  - [ ] Error message dialogs 
