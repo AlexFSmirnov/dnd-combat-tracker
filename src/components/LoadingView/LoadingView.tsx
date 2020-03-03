@@ -4,7 +4,7 @@ import { LoadingViewBackground, LoadingViewContainer, LoadingViewImage, LoadingV
 const LoadingView = () => (
     <LoadingViewBackground>
         <LoadingViewContainer>
-            <LoadingViewImage src="/fire.gif" />
+            <LoadingViewImage src={`${process.env.PUBLIC_URL}/fire.gif`} />
             <LoadingViewText>Loading</LoadingViewText>
         </LoadingViewContainer>
     </LoadingViewBackground>
