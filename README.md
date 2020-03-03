@@ -30,3 +30,4 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Animations for background image switching
   - [ ] Error message dialogs 
   - [ ] Change status bar color on mobile
+  - [ ] Improve dialog animation performance 
