@@ -77,7 +77,7 @@ const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc
                 <DialogTitle>Edit {name}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Change name, max hit points or avatar url of your NPC.</DialogContentText>
-                    <TextField autoFocus fullWidth margin="dense" label="NPC Name" value={NPCName} onChange={handleNPCNameChange} />
+                    <TextField fullWidth margin="dense" label="NPC Name" value={NPCName} onChange={handleNPCNameChange} />
                     <TextField fullWidth type="number" margin="dense" label="Max Hit Points" value={NPCMaxHitPoints} onChange={handleMaxHitPointsChange} />
                     <TextField fullWidth margin="dense" label="Avatar URL" value={NPCAvatarUrl} onChange={handleNpcAvatarUrlChange} />
                 </DialogContent>
