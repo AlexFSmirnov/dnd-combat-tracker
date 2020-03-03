@@ -51,14 +51,14 @@ const SavedCharacterListItem: React.FC<SavedCharacterListItemProps & DispatchPro
     const { name, avatarUrl } = character;
 
     return (
-        <Paper elevation={3}>
+        <Paper elevation={3} style={{ width: '100%' }}>
             <SavedCharacterListItemContainer>
                 <Avatar variant="rounded" src={avatarUrl} />
                 <Typography variant="h6">{name}</Typography>
                 <Grow />
                 <TextField label="Max HP" type="number" value={maxHp} onChange={onInputChange} style={{ width: '64px' }} />
-                <IconButton>
-                    <Delete onClick={openConfirmationDialog} />
+                <IconButton onClick={openConfirmationDialog}>
+                    <Delete />
                 </IconButton>
             </SavedCharacterListItemContainer>
             <Dialog open={isDialogOpen} onClose={closeConfirmationDialog}>

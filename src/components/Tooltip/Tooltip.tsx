@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 export default withStyles(theme => ({
     tooltip: {
-        fontSize: 20,
+        fontSize: 16,
         backgroundColor: theme.palette.secondary.main,
     },
     arrow: {

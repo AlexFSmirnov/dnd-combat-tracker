@@ -16,7 +16,7 @@ export interface StateProps {
 }
 
 const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
-    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(false);
+    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(true);
 
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
