@@ -5,6 +5,7 @@ import {
     NPC_UPDATED,
     NPCActionType,
     NPCDeletedActionType,
+    NPCUpdatedActionType,
 } from '../actions/npcs';
 
 export type NPCState = NPC[];
@@ -20,6 +21,15 @@ const deleteNPC = (state: NPCState, action: NPCDeletedActionType) => {
     return [...state];
 };
 
+const updateNPC = (state: NPCState, action: NPCUpdatedActionType) => {
+    const { payload: { originalNPC, updatedNPC } } = action;
+    const index = state.indexOf(originalNPC);
+    if (index !== -1) {
+        return [...state.slice(0, index), updatedNPC, ...state.slice(index + 1)];
+    }
+    return [...state];
+};
+
 export const npcs = (state = initialState, action: NPCActionType) => {
     switch (action.type) {
     case NPC_ADDED:
@@ -29,6 +39,8 @@ export const npcs = (state = initialState, action: NPCActionType) => {
         return deleteNPC(state, action);
 
     case NPC_UPDATED:
+        return updateNPC(state, action);
+
     default:
         return state;
     }

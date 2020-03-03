@@ -11,9 +11,6 @@ export const SavedCharacterListItemContainer = styled(Toolbar)`
     }
 `;
 
-export const SavedCharacterListItemWrapper = styled.div`
-`;
-
 export const Grow = styled.div`
     flex-grow: 1;
 `;

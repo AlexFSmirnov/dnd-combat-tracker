@@ -15,7 +15,12 @@ export const deleteNPC = (npc: NPC) => ({
     payload: npc,
 });
 
-export const updateNPC = (npc: NPC) => ({
+export interface UpdateNPCProps {
+    originalNPC: NPC;
+    updatedNPC: NPC;
+}
+
+export const updateNPC = (props: UpdateNPCProps) => ({
     type: NPC_UPDATED,
-    payload: npc,
+    payload: props,
 });

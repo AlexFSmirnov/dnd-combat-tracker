@@ -42,7 +42,7 @@ const SavedCharacterListItem: React.FC<SavedCharacterListItemProps & DispatchPro
         updateCharacterMaxHp(id, parseInt(value) || 0);
     };
 
-    const onDeletionConfirmed = () => {
+    const handleDeletionConfirmed = () => {
         const { id } = character;
         deleteCharacter(id);
         closeConfirmationDialog();
@@ -68,7 +68,7 @@ const SavedCharacterListItem: React.FC<SavedCharacterListItemProps & DispatchPro
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeConfirmationDialog} color="secondary">Cancel</Button>
-                    <Button onClick={onDeletionConfirmed} color="primary" variant="contained">Delete</Button>
+                    <Button onClick={handleDeletionConfirmed} color="primary" variant="contained">Delete</Button>
                 </DialogActions>
             </Dialog>
         </Paper>

@@ -52,6 +52,8 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                 <DialogContent>
                     <DialogContentText>
                         Choose a name for your NPC and specify maximum hit points. Optionally, specify an avatar url or pick one of the default avatars.
+                        <br /> <br />
+                        It is not recommended to have several NPCs with the same name.
                     </DialogContentText>
                     <TextField autoFocus fullWidth margin="dense" label="NPC Name" value={NPCName} onChange={handleNPCNameChange} />
                     <TextField fullWidth type="number" margin="dense" label="Max Hit Points" value={NPCMaxHitPoints} onChange={handleMaxHitPointsChange} />

@@ -16,7 +16,10 @@ export interface NPCDeletedActionType {
 
 export interface NPCUpdatedActionType {
     type: typeof NPC_UPDATED;
-    payload: NPC;
+    payload: { 
+        originalNPC: NPC;
+        updatedNPC: NPC;
+    };
 }
 
 export type NPCActionType = NPCAddedActionType | NPCDeletedActionType | NPCUpdatedActionType;
