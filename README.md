@@ -29,3 +29,4 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
 - [ ] Nice to have
   - [ ] Animations for background image switching
   - [ ] Error message dialogs 
+  - [ ] Change status bar color on mobile
