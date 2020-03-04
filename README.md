@@ -31,3 +31,4 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [x] Error message dialogs 
   - [ ] Change status bar color on mobile
   - [ ] Improve dialog animation performance 
+  - [ ] Smarter CORS handling
