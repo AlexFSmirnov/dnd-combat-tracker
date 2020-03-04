@@ -32,3 +32,4 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Change status bar color on mobile
   - [ ] Improve dialog animation performance 
   - [ ] Smarter CORS handling
+  - [ ] Fullscreen support (mobile only?) 
