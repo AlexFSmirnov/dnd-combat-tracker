@@ -42,7 +42,7 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
                 </ContentContainer>
             </RootComponentWrapper>
             <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
-                <Navbar color="primary">
+                <Navbar color="primary" style={{ height: '56px' }}>
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
                         <Close />
                     </IconButton>

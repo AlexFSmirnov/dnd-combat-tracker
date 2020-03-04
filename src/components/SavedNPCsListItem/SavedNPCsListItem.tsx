@@ -61,7 +61,7 @@ const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc
     };
 
     return (
-        <Paper elevation={3} style={{ width: '100%' }}>
+        <Paper elevation={3} style={{ width: '100%', height: '56px' }}>
             <SavedNPCListItemContainer>
                 <Avatar variant="rounded" src={avatarUrl} />
                 <Typography variant="h6">{name}</Typography>
