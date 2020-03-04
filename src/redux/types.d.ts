@@ -1,9 +1,11 @@
 import { CharactersState } from './reducers/characters';
 import { NPCState } from './reducers/npcs';
+import { UIState } from './reducers/ui';
 
 export interface State {
     characters?: CharactersState;
     npcs?: NPCState;
+    ui?: UIState;
 }
 
 export interface Character {

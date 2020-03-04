@@ -9,6 +9,7 @@ const persistConfig = {
     key: 'root',
     storage,
     stateReconciler: autoMergeLevel2,
+    blacklist: ['ui'],
 };
 
 export const store = createStore(persistReducer(persistConfig, rootReducer as Reducer<any, any>), applyMiddleware(thunk));

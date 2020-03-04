@@ -4,6 +4,8 @@ import { Toolbar } from '@material-ui/core';
 export const SavedCharacterListItemContainer = styled(Toolbar)`
     && {
         padding: 0 12px;
+        min-height: 56px;
+        height: 56px;
     }
 
     & > :not(:last-child) {

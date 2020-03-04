@@ -1,8 +1,9 @@
 import React, { useState} from 'react';
 import { connect } from 'react-redux';
-import { IconButton, Dialog, Typography } from '@material-ui/core';
+import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core';
 import { People, Close } from '@material-ui/icons';
 import { State } from '../../redux/types';
+import { closeErrorDialog } from '../../redux/actions/ui';
 import { Navbar } from '../Navbar';
 import { Tooltip } from '../Tooltip';
 import { EntityList } from '../EntityList';
@@ -13,9 +14,15 @@ import { CharacterDialogContent } from '../CharacterDialogContent';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
+    isErrorDialogOpen: boolean;
+    errorMessage?: JSX.Element;
 }
 
-const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
+export interface DispatchProps {
+    closeErrorDialog: typeof closeErrorDialog;
+}
+
+const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, closeErrorDialog }) => {
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(true);
 
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
@@ -42,7 +49,7 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
                 </ContentContainer>
             </RootComponentWrapper>
             <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
-                <Navbar color="primary" style={{ height: '56px' }}>
+                <Navbar color="primary">
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
                         <Close />
                     </IconButton>
@@ -52,12 +59,23 @@ const RootComponent: React.FC<StateProps> = ({ currentBackgroundUrl }) => {
                 </Navbar>
                 <CharacterDialogContent />
             </Dialog>
+            <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
+                <DialogTitle>Error</DialogTitle>
+                <DialogContent>
+                    {errorMessage ? <DialogContentText>{errorMessage}</DialogContentText> : null}
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="primary" onClick={closeErrorDialog}>OK</Button>
+                </DialogActions>
+            </Dialog>
         </RootComponentContainer>
     );
 };
 
 const mapStateToProps = (state: State) => ({
     currentBackgroundUrl: state.characters && state.characters[1] && state.characters[1].defaultBackdrop.largeBackdropAvatarUrl,
+    isErrorDialogOpen: (state.ui && state.ui.errorDialog.isOpen) || false,
+    errorMessage: state.ui && state.ui.errorDialog.message,
 });
 
-export default connect(mapStateToProps)(RootComponent);
+export default connect(mapStateToProps, { closeErrorDialog })(RootComponent);

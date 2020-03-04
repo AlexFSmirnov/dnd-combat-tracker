@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux';
 import { getCharacterStats } from '../../../helpers/dnd-beyond';
+import { getRequestErrorMessage } from '../../../helpers/getRequestErrorMessage';
 import { State, Character } from '../../types';
+import { openErrorDialog } from '../ui';
 import { CHARACTER_ADDED, CHARACTER_UPDATED, CHARACTER_MAX_HP_UPDATED, CHARACTER_FETCH_FAILED, CHARACTER_ALREADY_EXISTS, CHARACTER_DELETED } from './types';
 
 export const addCharacterByUrl = (url: string, maxHitPoints: number) => (dispatch: Dispatch<any>, getState: () => State) => {
@@ -13,7 +15,7 @@ export const addCharacterByUrl = (url: string, maxHitPoints: number) => (dispatc
                 const character: Character = { id, name, maxHitPoints, removedHitPoints, temporaryHitPoints, deathSaves, avatarUrl, themeColor, defaultBackdrop, };
                 dispatch(addCharacter(character));
             },
-            (error) => dispatch(characterFetchFailed(error.message)),
+            (error) => dispatch(openErrorDialog(getRequestErrorMessage(error))),
         );
     } else {
         dispatch(updateCharacterById(parseInt(characterId), maxHitPoints));
@@ -31,7 +33,7 @@ export const updateCharacterById = (id: number, maxHitPoints: number) => (dispat
                     const updatedCharacter: Character = { id, name, maxHitPoints, removedHitPoints, temporaryHitPoints, deathSaves, avatarUrl, themeColor, defaultBackdrop, };
                     dispatch(updateCharacter(id, updatedCharacter));
                 },
-                (error) => dispatch(characterFetchFailed(error.message)),
+                (error) => dispatch(openErrorDialog(getRequestErrorMessage(error))),
             );
         } else {
             dispatch(addCharacterByUrl(id.toString(), maxHitPoints));
