@@ -23,7 +23,7 @@ export interface DispatchProps {
 }
 
 const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, closeErrorDialog }) => {
-    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(true);
+    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(false);
 
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
