@@ -77,32 +77,34 @@ const frameFactory = ({
 
         const framePartProps: FramePartProps = { color, backgroundColor, width: partSize, height: partSize };
 
-        return (
-            <FrameContainer ref={containerRef} className={className}>
-                {containerRef.current
-                    ? (
-                        <React.Fragment>
-                            <FrameTopRowContainer>
-                                <FrameTopLeftCorner {...framePartProps} />
-                                <FrameTop {...framePartProps} width={topPartWidth}/>
-                                <FrameTopRightCorner {...framePartProps} />
-                            </FrameTopRowContainer>
-                            <FrameMiddleRowContainer>
-                                <FrameLeft {...framePartProps} height={sidePartHeight} />
-                                <FrameMiddleFill {...framePartProps} height={sidePartHeight} width={topPartWidth} />
-                                <FrameRight {...framePartProps} height={sidePartHeight} />
-                            </FrameMiddleRowContainer>
-                            <FrameBottomRowContainer>
-                                <FrameBottomLeftCorner {...framePartProps} />
-                                <FrameBottom {...framePartProps} width={topPartWidth}/>
-                                <FrameBottomRightCorner {...framePartProps} />
-                            </FrameBottomRowContainer>
-                        </React.Fragment>
-                    )
-                    : null
-                }
-            </FrameContainer>
-        );
+        return null;
+
+        // return (
+        //     <FrameContainer ref={containerRef} className={className}>
+        //         {containerRef.current
+        //             ? (
+        //                 <React.Fragment>
+        //                     <FrameTopRowContainer>
+        //                         <FrameTopLeftCorner {...framePartProps} />
+        //                         <FrameTop {...framePartProps} width={topPartWidth}/>
+        //                         <FrameTopRightCorner {...framePartProps} />
+        //                     </FrameTopRowContainer>
+        //                     <FrameMiddleRowContainer>
+        //                         <FrameLeft {...framePartProps} height={sidePartHeight} />
+        //                         <FrameMiddleFill {...framePartProps} height={sidePartHeight} width={topPartWidth} />
+        //                         <FrameRight {...framePartProps} height={sidePartHeight} />
+        //                     </FrameMiddleRowContainer>
+        //                     <FrameBottomRowContainer>
+        //                         <FrameBottomLeftCorner {...framePartProps} />
+        //                         <FrameBottom {...framePartProps} width={topPartWidth}/>
+        //                         <FrameBottomRightCorner {...framePartProps} />
+        //                     </FrameBottomRowContainer>
+        //                 </React.Fragment>
+        //             )
+        //             : null
+        //         }
+        //     </FrameContainer>
+        // );
     };
 
     return Frame;
