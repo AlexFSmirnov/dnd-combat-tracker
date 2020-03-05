@@ -6,6 +6,11 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
 - [ ] UI for the main display:
   - [ ] Character initiative list 
     - [x] Player Character List Item 
+      - [x] Avatar
+      - [x] Name 
+      - [x] HP
+      - [ ] Death saves 
+      - [ ] Concentration
     - [ ] NPC List item 
     - [ ] Animations
     - [ ] Keyboard control for HP management
@@ -18,6 +23,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [x] Player character list 
   - [x] NPC list 
     - [x] New NPC dialog
+    - [ ] Default avatars
   - [x] Breakpoints
 - [ ] Data storage 
   - [x] Player Characters 
@@ -32,3 +38,4 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Change status bar color on mobile
   - [ ] Improve dialog animation performance 
   - [ ] Smarter CORS handling
+  - [ ] Fullscreen support (mobile only?) 
