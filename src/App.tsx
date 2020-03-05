@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -23,7 +24,9 @@ const App = () => (
     <ThemeProvider theme={theme}>
         <Provider store={store}>
             <PersistGate loading={<LoadingView />} persistor={persistor}>
-                <RootComponent />
+                <BrowserRouter>
+                    <RootComponent />
+                </BrowserRouter>
             </PersistGate>
         </Provider>
     </ThemeProvider>

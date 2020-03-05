@@ -1,4 +1,5 @@
 import React, { useState} from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core';
 import { People, Close } from '@material-ui/icons';
@@ -29,26 +30,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
 
     return (
-        <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
-            <Navbar>
-                <Tooltip title="View and edit saved characters">
-                    <IconButton color="inherit" onClick={openCharacterDialog}>
-                        <People />
-                    </IconButton>
-                </Tooltip>
-            </Navbar>
-            <RootComponentWrapper>
-                <ContentContainer>
-                    <ListAndNumpadContainer>
-                        <EntityList />
-                        <Numpad />
-                    </ListAndNumpadContainer>
-                    <NotesContainer>
-                        <Notes />
-                    </NotesContainer>
-                </ContentContainer>
-            </RootComponentWrapper>
-            <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
+        <Switch>
+            <Route path="/test">
                 <Navbar color="primary">
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
                         <Close />
@@ -58,17 +41,39 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     </Typography>
                 </Navbar>
                 <CharacterDialogContent />
-            </Dialog>
-            <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
-                <DialogTitle>Error</DialogTitle>
-                <DialogContent>
-                    {errorMessage ? <DialogContentText>{errorMessage}</DialogContentText> : null}
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="primary" onClick={closeErrorDialog}>OK</Button>
-                </DialogActions>
-            </Dialog>
-        </RootComponentContainer>
+            </Route>
+            <Route path="/">
+                <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
+                    <Navbar>
+                        <Tooltip title="View and edit saved characters">
+                            <IconButton color="inherit" onClick={openCharacterDialog}>
+                                <People />
+                            </IconButton>
+                        </Tooltip>
+                    </Navbar>
+                    <RootComponentWrapper>
+                        <ContentContainer>
+                            <ListAndNumpadContainer>
+                                <EntityList />
+                                <Numpad />
+                            </ListAndNumpadContainer>
+                            <NotesContainer>
+                                <Notes />
+                            </NotesContainer>
+                        </ContentContainer>
+                    </RootComponentWrapper>
+                    <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
+                        <DialogTitle>Error</DialogTitle>
+                        <DialogContent>
+                            {errorMessage ? <DialogContentText>{errorMessage}</DialogContentText> : null}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="contained" color="primary" onClick={closeErrorDialog}>OK</Button>
+                        </DialogActions>
+                    </Dialog>
+                </RootComponentContainer>
+            </Route>
+        </Switch>
     );
 };
 
