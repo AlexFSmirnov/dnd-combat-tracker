@@ -15,11 +15,11 @@ import {
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import { NPC } from '../../redux/types';
-import { updateNPC, deleteNPC } from '../../redux/actions/npcs';
+import { updateNPCSafe, deleteNPC, UpdateNPCProps } from '../../redux/actions/npcs';
 import { SavedNPCListItemContainer, Grow } from './style';
 
 interface DispatchProps {
-    updateNPC: typeof updateNPC;
+    updateNPCSafe: (props: UpdateNPCProps) => void;
     deleteNPC: typeof deleteNPC;
 }
 
@@ -27,7 +27,7 @@ export interface SavedNPCListItemProps {
     npc: NPC;
 }
 
-const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc, updateNPC, deleteNPC }) => {
+const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc, updateNPCSafe, deleteNPC }) => {
     const { name, avatarUrl, maxHitPoints } = npc;
 
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc
 
     const handleEditConfirmed = () => {
         const maxHitPoints = parseInt(NPCMaxHitPoints) || 0;
-        updateNPC({
+        updateNPCSafe({
             originalNPC: npc,
             updatedNPC: { name: NPCName, avatarUrl: NPCAvatarUrl, maxHitPoints },
         });
@@ -100,4 +100,4 @@ const SavedNPCListItem: React.FC<SavedNPCListItemProps & DispatchProps> = ({ npc
     );
 };
 
-export default connect(null, { updateNPC, deleteNPC })(SavedNPCListItem);
+export default connect(null, { updateNPCSafe, deleteNPC })(SavedNPCListItem);

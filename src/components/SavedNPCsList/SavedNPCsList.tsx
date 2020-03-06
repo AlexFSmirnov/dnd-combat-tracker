@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
-import { addNPC } from '../../redux/actions/npcs';
+import { addNPCSafe } from '../../redux/actions/npcs';
 import { State, NPC } from '../../redux/types';
 import { SavedNPCsListItem } from '../SavedNPCsListItem';
 import { SavedNPCsListContainer } from './style';
@@ -11,14 +11,14 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    addNPC: typeof addNPC;
+    addNPCSafe: (npc: NPC) => void;
 }
 
 export interface SavedCharactersListProps {
     small: boolean;
 }
 
-const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, npcs, addNPC }) => {
+const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, npcs, addNPCSafe }) => {
     const [isNewNPCDialogOpen, setIsNewNPCDialogOpen] = useState<boolean>(false);
     const [NPCName, setNPCName] = useState<string>('');
     const [NPCMaxHitPoints, setNPCMaxHitPoints] = useState<string>('');
@@ -33,7 +33,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
 
     const handleNewNPCConfirmed = () => {
         const maxHitPoints = parseInt(NPCMaxHitPoints) || 0;
-        addNPC({ name: NPCName, maxHitPoints, avatarUrl: NPCAvatarUrl });
+        addNPCSafe({ name: NPCName, maxHitPoints, avatarUrl: NPCAvatarUrl });
 
         closeNewNPCDialog();
         setNPCName('');
@@ -61,7 +61,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                     <DialogContentText>
                         Choose a name for your NPC and specify maximum hit points. Optionally, specify an avatar url or pick one of the default avatars.
                         <br /> <br />
-                        It is not recommended to have several NPCs with the same name.
+                        It is not possible to have several NPCs with the same name.
                     </DialogContentText>
                     <TextField autoFocus fullWidth margin="dense" label="NPC Name" value={NPCName} onChange={handleNPCNameChange} />
                     <TextField fullWidth type="number" margin="dense" label="Max Hit Points" value={NPCMaxHitPoints} onChange={handleMaxHitPointsChange} />
@@ -80,4 +80,4 @@ const mapStateToProps = (state: State) => ({
     npcs: (state && state.npcs) || [],
 });
 
-export default connect(mapStateToProps, { addNPC })(SavedCharactersList);
+export default connect(mapStateToProps, { addNPCSafe })(SavedCharactersList);
