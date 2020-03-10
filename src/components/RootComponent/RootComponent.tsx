@@ -11,7 +11,7 @@ import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
 import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
 import { CharacterDialogContent } from '../CharacterDialogContent';
-import { Test } from '../Test';
+import { NewEncounterDialogContent } from '../NewEncounterDialogContent';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
@@ -48,7 +48,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                         <Notes />
                     </NotesContainer>
                 </ContentContainer> */}
-                <Test />
             </RootComponentWrapper>
             <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
                 <Navbar color="primary">
@@ -60,6 +59,16 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     </Typography>
                 </Navbar>
                 <CharacterDialogContent />
+            </Dialog>
+            <Dialog maxWidth="lg" fullWidth open>
+                <DialogTitle>New Encounter</DialogTitle>
+                <DialogContent>
+                    <NewEncounterDialogContent />
+                </DialogContent>
+                <DialogActions>
+                    <Button color="secondary" onClick={() => {}}>Cancel</Button>
+                    <Button variant="contained" color="primary" onClick={() => {}}>Create</Button>
+                </DialogActions>
             </Dialog>
             <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
                 <DialogTitle>Error</DialogTitle>
