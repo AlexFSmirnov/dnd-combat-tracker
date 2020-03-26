@@ -1,14 +1,23 @@
 import styled, { css } from 'styled-components';
 
-export const EntityListContainer = styled.div`
+interface WithFullScreen {
+    fullScreen?: boolean;
+}
+
+export const EntityListContainer = styled.div<WithFullScreen>`
     position: relative;
-    width: 50%;
-    max-width: 600px;
-    height: 480px;
+    ${props => props.fullScreen ? `
+        width: 98%;
+        height: calc(100vh - 220px);
+    ` : `
+        width: 50%;
+        max-width: 600px;
+        height: 480px;
+    `}
 `;
 
-export const EntityListWrapper = styled.div`
-    height: 448px;
+export const EntityListWrapper = styled.div<WithFullScreen>`
+    height: ${props => props.fullScreen ? 'calc(100vh - 252px)' : '448px'};
     padding: 16px;
 
     display: flex;

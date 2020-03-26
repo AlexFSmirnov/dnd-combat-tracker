@@ -24,13 +24,14 @@ export const RootComponentWrapper = styled.div`
     justify-content: center;
 `;
 
-export const ContentContainer = styled.div`
+export const ContentContainer = styled.div<{ small?: boolean }>`
     width: 100%;
     height: 100%;
     max-width: 1200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    ${props => props.small && 'align-items: center;'}
 `;
 
 export const ListAndNumpadContainer = styled.div`

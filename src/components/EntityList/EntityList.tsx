@@ -8,14 +8,16 @@ import { EntityListContainer, EntityListWrapper, EntityListBottomFade, EntityLis
 import { EncounterState } from '../../redux/reducers/encounter';
 
 interface StateProps {
-    characters: Character[];
-    npcs: NPC[];
     encounter: EncounterState | null;
+}
+
+export interface EntityListProps {
+    fullScreen?: boolean;
 }
 
 type EntitiesWithInitiative = Array<{ initiative: number; type: EntityType; entity: Character | NPC, key: number }>;
 
-const EntityList: React.FC<StateProps> = ({ encounter }) => {
+const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScreen }) => {
     const entitiesByInitiative: EntitiesWithInitiative = useMemo(() => {
         let result: EntitiesWithInitiative = [];
 
@@ -59,8 +61,8 @@ const EntityList: React.FC<StateProps> = ({ encounter }) => {
     }, [encounter]);
 
     return (
-        <EntityListContainer>
-            <EntityListWrapper>
+        <EntityListContainer fullScreen={fullScreen}>
+            <EntityListWrapper fullScreen={fullScreen}>
                 {entitiesByInitiative.map(({ initiative, type, entity, key })=> {
                     let entityListItemProps = { key, type, ...entity };
 
@@ -86,8 +88,6 @@ const EntityList: React.FC<StateProps> = ({ encounter }) => {
 };
 
 const mapStateToProps = (state: State): StateProps => ({
-    characters: state.characters || [],
-    npcs: state.npcs || [],
     encounter: state.encounter || null,
 });
 

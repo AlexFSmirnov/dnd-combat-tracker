@@ -1,7 +1,7 @@
 import React, { useState, useMemo} from 'react';
 import { connect } from 'react-redux';
-import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
-import { People, Close, MoreVert, Edit, HighlightOff } from '@material-ui/icons';
+import { useTheme, useMediaQuery, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
+import { People, Close, Send, MoreVert, Edit, HighlightOff } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { closeErrorDialog } from '../../redux/actions/ui';
 import { Navbar } from '../Navbar';
@@ -18,6 +18,7 @@ import { NewEncCharactersList } from '../NewEncCharactersList';
 import { NewEncNPCsList } from '../NewEncNPCsList';
 import { resetEncounter } from '../../redux/actions/encounter';
 import { EncounterState } from '../../redux/reducers/encounter';
+import { TextNotes } from '../TextNotes';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
@@ -32,10 +33,13 @@ export interface DispatchProps {
 }
 
 const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, encounter, closeErrorDialog, resetEncounter }) => {
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [menuAnchorElement, setMenuAnchorElement] = useState<HTMLElement | null>(null);
 
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
-    const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(true);
+    const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
@@ -77,12 +81,17 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
             <Navbar>
-                <Tooltip title="View and edit saved characters">
-                    <IconButton color="inherit" onClick={openCharacterDialog}>
-                        <People />
+                <Tooltip title="Previous turn">
+                    <IconButton color="inherit">
+                        <Send style={{ transform: 'rotateY(180deg)', opacity: '0.5' }} />
                     </IconButton>
                 </Tooltip>
+                <Button variant="contained" color="primary" endIcon={<Send />}>Next turn</Button>
                 <div style={{ flex: '1' }} />
+                <Typography variant="h5">Round 1</Typography>
+                <div style={{ flex: '1' }} />
+                {/* Trick to have the Round number aligned in the center correctly */}
+                <Button variant="contained" color="primary" endIcon={<Send />} style={{ opacity: '0', pointerEvents: 'none' }}>Next turn</Button>
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />
                 </IconButton>
@@ -99,14 +108,28 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                 </MenuItem>
             </Menu>
             <RootComponentWrapper>
-                <ContentContainer>
-                    <ListAndNumpadContainer>
-                        <EntityList />
-                        <Numpad />
-                    </ListAndNumpadContainer>
-                    <NotesContainer>
-                        <Notes />
-                    </NotesContainer>
+                <ContentContainer small={small}>
+                    {small
+                        ? (
+                            <React.Fragment>
+                                <EntityList fullScreen />
+                                <NotesContainer>
+                                    <TextNotes />
+                                </NotesContainer>
+                            </React.Fragment>
+                        )
+                        : (
+                            <React.Fragment>
+                                <ListAndNumpadContainer>
+                                    <EntityList />
+                                    <Numpad />
+                                </ListAndNumpadContainer>
+                                <NotesContainer>
+                                    <Notes />
+                                </NotesContainer>
+                            </React.Fragment>
+                        )
+                    }
                 </ContentContainer>
             </RootComponentWrapper>
             <Dialog fullScreen open={isCharacterDialogOpen} onClose={closeCharacterDialog}>
