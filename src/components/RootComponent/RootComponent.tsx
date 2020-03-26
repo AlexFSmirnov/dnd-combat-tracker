@@ -10,8 +10,12 @@ import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
 import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
-import { CharacterDialogContent } from '../CharacterDialogContent';
 import { NewEncounterDialogContent } from '../NewEncounterDialogContent';
+import { DividedList } from '../DividedList';
+import { SavedCharactersList } from '../SavedCharactersList';
+import { SavedNPCsList } from '../SavedNPCsList';
+import { NewEncCharactersList } from '../NewEncCharactersList';
+import { NewEncNPCsList } from '../NewEncNPCsList';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
@@ -58,12 +62,18 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                         Saved Characters
                     </Typography>
                 </Navbar>
-                <CharacterDialogContent />
+                <DividedList>
+                    <SavedCharactersList />
+                    <SavedNPCsList />
+                </DividedList>
             </Dialog>
             <Dialog maxWidth="lg" fullWidth open>
                 <DialogTitle>New Encounter</DialogTitle>
                 <DialogContent>
-                    <NewEncounterDialogContent />
+                    <DividedList>
+                        <NewEncCharactersList />
+                        <NewEncNPCsList />
+                    </DividedList>
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={() => {}}>Cancel</Button>

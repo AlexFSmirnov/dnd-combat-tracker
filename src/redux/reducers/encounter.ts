@@ -1,9 +1,14 @@
+import { omit, findKey } from 'lodash/fp';
 import { Character, NPC } from '../types';
 import {
     ENC_CHARACTER_ADDED,
     ENC_NPC_ADDED,
+    ENC_CHARACTER_REMOVED,
+    ENC_NPC_REMOVED,
     EncCharacterAddedAction,
     EncNPCAddedAction,
+    EncCharacterRemovedAction,
+    EncNPCRemovedAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 
@@ -69,6 +74,18 @@ const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
     }
 };
 
+const removeCharacter = (state: EncounterState, action: EncCharacterRemovedAction) => {
+    const characterKey = findKey((c: Character) => c.id === action.payload.id, state.characters);
+    if (!characterKey) {
+        return state;
+    }
+
+    return {
+        ...state,
+        characters: omit(characterKey, state.characters),
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -76,6 +93,9 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
 
     case ENC_NPC_ADDED:
         return addNPC(state, action);
+
+    case ENC_CHARACTER_REMOVED:
+        return removeCharacter(state, action);
 
     default:
         // return initialState;

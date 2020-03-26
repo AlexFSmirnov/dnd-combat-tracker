@@ -4,7 +4,6 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, T
 import { addCharacterByUrl } from '../../redux/actions/characters';
 import { State, Character } from '../../redux/types';
 import { SavedCharacterListItem } from '../SavedCharacterListItem';
-import { SavedCharactersListContainer } from './style';
 
 interface StateProps {
     characters: Character[];
@@ -15,7 +14,7 @@ interface DispatchProps {
 }
 
 export interface SavedCharactersListProps {
-    small: boolean;
+    small?: boolean;
 }
 
 const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, characters, addCharacterByUrl }) => {
@@ -37,7 +36,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
     };
 
     return (
-        <SavedCharactersListContainer small={small}>
+        <React.Fragment>
             <Typography variant="h5">Characters</Typography>
             {characters.length > 0
                 ? (
@@ -66,7 +65,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                     <Button onClick={handleImportConfirmed} color="primary" variant="contained" disabled={!characterURL}>Import</Button>
                 </DialogActions>
             </Dialog>
-        </SavedCharactersListContainer>
+        </React.Fragment>
     );
 };
 

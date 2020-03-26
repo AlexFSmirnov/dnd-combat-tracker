@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
 import { addNPCSafe } from '../../redux/actions/npcs';
 import { State, NPC } from '../../redux/types';
-import { SavedNPCsListItem } from '../SavedNPCsListItem';
-import { SavedNPCsListContainer } from './style';
+import { SavedNPCListItem } from '../SavedNPCListItem';
 
 interface StateProps {
     npcs: NPC[];
@@ -15,7 +14,7 @@ interface DispatchProps {
 }
 
 export interface SavedCharactersListProps {
-    small: boolean;
+    small?: boolean;
 }
 
 const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, npcs, addNPCSafe }) => {
@@ -42,12 +41,12 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
     };
 
     return (
-        <SavedNPCsListContainer small={small}>
+        <React.Fragment>
             <Typography variant="h5">NPCs</Typography>
             {npcs.length > 0
                 ? (
                     npcs.map(c => (
-                        <SavedNPCsListItem key={c.name} npc={c} />
+                        <SavedNPCListItem key={c.name} npc={c} />
                     ))
                 )
                 : (
@@ -72,7 +71,7 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                     <Button onClick={handleNewNPCConfirmed} color="primary" variant="contained" disabled={!NPCName || !NPCMaxHitPoints}>Create</Button>
                 </DialogActions>
             </Dialog>
-        </SavedNPCsListContainer>
+        </React.Fragment>
     );
 };
 
