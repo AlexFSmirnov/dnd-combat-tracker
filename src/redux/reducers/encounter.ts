@@ -1,4 +1,4 @@
-import { omit, findKey } from 'lodash/fp';
+import { omit, findKey, filter, reduce, keys } from 'lodash/fp';
 import { Character, NPC } from '../types';
 import {
     ENC_CHARACTER_ADDED,
@@ -86,6 +86,49 @@ const removeCharacter = (state: EncounterState, action: EncCharacterRemovedActio
     };
 };
 
+const removeNPC = (state: EncounterState, action: EncNPCRemovedAction) => {
+    const { npcs } = state;
+    const { name } = action.payload;
+    const addedNPCsKeys = filter(key => npcs[parseInt(key)].name.startsWith(name), keys(npcs));
+
+    if (addedNPCsKeys.length === 0) {
+        return state;
+    }
+
+    const latestAddedNpc = reduce(
+        (accumulator, keyString) => {
+            const key = parseInt(keyString);
+            const npc = npcs[key];
+
+            if (npc.name === name) {
+                if (accumulator.number < 1) {
+                    return { key, number: 1 };
+                }
+                return accumulator;
+            }
+
+            const splitByHash = npc.name.slice(name.length).split('#');
+            const number = parseInt(splitByHash[splitByHash.length - 1]);
+
+            if (number > accumulator.number) {
+                return { key, number };
+            }
+
+            return accumulator;
+        },
+        {
+            key: 0,
+            number: -1,
+        },
+        addedNPCsKeys,
+    );
+
+    return {
+        ...state,
+        npcs: omit(latestAddedNpc.key, npcs),
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -95,7 +138,11 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
         return addNPC(state, action);
 
     case ENC_CHARACTER_REMOVED:
-        return removeCharacter(state, action);
+        return initialState;
+        // return removeCharacter(state, action);
+
+    case ENC_NPC_REMOVED:
+        return removeNPC(state, action);
 
     default:
         // return initialState;

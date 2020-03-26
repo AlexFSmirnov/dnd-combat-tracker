@@ -45,7 +45,7 @@ const NewEncCharacterListItem = ({ character, encounter, addCharacterToEncounter
                 <Checkbox disabled={!encounter} checked={isCharacterSelected} color="primary" onClick={handleCheckboxClick} />
                 <Typography variant="h6">{character.name}</Typography>
                 <div style={{ flexGrow: 1 }} />
-                <TextField disabled={!isCharacterSelected} label="Initiative" type="number" style={{ width: '64px' }} />
+                <TextField disabled={!isCharacterSelected} label={isCharacterSelected ? 'Initiative' : ''} type="number" style={{ width: '64px' }} />
             </NewEncCharacterListItemContainer>
         </Paper>
     );
