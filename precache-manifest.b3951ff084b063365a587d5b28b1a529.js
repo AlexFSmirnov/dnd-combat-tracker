@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "97b9466bf7a01e97d561c6941a4c57ca",
+    "revision": "5ff5cdf41eb06e4ef9e908b722025291",
     "url": "/dnd-combat-tracker/index.html"
   },
   {
-    "revision": "e9ad200f2885b9f3a5e7",
+    "revision": "bf4f89c864cdf323abe6",
     "url": "/dnd-combat-tracker/static/css/main.8edfccb4.chunk.css"
   },
   {
-    "revision": "228a931a169d1f68355b",
-    "url": "/dnd-combat-tracker/static/js/2.1648d0a7.chunk.js"
+    "revision": "7159d860f5b98821db25",
+    "url": "/dnd-combat-tracker/static/js/2.034ad134.chunk.js"
   },
   {
     "revision": "17b38651a42342e955094dba09a63fe1",
-    "url": "/dnd-combat-tracker/static/js/2.1648d0a7.chunk.js.LICENSE.txt"
+    "url": "/dnd-combat-tracker/static/js/2.034ad134.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e9ad200f2885b9f3a5e7",
-    "url": "/dnd-combat-tracker/static/js/main.cd439567.chunk.js"
+    "revision": "bf4f89c864cdf323abe6",
+    "url": "/dnd-combat-tracker/static/js/main.e655ef1e.chunk.js"
   },
   {
     "revision": "4c70f37a4836c3bdf7db",
