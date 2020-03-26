@@ -62,7 +62,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                         Saved Characters
                     </Typography>
                 </Navbar>
-                <DividedList>
+                <DividedList titles={['Characters', 'NPCs']} marginBottomOverride="60">
                     <SavedCharactersList />
                     <SavedNPCsList />
                 </DividedList>
@@ -70,7 +70,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
             <Dialog maxWidth="lg" fullWidth open>
                 <DialogTitle>New Encounter</DialogTitle>
                 <DialogContent>
-                    <DividedList>
+                    <DividedList titles={['Characters', 'NPCs']}>
                         <NewEncCharactersList />
                         <NewEncNPCsList />
                     </DividedList>

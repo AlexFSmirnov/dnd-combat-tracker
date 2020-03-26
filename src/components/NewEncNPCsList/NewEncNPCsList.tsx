@@ -11,8 +11,10 @@ interface StateProps {
 const NewEncNPCsList = ({ npcs }: StateProps) => {
     return (
         <React.Fragment>
-            <Typography variant="h5">NPCs</Typography>
-            {npcs.map(n => <NewEncNPCListItem key={n.name} npc={n} />)}
+            {npcs.length > 0
+                ? npcs.map(n => <NewEncNPCListItem key={n.name} npc={n} />)
+                : <Typography variant="body1">Currently you don't have any saved NPCs.</Typography>
+            }
         </React.Fragment>
     );
 };

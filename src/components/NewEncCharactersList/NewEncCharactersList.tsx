@@ -11,8 +11,10 @@ interface StateProps {
 const NewEncCharactersList = ({ characters }: StateProps) => {
     return (
         <React.Fragment>
-            <Typography variant="h5">Characters</Typography>
-            {characters.map(c => <NewEncCharacterListItem key={c.id} character={c} />)}
+            {characters.length > 0
+                ? characters.map(c => <NewEncCharacterListItem key={c.id} character={c} />)
+                : <Typography variant="body1">Currently you don't have any saved characters.</Typography>
+            }
         </React.Fragment>
     );
 };

@@ -45,7 +45,13 @@ export const DividedListSublistContainer = styled.div<{ small?: boolean }>`
     }
 `;
 
-export const Divider = styled.div<{ color: string } & Multisize>`
+export interface DividerProps {
+    color: string;
+    marginTopOverride?: string;
+    marginBottomOverride?: string;
+}
+
+export const Divider = styled.div<DividerProps & Multisize>`
     border: 1px solid ${props => props.color};
     border-radius: 50%;
     opacity: 0.5;
@@ -57,6 +63,8 @@ export const Divider = styled.div<{ color: string } & Multisize>`
     ` : `
         width: 0;
         margin-top: 56px;
+
+        ${props.marginTopOverride ? `margin-top: ${props.marginTopOverride}px;` : ''}
+        ${props.marginBottomOverride ? `margin-bottom: ${props.marginBottomOverride}px;` : ''}
     `}
 `;
-// margin-bottom: 64px;

@@ -37,16 +37,9 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
 
     return (
         <React.Fragment>
-            <Typography variant="h5">Characters</Typography>
             {characters.length > 0
-                ? (
-                    characters.map(c => (
-                        <SavedCharacterListItem key={c.id} character={c} />
-                    ))
-                )
-                : (
-                    <Typography variant="body1">Currently you don't have any saved characters.</Typography>
-                )
+                ? characters.map(c => <SavedCharacterListItem key={c.id} character={c} />)
+                : <Typography variant="body1">Currently you don't have any saved characters.</Typography>
             }
             <Button variant="outlined" color="primary" onClick={openNewCharacterDialog}>Add character</Button>
             <Dialog open={isNewCharacterDialogOpen} onClose={closeNewCharacterDialog}>
