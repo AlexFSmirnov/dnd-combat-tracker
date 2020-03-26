@@ -20,7 +20,7 @@ import {
 export interface EncounterState {
     characters: Record<number, Character>;
     npcs: Record<number, NPC>;
-    initiativeById: Record<number, NPC>;
+    initiativeById: Record<number, number>;
     currentId: number;
 }
 
@@ -35,7 +35,7 @@ const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) =>
     const { characters } = state;
     const { payload: { name } } = action;
 
-    const characterNumber = Object.keys(characters).filter(key => characters[parseInt(key)] && characters[parseInt(key)].name.includes(name)).length;
+    const characterNumber = filter(key => characters[parseInt(key)].name.startsWith(name), keys(characters)).length;
 
     if (characterNumber === 0) {
         return {
@@ -59,7 +59,7 @@ const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
     const { npcs } = state;
     const { payload: { name } } = action;
 
-    const npcNumber = Object.keys(npcs).filter(key => npcs[parseInt(key)] && npcs[parseInt(key)].name.includes(name)).length;
+    const npcNumber = filter(key => npcs[parseInt(key)].name.startsWith(name), keys(npcs)).length;
 
     if (npcNumber === 0) {
         return {

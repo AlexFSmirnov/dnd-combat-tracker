@@ -28,6 +28,8 @@ export const NewEncNPCCounter = styled.div<NewEncNPCCounterProps>`
 
     color: white;
     background-color: white;
+    cursor: pointer;
+    user-select: none;
 
     transition: background-color 300ms, border-color 300ms;
 

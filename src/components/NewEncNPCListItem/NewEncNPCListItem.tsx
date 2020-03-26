@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { reduce } from 'lodash/fp';
+import { keys, reduce } from 'lodash/fp';
 import { Paper, Typography, TextField, IconButton, useTheme } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import { NPC, State } from '../../redux/types';
@@ -41,15 +41,36 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
         }
     }, [addedNPCCount]);
 
+    useEffect(() => {
+        if (encounter) {
+            const key = keys(encounter.npcs).find(k => encounter.npcs[parseInt(k)].name === npc.name);
+            if (key === undefined || parseInt(key) === NaN) {
+                return;
+            }
+
+            const savedInitiative = encounter.initiativeById[parseInt(key)];
+            if (savedInitiative !== undefined) {
+                setInitiative(savedInitiative.toString());
+            }
+        }
+    }, []);
+
     const handleRemoveClick = () => removeNPCFromEncounter(npc);
-    const handleAddClick = () => addNPCToEncounter(npc);
+    const handleAddClick = () => {
+        addNPCToEncounter(npc);
+
+        const initiativeInt = parseInt(initiative);
+        if (initiativeInt !== NaN) {
+            updateNPCInitiative(npc, initiativeInt);
+        }
+    };
 
     const handleInitiativeChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         setInitiative(value);
 
         const initiativeInt = parseInt(value);
-        if (initiativeInt) {
+        if (initiativeInt !== NaN) {
             updateNPCInitiative(npc, initiativeInt);
         }
     };
@@ -68,7 +89,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
     return (
         <Paper elevation={3} style={{ width: '100%', height: '56px' }}>
             <NewEncNPCListItemContainer>
-                <NewEncNPCCounter palette={theme.palette}>
+                <NewEncNPCCounter palette={theme.palette} onClick={handleAddClick}>
                     {addedNPCCount}
                 </NewEncNPCCounter>
                 <Typography variant="h6">{npc.name}</Typography>

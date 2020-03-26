@@ -1,7 +1,7 @@
 import React, { useState, useMemo} from 'react';
 import { connect } from 'react-redux';
-import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core';
-import { People, Close } from '@material-ui/icons';
+import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
+import { People, Close, MoreVert, Edit, HighlightOff } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { closeErrorDialog } from '../../redux/actions/ui';
 import { Navbar } from '../Navbar';
@@ -32,8 +32,11 @@ export interface DispatchProps {
 }
 
 const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, encounter, closeErrorDialog, resetEncounter }) => {
+    const [menuAnchorElement, setMenuAnchorElement] = useState<HTMLElement | null>(null);
+
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
-    const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
+    const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(true);
+    const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
         if (!encounter) {
@@ -47,16 +50,28 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
         return allCharactersHaveInitiative && allNpcsHaveInitiative && Object.keys(initiativeById).length > 0;
     }, [encounter]);
 
+    const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => setMenuAnchorElement(event.currentTarget);
+    const closeMenu = () => setMenuAnchorElement(null);
+
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
 
-    const handleNewEncounterCancel = () => {
-        setIsNewEncounterDialogOpen(false);
-        resetEncounter();
+    const openNewEncounterDialog = () => {
+        if (!!encounter && encounter.currentId === 0) {
+            setIsCreatingNewEncounter(true);
+        } else {
+            setIsCreatingNewEncounter(false);
+        }
+        setIsNewEncounterDialogOpen(true);
     };
+    const closeNewEncounterDialog = () => setIsNewEncounterDialogOpen(false);
 
-    const handleNewEncounterCreated = () => {
-        setIsNewEncounterDialogOpen(false);
+    const handleNewEncounterCancel = () => {
+        closeNewEncounterDialog();
+        if (isCreatingNewEncounter) {
+            resetEncounter();
+            setIsCreatingNewEncounter(false);
+        }
     };
 
     return (
@@ -67,7 +82,22 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                         <People />
                     </IconButton>
                 </Tooltip>
+                <div style={{ flex: '1' }} />
+                <IconButton color="inherit" onClick={openMenu}>
+                    <MoreVert />
+                </IconButton>
             </Navbar>
+            <Menu anchorEl={menuAnchorElement} open={!!menuAnchorElement} onClose={closeMenu}>
+                <MenuItem onClick={() => { openCharacterDialog(); closeMenu(); }}>
+                    <People color="secondary" style={{ marginRight: '16px' }} /> Saved characters
+                </MenuItem>
+                <MenuItem onClick={() => { openNewEncounterDialog(); closeMenu(); }}>
+                    <Edit color="secondary" style={{ marginRight: '16px' }} /> {!!encounter && encounter.currentId === 0 ? 'Create new encounter' : 'Edit current encounter'}
+                </MenuItem>
+                <MenuItem onClick={() => { resetEncounter(); closeMenu(); }} disabled={!!encounter && encounter.currentId === 0}>
+                    <HighlightOff color="secondary" style={{ marginRight: '16px' }} /> Clear current encounter
+                </MenuItem>
+            </Menu>
             <RootComponentWrapper>
                 <ContentContainer>
                     <ListAndNumpadContainer>
@@ -79,7 +109,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     </NotesContainer>
                 </ContentContainer>
             </RootComponentWrapper>
-            <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
+            <Dialog fullScreen open={isCharacterDialogOpen} onClose={closeCharacterDialog}>
                 <Navbar color="primary">
                     <IconButton color="inherit" onClick={closeCharacterDialog}>
                         <Close />
@@ -103,7 +133,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={handleNewEncounterCancel}>Cancel</Button>
-                    <Button disabled={!canNewEncounterBeCreated} variant="contained" color="primary" onClick={handleNewEncounterCreated}>Create</Button>
+                    <Button disabled={!canNewEncounterBeCreated} variant="contained" color="primary" onClick={closeNewEncounterDialog}>OK</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>

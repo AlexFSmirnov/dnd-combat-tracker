@@ -43,7 +43,6 @@ export const NameAndSavesContainer = styled.div`
 `;
 
 export const Name = styled.div`
-    font-family: 'Yeon Sung';
     font-size: 24px;
     line-height: 24px;
 `;

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { keys, reduce } from 'lodash/fp';
 import { Checkbox, Paper, Typography, TextField } from '@material-ui/core';
 import { Character, State } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
@@ -43,12 +44,31 @@ const NewEncCharacterListItem = ({
         }
     }, [isCharacterSelected]);
 
+    useEffect(() => {
+        if (encounter) {
+            const key = keys(encounter.characters).find(k => encounter.characters[parseInt(k)].name === character.name);
+            if (key === undefined || parseInt(key) === NaN) {
+                return;
+            }
+
+            const savedInitiative = encounter.initiativeById[parseInt(key)];
+            if (savedInitiative !== undefined) {
+                setInitiative(savedInitiative.toString());
+            }
+        }
+    }, []);
+
     const handleCheckboxClick = () => {
         if (isCharacterSelected) {
             removeCharacterFromEncounter(character);
             setInitiative('');
         } else {
             addCharacterToEncounter(character);
+
+            const initiativeInt = parseInt(initiative);
+            if (initiativeInt) {
+                updateCharacterInitiative(character, initiativeInt);
+            }
         }
     };
 

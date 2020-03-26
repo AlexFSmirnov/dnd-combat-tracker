@@ -31,8 +31,8 @@ export interface EntityListItemProps {
     name: string;
 
     maxHitPoints: number;
-    removedHitPoints: number;
-    temporaryHitPoints: number;
+    removedHitPoints?: number;
+    temporaryHitPoints?: number;
     deathSaves?: DeathSaves;
 
     avatarUrl?: string;
@@ -44,8 +44,8 @@ const EntityListItem: React.FC<EntityListItemProps & DispatchProps> = ({
     type,
     name,
     maxHitPoints,
-    removedHitPoints,
-    temporaryHitPoints,
+    removedHitPoints = 0, 
+    temporaryHitPoints = 0,
     deathSaves,
     avatarUrl,
     color,
