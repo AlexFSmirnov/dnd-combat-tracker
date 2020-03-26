@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { keys, reduce } from 'lodash/fp';
+import { keys, reduce, isNaN } from 'lodash/fp';
 import { Paper, Typography, TextField, IconButton, useTheme } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import { NPC, State } from '../../redux/types';
@@ -44,7 +44,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
     useEffect(() => {
         if (encounter) {
             const key = keys(encounter.npcs).find(k => encounter.npcs[parseInt(k)].name === npc.name);
-            if (key === undefined || parseInt(key) === NaN) {
+            if (key === undefined || isNaN(parseInt(key))) {
                 return;
             }
 
@@ -60,7 +60,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
         addNPCToEncounter(npc);
 
         const initiativeInt = parseInt(initiative);
-        if (initiativeInt !== NaN) {
+        if (isNaN(initiativeInt)) {
             updateNPCInitiative(npc, initiativeInt);
         }
     };
@@ -70,7 +70,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
         setInitiative(value);
 
         const initiativeInt = parseInt(value);
-        if (initiativeInt !== NaN) {
+        if (isNaN(initiativeInt)) {
             updateNPCInitiative(npc, initiativeInt);
         }
     };

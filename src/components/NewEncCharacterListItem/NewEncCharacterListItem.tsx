@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { keys, reduce } from 'lodash/fp';
+import { keys, isNaN } from 'lodash/fp';
 import { Checkbox, Paper, Typography, TextField } from '@material-ui/core';
 import { Character, State } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
@@ -47,7 +47,7 @@ const NewEncCharacterListItem = ({
     useEffect(() => {
         if (encounter) {
             const key = keys(encounter.characters).find(k => encounter.characters[parseInt(k)].name === character.name);
-            if (key === undefined || parseInt(key) === NaN) {
+            if (key === undefined || isNaN(parseInt(key))) {
                 return;
             }
 
@@ -66,7 +66,7 @@ const NewEncCharacterListItem = ({
             addCharacterToEncounter(character);
 
             const initiativeInt = parseInt(initiative);
-            if (initiativeInt) {
+            if (!isNaN(initiativeInt)) {
                 updateCharacterInitiative(character, initiativeInt);
             }
         }
@@ -77,7 +77,7 @@ const NewEncCharacterListItem = ({
         setInitiative(value);
 
         const initiativeInt = parseInt(value);
-        if (initiativeInt) {
+        if (!isNaN(initiativeInt)) {
             updateCharacterInitiative(character, initiativeInt);
         }
     };
