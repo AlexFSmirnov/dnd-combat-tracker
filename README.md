@@ -11,7 +11,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
       - [x] HP
       - [ ] Death saves 
       - [ ] Concentration
-    - [ ] NPC List item 
+    - [x] NPC List item 
     - [ ] Animations
     - [ ] Keyboard control for HP management
   - [x] Numpad 
@@ -29,7 +29,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [x] Player Characters 
   - [x] NPC 
   - [ ] Current encounter 
-    - [ ] Initiative 
+    - [x] Initiative 
     - [ ] HP 
 - [ ] Offline mode 
 - [ ] Nice to have
