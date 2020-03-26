@@ -89,9 +89,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                 <Button variant="contained" color="primary" endIcon={<Send />}>Next turn</Button>
                 <div style={{ flex: '1' }} />
                 <Typography variant="h5">Round 1</Typography>
-                <div style={{ flex: '1' }} />
-                {/* Trick to have the Round number aligned in the center correctly */}
-                <Button variant="contained" color="primary" endIcon={<Send />} style={{ opacity: '0', pointerEvents: 'none' }}>Next turn</Button>
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />
                 </IconButton>
