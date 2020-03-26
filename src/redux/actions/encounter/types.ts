@@ -4,6 +4,9 @@ export const ENC_CHARACTER_ADDED = 'ENC_CHARACTER_ADDED';
 export const ENC_NPC_ADDED = 'ENC_NPC_ADDED';
 export const ENC_CHARACTER_REMOVED = 'ENC_CHARACTER_REMOVED';
 export const ENC_NPC_REMOVED = 'ENC_NPC_REMOVED';
+export const ENC_CHARACTER_INITIATIVE_UPDATED = 'ENC_CHARACTER_INITIATIVE_UPDATED';
+export const ENC_NPC_INITIATIVE_UPDATED = 'ENC_NPC_INITIATIVE_UPDATED';
+export const ENC_RESET = 'ENC_RESET';
 
 export interface EncCharacterAddedAction { 
     type: typeof ENC_CHARACTER_ADDED;
@@ -25,4 +28,30 @@ export interface EncNPCRemovedAction {
     payload: NPC;
 }
 
-export type EncounterActionType = EncCharacterAddedAction | EncNPCAddedAction | EncCharacterRemovedAction | EncNPCRemovedAction;
+export interface EncCharacterInitiativeUpdatedAction {
+    type: typeof ENC_CHARACTER_INITIATIVE_UPDATED;
+    payload: {
+        character: Character;
+        initiative: number;
+    };
+}
+
+export interface EncNPCInitiativeUpdatedAction {
+    type: typeof ENC_NPC_INITIATIVE_UPDATED;
+    payload: {
+        npc: NPC;
+        initiative: number;
+    };
+}
+
+export interface EncResetAction {
+    type: typeof ENC_RESET;
+}
+
+export type EncounterActionType = EncCharacterAddedAction |
+    EncNPCAddedAction |
+    EncCharacterRemovedAction |
+    EncNPCRemovedAction |
+    EncCharacterInitiativeUpdatedAction |
+    EncNPCInitiativeUpdatedAction |
+    EncResetAction;

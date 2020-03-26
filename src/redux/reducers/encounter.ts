@@ -5,10 +5,15 @@ import {
     ENC_NPC_ADDED,
     ENC_CHARACTER_REMOVED,
     ENC_NPC_REMOVED,
+    ENC_CHARACTER_INITIATIVE_UPDATED,
+    ENC_NPC_INITIATIVE_UPDATED,
+    ENC_RESET,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
     EncNPCRemovedAction,
+    EncCharacterInitiativeUpdatedAction,
+    EncNPCInitiativeUpdatedAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 
@@ -83,6 +88,7 @@ const removeCharacter = (state: EncounterState, action: EncCharacterRemovedActio
     return {
         ...state,
         characters: omit(characterKey, state.characters),
+        initiativeById: omit(characterKey, state.initiativeById),
     };
 };
 
@@ -129,6 +135,45 @@ const removeNPC = (state: EncounterState, action: EncNPCRemovedAction) => {
     };
 };
 
+const updateCharacterInitiative = (state: EncounterState, action: EncCharacterInitiativeUpdatedAction) => {
+    const { characters, initiativeById } = state;
+    const { character, initiative } = action.payload;
+
+    const characterKey = keys(characters).find(key => characters[parseInt(key)].id === character.id);
+    if (!characterKey) {
+        return state;
+    }
+
+    return {
+        ...state,
+        initiativeById: {
+            ...initiativeById,
+            [characterKey]: initiative,
+        },
+    };
+};
+
+const updateNPCInitiative = (state: EncounterState, action: EncNPCInitiativeUpdatedAction) => {
+    const { npcs, initiativeById } = state;
+    const { npc, initiative } = action.payload;
+
+    const npcKeys = keys(npcs).filter(key => npcs[parseInt(key)].name.startsWith(npc.name));
+    if (npcKeys.length === 0) {
+        return state;
+    }
+
+    let npcInitiatives: Record<number, number> = {};
+    npcKeys.forEach(key => (npcInitiatives[parseInt(key)] = initiative));
+
+    return {
+        ...state,
+        initiativeById: {
+            ...initiativeById,
+            ...npcInitiatives,
+        },
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -138,14 +183,21 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
         return addNPC(state, action);
 
     case ENC_CHARACTER_REMOVED:
-        return initialState;
-        // return removeCharacter(state, action);
+        return removeCharacter(state, action);
 
     case ENC_NPC_REMOVED:
         return removeNPC(state, action);
 
+    case ENC_CHARACTER_INITIATIVE_UPDATED:
+        return updateCharacterInitiative(state, action);
+    
+    case ENC_NPC_INITIATIVE_UPDATED:
+        return updateNPCInitiative(state, action);
+
+    case ENC_RESET:
+        return initialState;
+
     default:
-        // return initialState;
         return state;
     }
 };

@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useMemo} from 'react';
 import { connect } from 'react-redux';
 import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core';
 import { People, Close } from '@material-ui/icons';
@@ -16,22 +16,48 @@ import { SavedCharactersList } from '../SavedCharactersList';
 import { SavedNPCsList } from '../SavedNPCsList';
 import { NewEncCharactersList } from '../NewEncCharactersList';
 import { NewEncNPCsList } from '../NewEncNPCsList';
+import { resetEncounter } from '../../redux/actions/encounter';
+import { EncounterState } from '../../redux/reducers/encounter';
 
 export interface StateProps {
     currentBackgroundUrl?: string;
     isErrorDialogOpen: boolean;
     errorMessage?: JSX.Element;
+    encounter: EncounterState | null;
 }
 
 export interface DispatchProps {
     closeErrorDialog: typeof closeErrorDialog;
+    resetEncounter: typeof resetEncounter;
 }
 
-const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, closeErrorDialog }) => {
-    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState<boolean>(false);
+const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, encounter, closeErrorDialog, resetEncounter }) => {
+    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
+    const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
+
+    const canNewEncounterBeCreated = useMemo(() => {
+        if (!encounter) {
+            return false;
+        }
+
+        const { characters, npcs, initiativeById } = encounter;
+        const allCharactersHaveInitiative = Object.keys(characters).every(id => Object.keys(initiativeById).some(id2 => id === id2));
+        const allNpcsHaveInitiative = Object.keys(npcs).every(id => Object.keys(initiativeById).some(id2 => id === id2));
+
+        return allCharactersHaveInitiative && allNpcsHaveInitiative && Object.keys(initiativeById).length > 0;
+    }, [encounter]);
 
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
+
+    const handleNewEncounterCancel = () => {
+        setIsNewEncounterDialogOpen(false);
+        resetEncounter();
+    };
+
+    const handleNewEncounterCreated = () => {
+        setIsNewEncounterDialogOpen(false);
+    };
 
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
@@ -43,7 +69,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                 </Tooltip>
             </Navbar>
             <RootComponentWrapper>
-                {/* <ContentContainer>
+                <ContentContainer>
                     <ListAndNumpadContainer>
                         <EntityList />
                         <Numpad />
@@ -51,7 +77,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     <NotesContainer>
                         <Notes />
                     </NotesContainer>
-                </ContentContainer> */}
+                </ContentContainer>
             </RootComponentWrapper>
             <Dialog fullScreen open={!!isCharacterDialogOpen} onClose={closeCharacterDialog}>
                 <Navbar color="primary">
@@ -67,7 +93,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     <SavedNPCsList />
                 </DividedList>
             </Dialog>
-            <Dialog maxWidth="lg" fullWidth open>
+            <Dialog maxWidth="lg" fullWidth open={isNewEncounterDialogOpen}>
                 <DialogTitle>New Encounter</DialogTitle>
                 <DialogContent>
                     <DividedList titles={['Characters', 'NPCs']}>
@@ -76,8 +102,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                     </DividedList>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={() => {}}>Cancel</Button>
-                    <Button variant="contained" color="primary" onClick={() => {}}>Create</Button>
+                    <Button color="secondary" onClick={handleNewEncounterCancel}>Cancel</Button>
+                    <Button disabled={!canNewEncounterBeCreated} variant="contained" color="primary" onClick={handleNewEncounterCreated}>Create</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
@@ -97,6 +123,7 @@ const mapStateToProps = (state: State) => ({
     currentBackgroundUrl: state.characters && state.characters[1] && state.characters[1].defaultBackdrop.largeBackdropAvatarUrl,
     isErrorDialogOpen: (state.ui && state.ui.errorDialog.isOpen) || false,
     errorMessage: state.ui && state.ui.errorDialog.message,
+    encounter: state.encounter || null,
 });
 
-export default connect(mapStateToProps, { closeErrorDialog })(RootComponent);
+export default connect(mapStateToProps, { closeErrorDialog, resetEncounter })(RootComponent);
