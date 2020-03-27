@@ -142,7 +142,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />
                 </IconButton>
-                {(encounter && encounter.currentId !== 0) ? (
+                {(encounter && encounter.currentId > 1) ? (
                     <React.Fragment>
                         <Typography variant="h5">Round {encounter.currentRound}</Typography>
                         <div style={{ flex: '1' }} />
@@ -182,7 +182,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                             <React.Fragment>
                                 <EntityList fullScreen />
                                 <NotesContainer>
-                                    <TextNotes fullWidth rows="4" />
+                                    <TextNotes fullWidth rows={isFullscreen ? '4' : '2'} />
                                 </NotesContainer>
                             </React.Fragment>
                         )

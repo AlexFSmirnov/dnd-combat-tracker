@@ -259,6 +259,7 @@ const nextTurn = (state: EncounterState): EncounterState => {
     if (sortedEntities.length < 2) {
         return {
             ...state,
+            selectedEntityKey: null,
             currentRound: state.currentRound + 1,
         };
     }
@@ -271,6 +272,7 @@ const nextTurn = (state: EncounterState): EncounterState => {
 
     return {
         ...state,
+        selectedEntityKey: null,
         currentTurnInitiative: initiative,
         currentTurnKey: key,
         currentRound: round,
@@ -282,6 +284,7 @@ const prevTurn = (state: EncounterState): EncounterState => {
     if (sortedEntities.length < 2) {
         return {
             ...state,
+            selectedEntityKey: null,
             currentRound: state.currentRound - 1,
         };
     }
@@ -294,6 +297,7 @@ const prevTurn = (state: EncounterState): EncounterState => {
 
     return {
         ...state,
+        selectedEntityKey: null,
         currentTurnInitiative: initiative,
         currentTurnKey: key,
         currentRound: round,
