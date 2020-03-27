@@ -15,6 +15,7 @@ import {
     ENC_NPC_HIT_POINTS_UPDATED,
     ENC_TEXT_NOTES_UPDATED,
     ENC_IMG_NOTES_UPDATED,
+    ENC_ENTITY_CONCENTRATION_UPDATED,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
@@ -22,6 +23,7 @@ import {
     EncCharacterInitiativeUpdatedAction,
     EncNPCInitiativeUpdatedAction,
     EncNPCHitPointsUpdatedAction,
+    EncEntityConcentrationUpdatedAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
@@ -43,6 +45,7 @@ export interface EncounterState {
     }>;
     textNotesByKey: Record<number, string>;
     imgNotesByKey: Record<number, string>;
+    concentrationByKey: Record<number, number>;
 }
 
 const initialState: EncounterState = {
@@ -57,6 +60,7 @@ const initialState: EncounterState = {
     npcHitPoints: {},
     textNotesByKey: {},
     imgNotesByKey: {},
+    concentrationByKey: {},
 };
 
 const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
@@ -339,6 +343,24 @@ const updateNPCHitPoints = (state: EncounterState, action: EncNPCHitPointsUpdate
     };
 };
 
+const updateEntityConcentration = (state: EncounterState, action: EncEntityConcentrationUpdatedAction) => {
+    const { key, since } = action.payload;
+    if (since === null) {
+        return {
+            ...state,
+            concentrationByKey: omit(key, state.concentrationByKey),
+        };
+    }
+
+    return {
+        ...state,
+        concentrationByKey: {
+            ...state.concentrationByKey,
+            [key]: since,
+        },
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -400,6 +422,9 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
                 [action.payload.key]: action.payload.img,
             },
         };
+
+    case ENC_ENTITY_CONCENTRATION_UPDATED:
+        return updateEntityConcentration(state, action);
 
     default:
         return state;

@@ -55,6 +55,7 @@ export const AvatarWrapper = styled.div<Multisize>`
         min-height: 60px;
     `}
     margin: 0 8px;
+    cursor: pointer;
 `;
 
 export const Avatar = styled(AvatarMui)`
@@ -71,6 +72,7 @@ export const NameAndSavesContainer = styled.div<Multisize>`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    cursor: pointer;
 `;
 
 export const Name = styled.div<Multisize>`

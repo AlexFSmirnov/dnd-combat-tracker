@@ -36,10 +36,10 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullWid
                         };
                     }
 
-                    const color = ((entity as Character).themeColor && (entity as Character).themeColor?.themeColor) || undefined;
+                    const color = ((entity as Character).themeColor && (entity as Character).themeColor?.themeColor) || theme.palette.primary.main;
                     return (
                         <React.Fragment key={key}>
-                            <EntityListItem {...entityListItemProps} color={color} />
+                            <EntityListItem {...entityListItemProps} color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} />
                             {dividerAfterThisOne ? <Divider color={theme.palette.secondary.main} key={`${key}-div`} /> : null}
                         </React.Fragment>
                     );

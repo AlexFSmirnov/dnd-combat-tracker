@@ -20,6 +20,7 @@ import {
     HitPointMenuContentWrapper,
     HitPointMenuButtonWrapper,
 } from './style';
+import { Concentration } from '../Concentration';
 
 interface StateProps {
     selectedKey: number | null;
@@ -46,9 +47,9 @@ export interface EntityListItemProps {
     temporaryHitPoints?: number;
     deathSaves?: DeathSaves;
 
+    color: string;
     id?: number;
     avatarUrl?: string;
-    color?: string;
 }
 
 const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps> = ({
@@ -120,16 +121,18 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
 
     return (
         <EntityListItemScrollContainer small={small}>
-            <EntityListItemContainer onClick={handleClick}>
-                {small ? null : <SquareFrame color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} backgroundColor={isSelected ? '#ddd' : 'white' } />}
+            <EntityListItemContainer>
+                {small ? null : <SquareFrame color={color} backgroundColor={isSelected ? '#ddd' : 'white' } />}
                 <EntityListItemWrapper small={small} isSelected={isSelected}>
-                    <AvatarWrapper small={small}>
+                    <AvatarWrapper small={small} onClick={handleClick}>
                         <Avatar src={avatarUrl} variant="rounded" />
                     </AvatarWrapper>
-                    <NameAndSavesContainer small={small}>
+                    <NameAndSavesContainer small={small} onClick={handleClick}>
                         <Name small={small}>{name}</Name>
                         <SavesContainer small={small} />
                     </NameAndSavesContainer>
+                    <div style={{ flex: 1 }} />
+                    <Concentration entityKey={entityKey} color={color} small={small} />
                     <HitPointsContainer small={small} onClick={type === EntityType.NPC ? openMenu : undefined}>
                         <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints - removedHitPoints}</HitPoints>
                         <HitPoints small={small} width={small ? 16 : 12} style={{ color: 'grey' }}>/</HitPoints>
