@@ -50,3 +50,11 @@ export const EntityListBottomFade = styled.div`
     bottom: 0;
     background: linear-gradient(transparent, white);
 `;
+
+export const Divider = styled.div<{ color: string }>`
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid ${props => props.color};
+    border-radius: 50%;
+    opacity: 0.5;
+`;

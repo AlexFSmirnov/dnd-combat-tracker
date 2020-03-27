@@ -8,6 +8,7 @@ export interface EntityWithInitiative {
     type: EntityType;
     entity: Character | NPC;
     key: number;
+    dividerAfterThisOne?: boolean;
 }
 
 export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => {
@@ -28,6 +29,7 @@ export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => 
                 type: EntityType.CHARACTER,
                 entity: characters[key],
                 key,
+                dividerAfterThisOne: false,
             });
         }
     });
@@ -41,6 +43,7 @@ export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => 
                 type: EntityType.NPC,
                 entity: npcs[key],
                 key,
+                dividerAfterThisOne: false,
             });
         }
     });
@@ -58,6 +61,8 @@ export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => 
     if (sortedByInitiative.length === 0) {
         return [];
     }
+
+    sortedByInitiative[sortedByInitiative.length - 1].dividerAfterThisOne = true;
 
     while (sortedByInitiative[0].key !== currentTurnKey) {
         sortedByInitiative.push(sortedByInitiative.shift() as EntityWithInitiative);
