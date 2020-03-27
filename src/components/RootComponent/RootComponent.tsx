@@ -1,4 +1,4 @@
-import React, { useState, useMemo} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTheme, useMediaQuery, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
 import { People, Close, Send, MoreVert, Edit, HighlightOff, Fullscreen, FullscreenExit } from '@material-ui/icons';
@@ -118,23 +118,23 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
             <Navbar>
-                {encounter ? (
+                <IconButton color="inherit" onClick={openMenu}>
+                    <MoreVert />
+                </IconButton>
+                {(encounter && encounter.currentId !== 0) ? (
                     <React.Fragment>
+                        <Typography variant="h5">Round {encounter.currentRound}</Typography>
+                        <div style={{ flex: '1' }} />
                         <Tooltip title="Previous turn">
                             <IconButton color="inherit" onClick={prevTurn}>
                                 <Send style={{ transform: 'rotateY(180deg)', opacity: '0.7' }} />
                             </IconButton>
                         </Tooltip>
-                        <Button variant="contained" color="primary" endIcon={<Send />} onClick={nextTurn}>Next turn</Button>
-                        <div style={{ flex: '1' }} />
-                        <Typography variant="h5">Round {encounter.currentRound}</Typography>
+                        <Button disableElevation variant="contained" color="primary" endIcon={<Send />} onClick={nextTurn}>Next turn</Button>
                     </React.Fragment>
                 ) : (
-                    <div style={{ flex: '1' }} />
+                    <Typography variant="h5">No encounter</Typography>
                 )}
-                <IconButton color="inherit" onClick={openMenu}>
-                    <MoreVert />
-                </IconButton>
             </Navbar>
             <Menu anchorEl={menuAnchorElement} open={!!menuAnchorElement} onClose={closeMenu}>
                 <MenuItem onClick={() => { openCharacterDialog(); closeMenu(); }}>

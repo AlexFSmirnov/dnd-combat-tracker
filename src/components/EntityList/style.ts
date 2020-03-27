@@ -8,7 +8,7 @@ export const EntityListContainer = styled.div<WithFullScreen>`
     position: relative;
     ${props => props.fullScreen ? `
         width: 98%;
-        height: calc(100vh - 220px);
+        height: calc(100% - 160px);
     ` : `
         width: 50%;
         max-width: 600px;
@@ -17,7 +17,7 @@ export const EntityListContainer = styled.div<WithFullScreen>`
 `;
 
 export const EntityListWrapper = styled.div<WithFullScreen>`
-    height: ${props => props.fullScreen ? 'calc(100vh - 252px)' : '448px'};
+    height: calc(100% - 32px);
     padding: 16px;
 
     display: flex;
