@@ -5,7 +5,7 @@ import { NavbarContainer } from './style';
 const Navbar: React.FC<AppBarProps> = ({ children, ...other }) => {
     return (
         <NavbarContainer>
-            <AppBar position="relative" color="secondary" style={{ minHeight: '56px' }} {...other}>
+            <AppBar position="fixed" color="secondary" style={{ minHeight: '56px' }} {...other}>
                 <Toolbar style={{ minHeight: '56px' }}>
                     {children}
                 </Toolbar>
