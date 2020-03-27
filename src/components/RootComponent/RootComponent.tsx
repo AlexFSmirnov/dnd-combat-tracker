@@ -1,7 +1,7 @@
 import React, { useState, useMemo} from 'react';
 import { connect } from 'react-redux';
 import { useTheme, useMediaQuery, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
-import { People, Close, Send, MoreVert, Edit, HighlightOff } from '@material-ui/icons';
+import { People, Close, Send, MoreVert, Edit, HighlightOff, Fullscreen, FullscreenExit } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { closeErrorDialog } from '../../redux/actions/ui';
 import { Navbar } from '../Navbar';
@@ -54,6 +54,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
         if (!encounter) {
@@ -66,6 +67,21 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 
         return allCharactersHaveInitiative && allNpcsHaveInitiative && Object.keys(initiativeById).length > 0;
     }, [encounter]);
+
+    const toggleFullscreen = () => {
+        if (isFullscreen) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+                setIsFullscreen(false);
+            }
+        } else {
+            const element = document.documentElement;
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+                setIsFullscreen(true);
+            }
+        }
+    };
 
     const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => setMenuAnchorElement(event.currentTarget);
     const closeMenu = () => setMenuAnchorElement(null);
@@ -129,6 +145,9 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                 </MenuItem>
                 <MenuItem onClick={() => { resetEncounter(); closeMenu(); }} disabled={!!encounter && encounter.currentId === 0}>
                     <HighlightOff color="secondary" style={{ marginRight: '16px' }} /> Clear current encounter
+                </MenuItem>
+                <MenuItem onClick={() => { toggleFullscreen(); closeMenu(); }}>
+                    {isFullscreen ? <FullscreenExit color="secondary" style={{ marginRight: '16px' }} /> : <Fullscreen color="secondary" style={{ marginRight: '16px' }} />} Toggle fullscreen
                 </MenuItem>
             </Menu>
             <RootComponentWrapper>
