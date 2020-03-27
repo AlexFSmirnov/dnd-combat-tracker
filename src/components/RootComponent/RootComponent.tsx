@@ -103,7 +103,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
         closeNewEncounterDialog();
         if (isCreatingNewEncounter) {
             resetEncounter();
-            setIsCreatingNewEncounter(false);
         }
     };
 
@@ -111,7 +110,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
         closeNewEncounterDialog();
         if (isCreatingNewEncounter) {
             createEncounter();
-            setIsCreatingNewEncounter(false);
         }
     };
 
@@ -189,8 +187,20 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                     <SavedNPCsList />
                 </DividedList>
             </Dialog>
-            <Dialog maxWidth="lg" fullWidth open={isNewEncounterDialogOpen}>
-                <DialogTitle>New Encounter</DialogTitle>
+            <Dialog maxWidth="lg" fullWidth={!small} fullScreen={small} open={isNewEncounterDialogOpen}>
+                {small ? (
+                    <div style={{ height: '56px' }}>
+                        <Navbar color="primary">
+                            <Typography variant="h6">
+                                {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
+                            </Typography>
+                        </Navbar>
+                    </div>
+                ) : (
+                    <DialogTitle>
+                        {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
+                    </DialogTitle>
+                )}
                 <DialogContent>
                     <DividedList titles={['Characters', 'NPCs']}>
                         <NewEncCharactersList />

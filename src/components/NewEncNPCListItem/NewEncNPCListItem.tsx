@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { keys, reduce, isNaN } from 'lodash/fp';
-import { Paper, Typography, TextField, IconButton, useTheme } from '@material-ui/core';
+import { Paper, Typography, TextField, IconButton, useTheme, useMediaQuery } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import { NPC, State } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
@@ -24,6 +24,7 @@ export interface NewEncNPCListItemProps {
 
 const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEncounter, updateNPCInitiative }: NewEncNPCListItemProps & StateProps & DispatchProps) => {
     const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('sm'));
     const [initiative, setInitiative] = useState('');
 
     const addedNPCCount = useMemo(() => {
@@ -92,7 +93,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
                 <NewEncNPCCounter palette={theme.palette} onClick={handleAddClick}>
                     {addedNPCCount}
                 </NewEncNPCCounter>
-                <Typography variant="h6">{npc.name}</Typography>
+                <Typography variant={small ? 'body1' : 'h6'}>{npc.name}</Typography>
                 <div style={{ flexGrow: 1 }} />
                 <TextField {...textFieldProps} />
                 <IconButton size="small" onClick={handleRemoveClick} disabled={!addedNPCCount}>

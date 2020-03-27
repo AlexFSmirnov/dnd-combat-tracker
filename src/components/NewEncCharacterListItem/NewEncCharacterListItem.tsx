@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { keys, isNaN } from 'lodash/fp';
-import { Checkbox, Paper, Typography, TextField } from '@material-ui/core';
+import { useTheme, useMediaQuery, Checkbox, Paper, Typography, TextField } from '@material-ui/core';
 import { Character, State } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
 import { addCharacterToEncounter, removeCharacterFromEncounter, updateCharacterInitiative } from '../../redux/actions/encounter';
@@ -28,6 +28,8 @@ const NewEncCharacterListItem = ({
     removeCharacterFromEncounter,
     updateCharacterInitiative,
 }: NewEncCharacterListItemProps & StateProps & DispatchProps) => {
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('sm'));
     const [initiative, setInitiative] = useState('');
 
     const isCharacterSelected = useMemo(() => {
@@ -99,7 +101,7 @@ const NewEncCharacterListItem = ({
         <Paper elevation={3} style={{ width: '100%', height: '56px' }}>
             <NewEncCharacterListItemContainer>
                 <Checkbox disabled={!encounter} checked={isCharacterSelected} color="primary" onClick={handleCheckboxClick} />
-                <Typography variant="h6">{character.name}</Typography>
+                <Typography variant={small ? 'body1' : 'h6'}>{character.name}</Typography>
                 <div style={{ flexGrow: 1 }} />
                 <TextField {...textFieldProps} />
             </NewEncCharacterListItemContainer>

@@ -238,7 +238,10 @@ const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
 const nextTurn = (state: EncounterState): EncounterState => {
     const sortedEntities = sortEntitiesWithInitiative(state);
     if (sortedEntities.length < 2) {
-        return state;
+        return {
+            ...state,
+            currentRound: state.currentRound + 1,
+        };
     }
 
     const { initiative, key } = sortedEntities[1];
@@ -258,7 +261,10 @@ const nextTurn = (state: EncounterState): EncounterState => {
 const prevTurn = (state: EncounterState): EncounterState => {
     const sortedEntities = sortEntitiesWithInitiative(state);
     if (sortedEntities.length < 2) {
-        return state;
+        return {
+            ...state,
+            currentRound: state.currentRound - 1,
+        };
     }
 
     const { initiative, key } = sortedEntities[sortedEntities.length - 1];
