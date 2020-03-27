@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "834de1546eb15e6ec2ea065a8aea75ae",
+    "revision": "f4bced234b9fe8c6531252cf3a01428d",
     "url": "/dnd-combat-tracker/index.html"
   },
   {
-    "revision": "d5d3c5609cd18b5d08e7",
+    "revision": "1e56934aa76d3d44a131",
     "url": "/dnd-combat-tracker/static/css/main.029029bc.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dnd-combat-tracker/static/js/2.c7752f6e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d5d3c5609cd18b5d08e7",
-    "url": "/dnd-combat-tracker/static/js/main.73235219.chunk.js"
+    "revision": "1e56934aa76d3d44a131",
+    "url": "/dnd-combat-tracker/static/js/main.612e3b20.chunk.js"
   },
   {
     "revision": "4c70f37a4836c3bdf7db",
