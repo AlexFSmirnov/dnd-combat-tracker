@@ -13,7 +13,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
       - [ ] Concentration
     - [x] NPC List item 
     - [ ] Animations
-    - [ ] Keyboard control for HP management
+    - [x] Keyboard control for HP management
   - [x] Numpad 
   - [ ] Notepad 
     - [x] Touch notepad 
@@ -28,9 +28,9 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
 - [ ] Data storage 
   - [x] Player Characters 
   - [x] NPC 
-  - [ ] Current encounter 
+  - [x] Current encounter 
     - [x] Initiative 
-    - [ ] HP 
+    - [x] HP 
 - [ ] Offline mode 
 - [ ] Nice to have
   - [x] Animations for background image switching
