@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dnd-combat-tracker/precache-manifest.08fc0c7d9f4359bffddef5cbb734072d.js"
+  "/dnd-combat-tracker/precache-manifest.834f0bcb0b49a00f5e895f3335d2533a.js"
 );
 
 self.addEventListener('message', (event) => {
