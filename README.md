@@ -33,9 +33,9 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
     - [ ] HP 
 - [ ] Offline mode 
 - [ ] Nice to have
-  - [ ] Animations for background image switching
+  - [x] Animations for background image switching
   - [x] Error message dialogs 
-  - [ ] Change status bar color on mobile
+  - [x] Change status bar color on mobile
   - [ ] Improve dialog animation performance 
   - [ ] Smarter CORS handling
-  - [ ] Fullscreen support (mobile only?) 
+  - [x] Fullscreen support (mobile only?) 
