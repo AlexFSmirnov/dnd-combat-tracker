@@ -65,6 +65,15 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
             updateNPCInitiative(npc, initiativeInt);
         }
     };
+    const handleCounterClick = () => {
+        if (!addedNPCCount || addedNPCCount === 0) {
+            handleAddClick();
+        } else {
+            for (let i = 0; i < addedNPCCount; ++i) {
+                handleRemoveClick();
+            }
+        }
+    };
 
     const handleInitiativeChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
@@ -90,7 +99,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
     return (
         <Paper elevation={3} style={{ width: '100%', height: '56px' }}>
             <NewEncNPCListItemContainer>
-                <NewEncNPCCounter palette={theme.palette} onClick={handleAddClick}>
+                <NewEncNPCCounter palette={theme.palette} onClick={handleCounterClick}>
                     {addedNPCCount}
                 </NewEncNPCCounter>
                 <Typography variant={small ? 'body1' : 'h6'}>{npc.name}</Typography>

@@ -23,6 +23,7 @@ export interface FrameProps {
     color?: string;
     backgroundColor?: string;
     className?: string;
+    forceUpdateProp?: boolean;
 }
 
 export interface FrameFactoryProps {
@@ -52,7 +53,7 @@ const frameFactory = ({
     const FrameLeft = styled(Side)`${LeftStyles}`;
     const FrameRight = styled(Side)`${RightStyles}`;
 
-    const Frame: React.FC<FrameProps> = ({ color = '#b13735', backgroundColor, className }) => {
+    const Frame: React.FC<FrameProps> = ({ color = '#b13735', backgroundColor, className, forceUpdateProp }) => {
         const containerRef = useRef<HTMLDivElement | null>(null);
 
         const [topPartWidth, setTopPartWidth] = useState<number>(partSize);
@@ -65,7 +66,7 @@ const frameFactory = ({
 
         useEffect(() => {
             handleResize();
-        }, [containerRef]);
+        }, [containerRef, forceUpdateProp]);
 
         const handleResize = () => {
             const { current: container } = containerRef;

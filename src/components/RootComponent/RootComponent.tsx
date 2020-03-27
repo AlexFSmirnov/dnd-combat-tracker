@@ -9,7 +9,7 @@ import { Tooltip } from '../Tooltip';
 import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
-import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
+import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer, BackgroundImage } from './style';
 import { NewEncounterDialogContent } from '../NewEncounterDialogContent';
 import { DividedList } from '../DividedList';
 import { SavedCharactersList } from '../SavedCharactersList';
@@ -19,9 +19,9 @@ import { NewEncNPCsList } from '../NewEncNPCsList';
 import { resetEncounter, createEncounter, nextTurn, prevTurn } from '../../redux/actions/encounter';
 import { EncounterState } from '../../redux/reducers/encounter';
 import { TextNotes } from '../TextNotes';
+import { AnimatedImage } from '../AnimatedImage';
 
 export interface StateProps {
-    currentBackgroundUrl?: string;
     isErrorDialogOpen: boolean;
     errorMessage?: JSX.Element;
     encounter: EncounterState | null;
@@ -36,7 +36,6 @@ export interface DispatchProps {
 }
 
 const RootComponent: React.FC<StateProps & DispatchProps> = ({
-    currentBackgroundUrl,
     isErrorDialogOpen,
     errorMessage,
     encounter,
@@ -48,12 +47,15 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 }) => {
     const theme = useTheme();
     const small = useMediaQuery(theme.breakpoints.down('sm'));
+    const short = useMediaQuery('(max-height: 830px)');
 
     const [menuAnchorElement, setMenuAnchorElement] = useState<HTMLElement | null>(null);
 
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
+    const [backgroundImageUrl, setBackgroundImageUrl] = useState<string | undefined>(undefined);
+    const [backgroundImageOpacity, setBackgroundImageOpacity] = useState<number>(1);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
@@ -67,6 +69,32 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 
         return allCharactersHaveInitiative && allNpcsHaveInitiative && Object.keys(initiativeById).length > 0;
     }, [encounter]);
+
+    const currentBackgroundUrl = useMemo(() => {
+        if (!encounter) {
+            return undefined;
+        }
+
+        const { characters, currentTurnKey } = encounter;
+        const currentCharacter = characters[currentTurnKey];
+        if (currentCharacter) {
+            return currentCharacter.defaultBackdrop.largeBackdropAvatarUrl;
+        }
+
+        return undefined;
+    }, [encounter]);
+
+    useEffect(() => {
+        window.requestAnimationFrame(() => {
+            setBackgroundImageOpacity(0);
+            setTimeout(() => {
+                setBackgroundImageUrl(currentBackgroundUrl);
+                setTimeout(() => {
+                    window.requestAnimationFrame(() => setBackgroundImageOpacity(1));
+                }, 100);
+            }, 100);
+        });
+    }, [currentBackgroundUrl]);
 
     const toggleFullscreen = () => {
         if (isFullscreen) {
@@ -114,7 +142,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     };
 
     return (
-        <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
+        <RootComponentContainer>
+            {small ? null : <AnimatedImage src={backgroundImageUrl} />}
             <Navbar>
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />
@@ -162,11 +191,11 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                         : (
                             <React.Fragment>
                                 <ListAndNumpadContainer>
-                                    <EntityList />
-                                    <Numpad />
+                                    <EntityList short={short} />
+                                    <Numpad short={short} />
                                 </ListAndNumpadContainer>
                                 <NotesContainer>
-                                    <Notes />
+                                    <Notes short={short} />
                                 </NotesContainer>
                             </React.Fragment>
                         )
@@ -190,7 +219,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             <Dialog maxWidth="lg" fullWidth={!small} fullScreen={small} open={isNewEncounterDialogOpen}>
                 {small ? (
                     <Navbar color="primary">
-                        <Typography variant="h6">
+                        <Typography variant="h6" style={{ marginLeft: '16px' }}>
                             {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
                         </Typography>
                     </Navbar>
@@ -224,7 +253,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 };
 
 const mapStateToProps = (state: State) => ({
-    currentBackgroundUrl: state.characters && state.characters[1] && state.characters[1].defaultBackdrop.largeBackdropAvatarUrl,
     isErrorDialogOpen: (state.ui && state.ui.errorDialog.isOpen) || false,
     errorMessage: state.ui && state.ui.errorDialog.message,
     encounter: state.encounter || null,

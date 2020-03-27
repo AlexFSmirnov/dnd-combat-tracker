@@ -4,7 +4,11 @@ interface WithFullScreen {
     fullScreen?: boolean;
 }
 
-export const EntityListContainer = styled.div<WithFullScreen>`
+interface Multiheight {
+    short?: boolean;
+}
+
+export const EntityListContainer = styled.div<WithFullScreen & Multiheight>`
     position: relative;
     ${props => props.fullScreen ? `
         width: 98%;
@@ -12,7 +16,7 @@ export const EntityListContainer = styled.div<WithFullScreen>`
     ` : `
         width: 50%;
         max-width: 600px;
-        height: 480px;
+        height: ${props.short ? '420' : '480'}px;
     `}
 `;
 

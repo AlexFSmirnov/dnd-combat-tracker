@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const NotesContainer = styled.div`
+export const NotesContainer = styled.div<{ short?: boolean }>`
     position: relative;
-    width: 920px;
-    height: 260px;
+    width: ${props => props.short ? 885 : 920}px;
+    height: ${props => props.short ? 220 : 260}px;
     margin-top: 16px;
 `;
 

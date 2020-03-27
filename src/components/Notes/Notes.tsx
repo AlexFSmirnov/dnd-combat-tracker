@@ -2,7 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { FancyFrame } from '../Frame';
 import { NotesContainer, NotesCanvas } from './style';
 
-const Notes = () => {
+export interface NotesProps {
+    short?: boolean;
+}
+
+const Notes = ({ short }: NotesProps) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const prevPointerPosition = useRef<{ x: number, y: number } | null>(null);
 
@@ -63,9 +67,9 @@ const Notes = () => {
     };
 
     return (
-        <NotesContainer>
+        <NotesContainer short={short}>
             <NotesCanvas {...canvasProps}></NotesCanvas>
-            <FancyFrame />
+            <FancyFrame forceUpdateProp={short} />
         </NotesContainer>
     );
 };

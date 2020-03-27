@@ -84,8 +84,6 @@ const NewEncCharacterListItem = ({
         }
     };
 
-    console.log(encounter);
-
     const textFieldProps = {
         disabled: !isCharacterSelected,
         label: isCharacterSelected ? 'Initiative' : '',

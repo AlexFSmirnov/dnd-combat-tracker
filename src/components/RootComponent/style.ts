@@ -1,14 +1,25 @@
 import styled from 'styled-components';
 
-export interface RootComponentContainerProps {
-    backgroundImageSrc?: string;
-}
-
-export const RootComponentContainer = styled.div<RootComponentContainerProps>`
+export const RootComponentContainer = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url("${props => props.backgroundImageSrc}");
+`;
+
+export interface BackgroundImageProps {
+    src?: string;
+    opacity: number;
+}
+
+export const BackgroundImage = styled.div<BackgroundImageProps>`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: ${props => props.opacity};
+    transition: opacity 100ms;
+    background-image: url("${props => props.src}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -16,7 +27,7 @@ export const RootComponentContainer = styled.div<RootComponentContainerProps>`
 
 export const RootComponentWrapper = styled.div`
     position: absolute;
-    top: 64px;
+    top: 56px;
     left: 0;
     width: 100%;
     height: calc(100% - 64px);

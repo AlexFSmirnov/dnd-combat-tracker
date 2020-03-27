@@ -6,7 +6,7 @@ const Navbar: React.FC<AppBarProps> = ({ children, ...other }) => {
     return (
         <NavbarContainer>
             <AppBar position="fixed" color="secondary" style={{ minHeight: '56px' }} {...other}>
-                <Toolbar style={{ minHeight: '56px' }}>
+                <Toolbar style={{ minHeight: '56px', paddingLeft: '4px', paddingRight: '10px' }}>
                     {children}
                 </Toolbar>
             </AppBar>

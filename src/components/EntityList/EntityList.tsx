@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
+import { useMediaQuery } from '@material-ui/core';
 import { State, Character } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
 import { sortEntitiesWithInitiative, EntityWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
@@ -13,13 +14,14 @@ interface StateProps {
 
 export interface EntityListProps {
     fullScreen?: boolean;
+    short?: boolean;
 }
 
-const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScreen }) => {
+const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScreen, short }) => {
     const entitiesByInitiative: EntityWithInitiative[] = useMemo(() => sortEntitiesWithInitiative(encounter), [encounter]);
 
     return (
-        <EntityListContainer fullScreen={fullScreen}>
+        <EntityListContainer fullScreen={fullScreen} short={short}>
             <EntityListWrapper fullScreen={fullScreen}>
                 {entitiesByInitiative.map(({ type, entity, key })=> {
                     let entityListItemProps = { key, type, ...entity };
@@ -41,7 +43,7 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScr
             </EntityListWrapper>
             <EntityListTopFade />
             <EntityListBottomFade />
-            <FancyFrame />
+            <FancyFrame forceUpdateProp={short} />
         </EntityListContainer>
     );
 };
