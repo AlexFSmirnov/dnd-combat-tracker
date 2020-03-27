@@ -54,7 +54,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isKeyboardMode, setIsKeyboardMode] = useState(true);
+    const [isKeyboardMode, setIsKeyboardMode] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
         if (!encounter) {
@@ -167,20 +167,22 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                 <MenuItem onClick={() => { resetEncounter(); closeMenu(); }} disabled={!!encounter && encounter.currentId === 1}>
                     <HighlightOff color="secondary" style={{ marginRight: '16px' }} /> Clear current encounter
                 </MenuItem>
-                <MenuItem onClick={toggleFullscreen}>
+                <MenuItem onClick={() => { toggleFullscreen(); closeMenu(); }}>
                     {isFullscreen ? <FullscreenExit color="secondary" style={{ marginRight: '16px' }} /> : <Fullscreen color="secondary" style={{ marginRight: '16px' }} />} Toggle fullscreen
                 </MenuItem>
-                <MenuItem onClick={toggleInputMode}>
-                    {isKeyboardMode ? <TouchApp color="secondary" style={{ marginRight: '16px' }} /> : <Keyboard color="secondary" style={{ marginRight: '16px' }} />} 
-                    {isKeyboardMode ? 'Enable touchscreen mode' : 'Enable keyboard mode'}
-                </MenuItem>
+                {small ? null : (
+                    <MenuItem onClick={toggleInputMode}>
+                        {isKeyboardMode ? <TouchApp color="secondary" style={{ marginRight: '16px' }} /> : <Keyboard color="secondary" style={{ marginRight: '16px' }} />} 
+                        {isKeyboardMode ? 'Enable touchscreen mode' : 'Enable keyboard mode'}
+                    </MenuItem>
+                )}
             </Menu>
             <RootComponentWrapper>
                 <ContentContainer small={small}>
                     {small
                         ? (
                             <React.Fragment>
-                                <EntityList fullScreen />
+                                <EntityList fullWidth fullScreen={isFullscreen} />
                                 <NotesContainer>
                                     <TextNotes fullWidth rows={isFullscreen ? '4' : '2'} />
                                 </NotesContainer>

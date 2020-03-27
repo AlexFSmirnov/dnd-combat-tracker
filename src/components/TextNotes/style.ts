@@ -11,7 +11,7 @@ export const TextNotesTextFieldWrapper = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% - 32px);
+    width: calc(100% - 24px);
     height: calc(100% - 32px);
-    margin: 16px;
+    margin: 12px 12px 20px 12px;
 `;

@@ -13,16 +13,17 @@ interface StateProps {
 }
 
 export interface EntityListProps {
+    fullWidth?: boolean;
     fullScreen?: boolean;
     short?: boolean;
 }
 
-const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScreen, short }) => {
+const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullWidth, fullScreen, short }) => {
     const entitiesByInitiative: EntityWithInitiative[] = useMemo(() => sortEntitiesWithInitiative(encounter), [encounter]);
 
     return (
-        <EntityListContainer fullScreen={fullScreen} short={short}>
-            <EntityListWrapper fullScreen={fullScreen}>
+        <EntityListContainer fullWidth={fullWidth} fullScreen={fullScreen} short={short}>
+            <EntityListWrapper>
                 {entitiesByInitiative.map(({ type, entity, key })=> {
                     let entityListItemProps = { key, entityKey: key, type, ...entity };
 
@@ -40,7 +41,7 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScr
             </EntityListWrapper>
             <EntityListTopFade />
             <EntityListBottomFade />
-            <FancyFrame forceUpdateProp={short} />
+            <FancyFrame forceUpdateProp={`${short}${fullWidth}${fullScreen}`} />
         </EntityListContainer>
     );
 };

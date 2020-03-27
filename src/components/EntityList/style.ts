@@ -1,18 +1,14 @@
 import styled, { css } from 'styled-components';
 
-interface WithFullScreen {
-    fullScreen?: boolean;
-}
-
 interface Multiheight {
     short?: boolean;
 }
 
-export const EntityListContainer = styled.div<WithFullScreen & Multiheight>`
+export const EntityListContainer = styled.div<{ fullWidth?: boolean, fullScreen?: boolean } & Multiheight>`
     position: relative;
-    ${props => props.fullScreen ? `
+    ${props => props.fullWidth ? `
         width: 98%;
-        height: calc(100% - 160px);
+        height: calc(100% - ${props.fullScreen ? 138 : 100}px);
     ` : `
         width: 50%;
         max-width: 600px;
@@ -20,7 +16,7 @@ export const EntityListContainer = styled.div<WithFullScreen & Multiheight>`
     `}
 `;
 
-export const EntityListWrapper = styled.div<WithFullScreen>`
+export const EntityListWrapper = styled.div`
     height: calc(100% - 32px);
     padding: 16px;
 
