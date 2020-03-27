@@ -70,8 +70,8 @@ const frameFactory = ({
         const handleResize = () => {
             const { current: container } = containerRef;
             if (container) {
-                setTopPartWidth(container.clientWidth - partSize * 2);
-                setSidePartHeight(container.clientHeight - partSize * 2);
+                setTopPartWidth(Math.max(container.clientWidth - partSize * 2, 0));
+                setSidePartHeight(Math.max(container.clientHeight - partSize * 2, 0));
             }
         };
 
@@ -84,7 +84,7 @@ const frameFactory = ({
                         <React.Fragment>
                             <FrameTopRowContainer>
                                 <FrameTopLeftCorner {...framePartProps} />
-                                <FrameTop {...framePartProps} width={topPartWidth}/>
+                                <FrameTop {...framePartProps} width={topPartWidth} />
                                 <FrameTopRightCorner {...framePartProps} />
                             </FrameTopRowContainer>
                             <FrameMiddleRowContainer>
@@ -94,7 +94,7 @@ const frameFactory = ({
                             </FrameMiddleRowContainer>
                             <FrameBottomRowContainer>
                                 <FrameBottomLeftCorner {...framePartProps} />
-                                <FrameBottom {...framePartProps} width={topPartWidth}/>
+                                <FrameBottom {...framePartProps} width={topPartWidth} />
                                 <FrameBottomRightCorner {...framePartProps} />
                             </FrameBottomRowContainer>
                         </React.Fragment>
@@ -110,6 +110,6 @@ const frameFactory = ({
 
 export const SquareFrame = frameFactory({ partSize: 32, Corner: SquareCorner, Top: SquareTop, Side: SquareSide });
 export const ScrollFrame = frameFactory({ partSize: 32, Corner: ScrollCorner, Top: ScrollTop, Side: ScrollSide });
-export const FancyFrame = frameFactory({ partSize: 128, Corner: FancyCorner, Top: FancyTop, Side: FancySide });
+export const FancyFrame = frameFactory({ partSize: 100, Corner: FancyCorner, Top: FancyTop, Side: FancySide });
 
 export default frameFactory;

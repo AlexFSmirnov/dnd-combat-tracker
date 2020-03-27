@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useTheme, useMediaQuery } from '@material-ui/core';
 import { DeathSaves } from '../../redux/types';
 import { updateCharacterById } from '../../redux/actions/characters';
 import { SquareFrame } from '../Frame';
@@ -13,8 +14,8 @@ import {
     SavesContainer,
     HitPointsContainer,
     HitPoints,
+    AvatarWrapper,
 } from './style';
-import { useTheme } from '@material-ui/core';
 
 export interface DispatchProps {
     updateCharacterById: (id: number, maxHitPoints: number) => void;
@@ -52,6 +53,7 @@ const EntityListItem: React.FC<EntityListItemProps & DispatchProps> = ({
     updateCharacterById,
 }) => {
     const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         if (type === EntityType.CHARACTER && id) {
@@ -60,20 +62,22 @@ const EntityListItem: React.FC<EntityListItemProps & DispatchProps> = ({
     }, [type, id, maxHitPoints, updateCharacterById]);
 
     return (
-        <EntityListItemScrollContainer>
+        <EntityListItemScrollContainer small={small}>
             <EntityListItemContainer>
-                <SquareFrame color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} backgroundColor="white" />
-                <EntityListItemWrapper>
-                    <Avatar src={avatarUrl} variant="rounded" />
-                    <NameAndSavesContainer>
-                        <Name>{name}</Name>
-                        <SavesContainer />
+                {small ? null : <SquareFrame color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} backgroundColor="white" />}
+                <EntityListItemWrapper small={small}>
+                    <AvatarWrapper small={small}>
+                        <Avatar src={avatarUrl} variant="rounded" />
+                    </AvatarWrapper>
+                    <NameAndSavesContainer small={small}>
+                        <Name small={small}>{name}</Name>
+                        <SavesContainer small={small} />
                     </NameAndSavesContainer>
-                    <HitPointsContainer>
-                        <HitPoints width={64}>{maxHitPoints - removedHitPoints}</HitPoints>
-                        <HitPoints width={16} style={{ color: 'grey' }}>/</HitPoints>
-                        <HitPoints width={64}>{maxHitPoints}</HitPoints>
-                        <HitPoints width={48} style={{ color: 'grey' }}>[{temporaryHitPoints}]</HitPoints>
+                    <HitPointsContainer small={small}>
+                        <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints - removedHitPoints}</HitPoints>
+                        <HitPoints small={small} width={small ? 16 : 12} style={{ color: 'grey' }}>/</HitPoints>
+                        <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints}</HitPoints>
+                        <HitPoints small={small} width={small ? 48 : 36} style={{ color: 'grey' }}>[{temporaryHitPoints}]</HitPoints>
                     </HitPointsContainer>
                 </EntityListItemWrapper>
             </EntityListItemContainer>

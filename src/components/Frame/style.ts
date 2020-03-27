@@ -43,7 +43,6 @@ export const TopRightCornerStyles = css<FramePartProps>`
 `;
 export const BottomLeftCornerStyles = css<FramePartProps>`
     ${CornerBaseStyles}
-    transform: rotateY(180deg);
     transform: rotateX(180deg);
 `;
 export const BottomRightCornerStyles = css<FramePartProps>`
