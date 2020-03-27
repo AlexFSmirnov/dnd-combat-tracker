@@ -34,7 +34,8 @@ export interface UpdateNPCProps {
 
 export const updateNPCSafe = (props: UpdateNPCProps) => (dispatch: Dispatch<any>, getState: () => State) => {
     const { npcs } = getState();
-    if (npcs && npcs.find(n => n.name === props.updatedNPC.name)) {
+    const { originalNPC, updatedNPC } = props;
+    if (npcs && (originalNPC.name !== updatedNPC.name) && npcs.find(n => n.name === updatedNPC.name)) {
         dispatch(openErrorDialog(<>NPC with this name already exists.</>));
     } else {
         dispatch(updateNPC(props));

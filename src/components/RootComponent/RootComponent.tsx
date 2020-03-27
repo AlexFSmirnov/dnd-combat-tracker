@@ -189,13 +189,11 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             </Dialog>
             <Dialog maxWidth="lg" fullWidth={!small} fullScreen={small} open={isNewEncounterDialogOpen}>
                 {small ? (
-                    <div style={{ height: '56px' }}>
-                        <Navbar color="primary">
-                            <Typography variant="h6">
-                                {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
-                            </Typography>
-                        </Navbar>
-                    </div>
+                    <Navbar color="primary">
+                        <Typography variant="h6">
+                            {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
+                        </Typography>
+                    </Navbar>
                 ) : (
                     <DialogTitle>
                         {isCreatingNewEncounter ? 'New encounter' : 'Edit encounter'}
