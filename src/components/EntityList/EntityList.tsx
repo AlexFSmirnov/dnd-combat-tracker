@@ -24,16 +24,13 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullScr
         <EntityListContainer fullScreen={fullScreen} short={short}>
             <EntityListWrapper fullScreen={fullScreen}>
                 {entitiesByInitiative.map(({ type, entity, key })=> {
-                    let entityListItemProps = { key, type, ...entity };
+                    let entityListItemProps = { key, entityKey: key, type, ...entity };
 
                     if (type === EntityType.NPC) {
-                        const removedHitPoints = 1;
-                        const temporaryHitPoints = 10;
-
                         entityListItemProps = {
                             ...entityListItemProps,
-                            removedHitPoints,
-                            temporaryHitPoints,
+                            removedHitPoints: (encounter && encounter.npcHitPoints[key] && encounter.npcHitPoints[key].removedHitPoints) || 0,
+                            temporaryHitPoints: (encounter && encounter.npcHitPoints[key] && encounter.npcHitPoints[key].temporaryHitPoints) || 0,
                         };
                     }
 

@@ -1,5 +1,5 @@
 import { Character, NPC } from '../../types';
-import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN } from './types';
+import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED } from './types';
 
 export const addCharacterToEncounter = (character: Character) => ({
     type: ENC_CHARACTER_ADDED,
@@ -45,4 +45,14 @@ export const nextTurn = () => ({
 
 export const prevTurn = () => ({
     type: ENC_PREV_TURN,
+});
+
+export const selectEntity = (key: number | null) => ({
+    type: ENC_ENTITY_SELECTED,
+    payload: { key },
+});
+
+export const updateNPCHitPoints = (key: number, update: number, temp = 0) => ({
+    type: ENC_NPC_HIT_POINTS_UPDATED,
+    payload: { key, update, temp },
 });

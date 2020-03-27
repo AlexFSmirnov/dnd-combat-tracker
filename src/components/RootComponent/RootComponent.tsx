@@ -9,7 +9,7 @@ import { Tooltip } from '../Tooltip';
 import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
-import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer, BackgroundImage } from './style';
+import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
 import { DividedList } from '../DividedList';
 import { SavedCharactersList } from '../SavedCharactersList';
 import { SavedNPCsList } from '../SavedNPCsList';
@@ -53,8 +53,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
-    const [backgroundImageUrl, setBackgroundImageUrl] = useState<string | undefined>(undefined);
-    const [backgroundImageOpacity, setBackgroundImageOpacity] = useState<number>(1);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
@@ -82,18 +80,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 
         return undefined;
     }, [encounter]);
-
-    useEffect(() => {
-        window.requestAnimationFrame(() => {
-            setBackgroundImageOpacity(0);
-            setTimeout(() => {
-                setBackgroundImageUrl(currentBackgroundUrl);
-                setTimeout(() => {
-                    window.requestAnimationFrame(() => setBackgroundImageOpacity(1));
-                }, 100);
-            }, 100);
-        });
-    }, [currentBackgroundUrl]);
 
     const toggleFullscreen = () => {
         if (isFullscreen) {
@@ -142,7 +128,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 
     return (
         <RootComponentContainer>
-            {small ? null : <AnimatedImage src={backgroundImageUrl} />}
+            {small ? null : <AnimatedImage src={currentBackgroundUrl} />}
             <Navbar>
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />

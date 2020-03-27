@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { useMediaQuery } from '@material-ui/core';
+import { connect } from 'react-redux';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
+import { State } from '../../redux/types';
+import { EncounterState } from '../../redux/reducers/encounter';
+import { updateNPCHitPoints } from '../../redux/actions/encounter';
 import { SquareFrame, ScrollFrame, FancyFrame } from '../Frame';
 import {
     NumpadFrameContainer,
@@ -42,17 +45,28 @@ const NumpadButton: React.FC<NumpadButtonProps> = ({ children, padding, color, o
     );
 };
 
+interface StateProps {
+    encounter: EncounterState | null;
+}
+
+interface DispatchProps {
+    updateNPCHitPoints: typeof updateNPCHitPoints;
+}
+
 export interface NumpadProps {
     short?: boolean;
 }
 
-const Numpad = ({ short }: NumpadProps) => {
+const Numpad = ({ short, encounter, updateNPCHitPoints }: NumpadProps & StateProps & DispatchProps) => {
     const [currentValue, setCurrentValue] = useState(0);
 
     const handleValueClick = () => setCurrentValue(0);
     const handleButtonClick = (number: number) => () => setCurrentValue(v => v * 10 + number);
     const handleSubmit = (sign: number) => () => {
-        console.log(`Submitted: ${sign * currentValue}`);
+        if (encounter && encounter.selectedEntityKey !== null) {
+            updateNPCHitPoints(encounter.selectedEntityKey, sign * currentValue);
+        }
+
         setCurrentValue(0);
     };
 
@@ -83,4 +97,8 @@ const Numpad = ({ short }: NumpadProps) => {
     );
 };
 
-export default Numpad;
+const mapStateToProps = (state: State) => ({
+    encounter: state.encounter || null,
+});
+
+export default connect(mapStateToProps, { updateNPCHitPoints })(Numpad);

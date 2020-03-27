@@ -10,6 +10,8 @@ export const ENC_RESET = 'ENC_RESET';
 export const ENC_CREATED = 'ENC_CREATED';
 export const ENC_NEXT_TURN = 'ENC_NEXT_TURN';
 export const ENC_PREV_TURN = 'ENC_PREV_TURN';
+export const ENC_ENTITY_SELECTED = 'ENC_ENTITY_SELECTED';
+export const ENC_NPC_HIT_POINTS_UPDATED = 'ENC_NPC_HIT_POINTS_UPDATED';
 
 export interface EncCharacterAddedAction { 
     type: typeof ENC_CHARACTER_ADDED;
@@ -63,6 +65,22 @@ export interface EncPrevTurnAction {
     type: typeof ENC_PREV_TURN;
 }
 
+export interface EncEntitySelectedAction {
+    type: typeof ENC_ENTITY_SELECTED;
+    payload: {
+        key: number | null;
+    };
+}
+
+export interface EncNPCHitPointsUpdatedAction {
+    type: typeof ENC_NPC_HIT_POINTS_UPDATED;
+    payload: {
+        key: number,
+        update: number,
+        temp: number,
+    };
+}
+
 export type EncounterActionType = EncCharacterAddedAction |
     EncNPCAddedAction |
     EncCharacterRemovedAction |
@@ -72,4 +90,6 @@ export type EncounterActionType = EncCharacterAddedAction |
     EncResetAction |
     EncCreatedAction |
     EncNextTurnAction |
-    EncPrevTurnAction;
+    EncPrevTurnAction |
+    EncEntitySelectedAction |
+    EncNPCHitPointsUpdatedAction;

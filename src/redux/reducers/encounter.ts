@@ -11,12 +11,15 @@ import {
     ENC_CREATED,
     ENC_NEXT_TURN,
     ENC_PREV_TURN,
+    ENC_ENTITY_SELECTED,
+    ENC_NPC_HIT_POINTS_UPDATED,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
     EncNPCRemovedAction,
     EncCharacterInitiativeUpdatedAction,
     EncNPCInitiativeUpdatedAction,
+    EncNPCHitPointsUpdatedAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
@@ -31,6 +34,11 @@ export interface EncounterState {
     currentTurnInitiative: number;
     currentTurnKey: number;
     currentRound: number;
+    selectedEntityKey: number | null;
+    npcHitPoints: Record<number, {
+        removedHitPoints: number;
+        temporaryHitPoints: number;
+    }>;
 }
 
 const initialState: EncounterState = {
@@ -41,6 +49,8 @@ const initialState: EncounterState = {
     currentTurnInitiative: INIT_INITIATIVE,
     currentTurnKey: 0,
     currentRound: 1,
+    selectedEntityKey: null,
+    npcHitPoints: {},
 };
 
 const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
@@ -76,17 +86,19 @@ const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
     if (npcNumber === 0) {
         return {
             ...state,
-            npcs: {...state.npcs, [state.currentId]: action.payload},
+            npcs: { ...state.npcs, [state.currentId]: action.payload },
             currentId: state.currentId + 1,
+            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 7 } },
         };
     } else {
         return {
             ...state,
-            npcs: {...state.npcs, [state.currentId]: {
+            npcs: { ...state.npcs, [state.currentId]: {
                 ...action.payload,
                 name: `${name} #${npcNumber + 1}`,
             }},
             currentId: state.currentId + 1,
+            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 7 } },
         };
     }
 };
@@ -281,6 +293,38 @@ const prevTurn = (state: EncounterState): EncounterState => {
     };
 };
 
+const updateNPCHitPoints = (state: EncounterState, action: EncNPCHitPointsUpdatedAction) => {
+    const { key, update, temp } = action.payload;
+    const { removedHitPoints, temporaryHitPoints } = state.npcHitPoints[key];
+
+    let newTemp = temporaryHitPoints;
+    if (temp) {
+        newTemp = Math.max(0, temporaryHitPoints + temp);
+    }
+    if (update < 0) {
+        newTemp = Math.max(0, temporaryHitPoints + update);
+    }
+
+    let newRemoved = removedHitPoints;
+    if (update >= 0) {
+        newRemoved = Math.max(0, removedHitPoints - update);
+    } else {
+        newRemoved = Math.max(0, removedHitPoints - update - Math.min(Math.abs(update), temporaryHitPoints));
+    }
+
+    return {
+        ...state,
+        selectedEntityKey: null,
+        npcHitPoints: {
+            ...state.npcHitPoints,
+            [key]: {
+                removedHitPoints: newRemoved,
+                temporaryHitPoints: newTemp,
+            },
+        },
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -315,6 +359,15 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
 
     case ENC_PREV_TURN:
         return prevTurn(state);
+
+    case ENC_ENTITY_SELECTED:
+        return {
+            ...state,
+            selectedEntityKey: action.payload.key,
+        };
+
+    case ENC_NPC_HIT_POINTS_UPDATED:
+        return updateNPCHitPoints(state, action);
 
     default:
         return state;

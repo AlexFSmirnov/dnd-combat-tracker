@@ -26,6 +26,7 @@ export const EntityListItemWrapper = styled.div<Multisize>`
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    user-select: none;
 
     ${props => props.small && `
         background-color: white;

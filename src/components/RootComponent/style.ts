@@ -6,25 +6,6 @@ export const RootComponentContainer = styled.div`
     height: 100%;
 `;
 
-export interface BackgroundImageProps {
-    src?: string;
-    opacity: number;
-}
-
-export const BackgroundImage = styled.div<BackgroundImageProps>`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: ${props => props.opacity};
-    transition: opacity 100ms;
-    background-image: url("${props => props.src}");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-`;
-
 export const RootComponentWrapper = styled.div`
     position: absolute;
     top: 56px;
