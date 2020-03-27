@@ -54,7 +54,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
                 setInitiative(savedInitiative.toString());
             }
         }
-    }, []);
+    }, []);  // eslint-disable-line
 
     const handleRemoveClick = () => removeNPCFromEncounter(npc);
     const handleAddClick = () => {

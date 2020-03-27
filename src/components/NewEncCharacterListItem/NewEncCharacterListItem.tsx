@@ -58,7 +58,7 @@ const NewEncCharacterListItem = ({
                 setInitiative(savedInitiative.toString());
             }
         }
-    }, []);
+    }, []);  // eslint-disable-line
 
     const handleCheckboxClick = () => {
         if (isCharacterSelected) {

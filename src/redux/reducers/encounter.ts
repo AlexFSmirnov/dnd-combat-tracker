@@ -209,7 +209,7 @@ const updateNPCInitiative = (state: EncounterState, action: EncNPCInitiativeUpda
 };
 
 const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
-    const { currentTurnInitiative, currentTurnKey, characters, npcs, initiativeById } = state;
+    const { currentTurnInitiative, characters, npcs, initiativeById } = state;
     if (currentTurnInitiative === INIT_INITIATIVE) {
         const findMaxInitiative = (maxInitiative: { key: number, initiative: number}, keyString: string) => {
             const key = parseInt(keyString);

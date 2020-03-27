@@ -48,7 +48,7 @@ const Notes = ({ short, imageNotes, currentKey, updateImgNotes }: NotesProps & S
         }
 
         setPrevKey(currentKey);
-    }, [currentKey]);
+    }, [currentKey]);  // eslint-disable-line
 
     const loadNote = () => {
         if (currentKey) {

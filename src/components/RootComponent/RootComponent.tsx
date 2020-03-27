@@ -1,24 +1,24 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useTheme, useMediaQuery, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
 import { People, Close, Send, MoreVert, Edit, HighlightOff, Fullscreen, FullscreenExit, TouchApp, Keyboard } from '@material-ui/icons';
 import { State } from '../../redux/types';
+import { EncounterState } from '../../redux/reducers/encounter';
+import { resetEncounter, createEncounter, nextTurn, prevTurn } from '../../redux/actions/encounter';
 import { closeErrorDialog } from '../../redux/actions/ui';
-import { Navbar } from '../Navbar';
-import { Tooltip } from '../Tooltip';
-import { EntityList } from '../EntityList';
-import { Numpad } from '../Numpad';
-import { Notes } from '../Notes';
-import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
+import { AnimatedImage } from '../AnimatedImage';
 import { DividedList } from '../DividedList';
-import { SavedCharactersList } from '../SavedCharactersList';
-import { SavedNPCsList } from '../SavedNPCsList';
+import { EntityList } from '../EntityList';
+import { Navbar } from '../Navbar';
 import { NewEncCharactersList } from '../NewEncCharactersList';
 import { NewEncNPCsList } from '../NewEncNPCsList';
-import { resetEncounter, createEncounter, nextTurn, prevTurn } from '../../redux/actions/encounter';
-import { EncounterState } from '../../redux/reducers/encounter';
+import { Notes } from '../Notes';
+import { Numpad } from '../Numpad';
+import { SavedCharactersList } from '../SavedCharactersList';
+import { SavedNPCsList } from '../SavedNPCsList';
 import { TextNotes } from '../TextNotes';
-import { AnimatedImage } from '../AnimatedImage';
+import { Tooltip } from '../Tooltip';
+import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
 
 export interface StateProps {
     isErrorDialogOpen: boolean;
