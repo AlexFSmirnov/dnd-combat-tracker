@@ -10,7 +10,6 @@ import { EntityList } from '../EntityList';
 import { Numpad } from '../Numpad';
 import { Notes } from '../Notes';
 import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer, BackgroundImage } from './style';
-import { NewEncounterDialogContent } from '../NewEncounterDialogContent';
 import { DividedList } from '../DividedList';
 import { SavedCharactersList } from '../SavedCharactersList';
 import { SavedNPCsList } from '../SavedNPCsList';
