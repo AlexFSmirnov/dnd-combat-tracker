@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTheme, useMediaQuery, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, Menu, MenuItem } from '@material-ui/core';
-import { People, Close, Send, MoreVert, Edit, HighlightOff, Fullscreen, FullscreenExit } from '@material-ui/icons';
+import { People, Close, Send, MoreVert, Edit, HighlightOff, Fullscreen, FullscreenExit, TouchApp, Keyboard } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { closeErrorDialog } from '../../redux/actions/ui';
 import { Navbar } from '../Navbar';
@@ -54,6 +54,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isKeyboardMode, setIsKeyboardMode] = useState(true);
 
     const canNewEncounterBeCreated = useMemo(() => {
         if (!encounter) {
@@ -99,11 +100,19 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => setMenuAnchorElement(event.currentTarget);
     const closeMenu = () => setMenuAnchorElement(null);
 
+    const toggleInputMode = () => {
+        if (isKeyboardMode) {
+            setIsKeyboardMode(false);
+        } else {
+            setIsKeyboardMode(true);
+        }
+    };
+
     const openCharacterDialog = () => setIsCharacterDialogOpen(true);
     const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
 
     const openNewEncounterDialog = () => {
-        if (!!encounter && encounter.currentId === 0) {
+        if (!!encounter && encounter.currentId === 1) {
             setIsCreatingNewEncounter(true);
         } else {
             setIsCreatingNewEncounter(false);
@@ -153,13 +162,17 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                     <People color="secondary" style={{ marginRight: '16px' }} /> Saved characters
                 </MenuItem>
                 <MenuItem onClick={() => { openNewEncounterDialog(); closeMenu(); }}>
-                    <Edit color="secondary" style={{ marginRight: '16px' }} /> {!!encounter && encounter.currentId === 0 ? 'Create new encounter' : 'Edit current encounter'}
+                    <Edit color="secondary" style={{ marginRight: '16px' }} /> {!!encounter && encounter.currentId === 1 ? 'Create new encounter' : 'Edit current encounter'}
                 </MenuItem>
-                <MenuItem onClick={() => { resetEncounter(); closeMenu(); }} disabled={!!encounter && encounter.currentId === 0}>
+                <MenuItem onClick={() => { resetEncounter(); closeMenu(); }} disabled={!!encounter && encounter.currentId === 1}>
                     <HighlightOff color="secondary" style={{ marginRight: '16px' }} /> Clear current encounter
                 </MenuItem>
-                <MenuItem onClick={() => { toggleFullscreen(); closeMenu(); }}>
+                <MenuItem onClick={toggleFullscreen}>
                     {isFullscreen ? <FullscreenExit color="secondary" style={{ marginRight: '16px' }} /> : <Fullscreen color="secondary" style={{ marginRight: '16px' }} />} Toggle fullscreen
+                </MenuItem>
+                <MenuItem onClick={toggleInputMode}>
+                    {isKeyboardMode ? <TouchApp color="secondary" style={{ marginRight: '16px' }} /> : <Keyboard color="secondary" style={{ marginRight: '16px' }} />} 
+                    {isKeyboardMode ? 'Enable touchscreen mode' : 'Enable keyboard mode'}
                 </MenuItem>
             </Menu>
             <RootComponentWrapper>
@@ -169,7 +182,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                             <React.Fragment>
                                 <EntityList fullScreen />
                                 <NotesContainer>
-                                    <TextNotes />
+                                    <TextNotes fullWidth rows="4" />
                                 </NotesContainer>
                             </React.Fragment>
                         )
@@ -177,10 +190,13 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                             <React.Fragment>
                                 <ListAndNumpadContainer>
                                     <EntityList short={short} />
-                                    <Numpad short={short} />
+                                    {isKeyboardMode ? null : <Numpad short={short} />}
                                 </ListAndNumpadContainer>
                                 <NotesContainer>
-                                    <Notes short={short} />
+                                    {isKeyboardMode
+                                        ? <TextNotes rows="8" />
+                                        : <Notes short={short} />
+                                    }
                                 </NotesContainer>
                             </React.Fragment>
                         )

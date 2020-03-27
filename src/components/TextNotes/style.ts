@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const TextNotesContainer = styled.div`
+export const TextNotesContainer = styled.div<{ rows: string; fullWidth?: boolean }>`
     position: relative;
-    width: 98vw;
-    height: 128px;
+    width: ${props => props.fullWidth ? '98vw' : '600px'};
+    height: ${props => parseInt(props.rows) * 19 + 33}px;
     margin-top: 8px;
 `;
 

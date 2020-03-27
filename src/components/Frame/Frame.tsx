@@ -23,7 +23,7 @@ export interface FrameProps {
     color?: string;
     backgroundColor?: string;
     className?: string;
-    forceUpdateProp?: boolean;
+    forceUpdateProp?: any;
 }
 
 export interface FrameFactoryProps {

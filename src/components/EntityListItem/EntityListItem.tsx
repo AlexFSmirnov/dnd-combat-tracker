@@ -91,9 +91,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     const handleMenuInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setMenuInputValue(e.target.value);
 
     const handleClick = () => {
-        if (!small && type === EntityType.NPC) {
-            selectEntity(isSelected ? null : entityKey);
-        }
+        selectEntity(isSelected ? null : entityKey);
     };
 
     const handleDamageClick = () => {
@@ -124,7 +122,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
         <EntityListItemScrollContainer small={small}>
             <EntityListItemContainer onClick={handleClick}>
                 {small ? null : <SquareFrame color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} backgroundColor={isSelected ? '#ddd' : 'white' } />}
-                <EntityListItemWrapper small={small}>
+                <EntityListItemWrapper small={small} isSelected={isSelected}>
                     <AvatarWrapper small={small}>
                         <Avatar src={avatarUrl} variant="rounded" />
                     </AvatarWrapper>

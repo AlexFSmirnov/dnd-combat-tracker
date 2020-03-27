@@ -18,7 +18,7 @@ export const EntityListItemContainer = styled.div`
     height: 100%;
 `;
 
-export const EntityListItemWrapper = styled.div<Multisize>`
+export const EntityListItemWrapper = styled.div<Multisize & { isSelected?: boolean }>`
     position: absolute;
     width: 100%;
     height: 100%;
@@ -29,10 +29,16 @@ export const EntityListItemWrapper = styled.div<Multisize>`
     user-select: none;
 
     ${props => props.small && `
-        background-color: white;
+        transition: 300ms;
         border-radius: 4px;
-        box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
         padding-left: 0;
+        ${props.isSelected ? `
+            background-color: #ddd;
+            box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.4), 0px 3px 4px 0px rgba(0,0,0,0.24), 0px 1px 8px 0px rgba(0,0,0,0.18);
+        ` : `
+            background-color: white;
+            box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+        `}
     `}
 `;
 

@@ -13,6 +13,7 @@ import {
     ENC_PREV_TURN,
     ENC_ENTITY_SELECTED,
     ENC_NPC_HIT_POINTS_UPDATED,
+    ENC_TEXT_NOTES_UPDATED,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
@@ -39,18 +40,20 @@ export interface EncounterState {
         removedHitPoints: number;
         temporaryHitPoints: number;
     }>;
+    textNotesByKey: Record<number, string>;
 }
 
 const initialState: EncounterState = {
     characters: {},
     npcs: {},
     initiativeById: {},
-    currentId: 0,
+    currentId: 1,
     currentTurnInitiative: INIT_INITIATIVE,
     currentTurnKey: 0,
     currentRound: 1,
     selectedEntityKey: null,
     npcHitPoints: {},
+    textNotesByKey: {},
 };
 
 const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
@@ -62,15 +65,17 @@ const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) =>
     if (characterNumber === 0) {
         return {
             ...state,
-            characters: {...state.characters, [state.currentId]: action.payload},
+            characters: { ...state.characters, [state.currentId]: action.payload },
             currentId: state.currentId + 1,
+            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} \n` }
         };
     } else {
         return {
             ...state,
-            characters: {...state.characters, [state.currentId]: {
+            characters: { ...state.characters, [state.currentId]: {
                 ...action.payload,
                 name: `${name} #${characterNumber + 1}`,
+                textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${characterNumber + 1} \n` }
             }},
             currentId: state.currentId + 1,
         };
@@ -88,7 +93,8 @@ const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
             ...state,
             npcs: { ...state.npcs, [state.currentId]: action.payload },
             currentId: state.currentId + 1,
-            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 7 } },
+            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
+            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} \n` }
         };
     } else {
         return {
@@ -98,7 +104,8 @@ const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
                 name: `${name} #${npcNumber + 1}`,
             }},
             currentId: state.currentId + 1,
-            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 7 } },
+            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
+            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${npcNumber + 1} \n` }
         };
     }
 };
@@ -368,6 +375,15 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
 
     case ENC_NPC_HIT_POINTS_UPDATED:
         return updateNPCHitPoints(state, action);
+
+    case ENC_TEXT_NOTES_UPDATED:
+        return {
+            ...state,
+            textNotesByKey: {
+                ...state.textNotesByKey,
+                [action.payload.key]:  action.payload.text,
+            },
+        };
 
     default:
         return state;

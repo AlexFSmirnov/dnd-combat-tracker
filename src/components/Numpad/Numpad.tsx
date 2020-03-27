@@ -63,7 +63,7 @@ const Numpad = ({ short, encounter, updateNPCHitPoints }: NumpadProps & StatePro
     const handleValueClick = () => setCurrentValue(0);
     const handleButtonClick = (number: number) => () => setCurrentValue(v => v * 10 + number);
     const handleSubmit = (sign: number) => () => {
-        if (encounter && encounter.selectedEntityKey !== null) {
+        if (encounter && encounter.selectedEntityKey && encounter.npcs[encounter.selectedEntityKey]) {
             updateNPCHitPoints(encounter.selectedEntityKey, sign * currentValue);
         }
 

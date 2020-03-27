@@ -17,13 +17,14 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, transitionDuration =
     useEffect(() => {
         const { current: firstImage } = firstImageRef;
         const { current: secondImage } = secondImageRef;
+        let timeoutId: number | null = null;
         if (firstImage && secondImage) {
             firstImage.style.transition = `opacity ${transitionDuration}ms`;
             secondImage.style.transition = `opacity ${transitionDuration}ms`;
             setSecondImageSrc(src);
             window.requestAnimationFrame(() => {
                 setOpacity(0);
-                setTimeout(() => {
+                timeoutId = setTimeout(() => {
                     firstImage.style.transition = '';
                     secondImage.style.transition = '';
                     setFirstImageSrc(src);
@@ -33,6 +34,12 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, transitionDuration =
                 }, transitionDuration);
             });
         }
+
+        return () => {
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+            }
+        };
     }, [src, transitionDuration]);
 
     return (
