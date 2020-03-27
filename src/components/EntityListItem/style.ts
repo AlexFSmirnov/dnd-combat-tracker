@@ -77,7 +77,7 @@ export const SavesContainer = styled.div<Multisize>`
     width: 100%;
 `;
 
-export const HitPointsContainer = styled.div<Multisize>`
+export const HitPointsContainer = styled.div<Multisize & { onClick?: (e: React.MouseEvent<HTMLElement>) => void }>`
     height: ${props => props.small ? '40' : '64'}px;
     width: ${props => props.small ? '144' : '200'}px;
     margin-left: auto;
@@ -85,6 +85,7 @@ export const HitPointsContainer = styled.div<Multisize>`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    ${props => props.onClick ? 'cursor: pointer;' : ''}
 `;
 
 export const HitPoints = styled.div<{ width: number } & Multisize>`
@@ -92,4 +93,21 @@ export const HitPoints = styled.div<{ width: number } & Multisize>`
     line-height: ${props => props.small ? '20' : '32'}px;
     width: ${props => props.width}px;
     text-align: center;
+`;
+
+export const HitPointMenuContentWrapper = styled.div<Multisize>`
+    padding: 0 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+`;
+
+export const HitPointMenuButtonWrapper = styled.div`
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    & > *:not(:last-child) {
+        margin-right: 8px;
+    }
 `;
