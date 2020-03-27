@@ -60,7 +60,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
         addNPCToEncounter(npc);
 
         const initiativeInt = parseInt(initiative);
-        if (isNaN(initiativeInt)) {
+        if (!isNaN(initiativeInt)) {
             updateNPCInitiative(npc, initiativeInt);
         }
     };
@@ -70,7 +70,7 @@ const NewEncNPCListItem = ({ npc, encounter, addNPCToEncounter, removeNPCFromEnc
         setInitiative(value);
 
         const initiativeInt = parseInt(value);
-        if (isNaN(initiativeInt)) {
+        if (!isNaN(initiativeInt)) {
             updateNPCInitiative(npc, initiativeInt);
         }
     };

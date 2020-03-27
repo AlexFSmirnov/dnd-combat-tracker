@@ -16,7 +16,7 @@ import { SavedCharactersList } from '../SavedCharactersList';
 import { SavedNPCsList } from '../SavedNPCsList';
 import { NewEncCharactersList } from '../NewEncCharactersList';
 import { NewEncNPCsList } from '../NewEncNPCsList';
-import { resetEncounter } from '../../redux/actions/encounter';
+import { resetEncounter, createEncounter, nextTurn, prevTurn } from '../../redux/actions/encounter';
 import { EncounterState } from '../../redux/reducers/encounter';
 import { TextNotes } from '../TextNotes';
 
@@ -30,9 +30,22 @@ export interface StateProps {
 export interface DispatchProps {
     closeErrorDialog: typeof closeErrorDialog;
     resetEncounter: typeof resetEncounter;
+    createEncounter: typeof createEncounter;
+    nextTurn: typeof nextTurn;
+    prevTurn: typeof prevTurn;
 }
 
-const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackgroundUrl, isErrorDialogOpen, errorMessage, encounter, closeErrorDialog, resetEncounter }) => {
+const RootComponent: React.FC<StateProps & DispatchProps> = ({
+    currentBackgroundUrl,
+    isErrorDialogOpen,
+    errorMessage,
+    encounter,
+    closeErrorDialog,
+    resetEncounter,
+    createEncounter,
+    nextTurn,
+    prevTurn,
+}) => {
     const theme = useTheme();
     const small = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -78,17 +91,31 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
         }
     };
 
+    const handleNewEncounterOk = () => {
+        closeNewEncounterDialog();
+        if (isCreatingNewEncounter) {
+            createEncounter();
+            setIsCreatingNewEncounter(false);
+        }
+    };
+
     return (
         <RootComponentContainer backgroundImageSrc={currentBackgroundUrl}>
             <Navbar>
-                <Tooltip title="Previous turn">
-                    <IconButton color="inherit">
-                        <Send style={{ transform: 'rotateY(180deg)', opacity: '0.5' }} />
-                    </IconButton>
-                </Tooltip>
-                <Button variant="contained" color="primary" endIcon={<Send />}>Next turn</Button>
-                <div style={{ flex: '1' }} />
-                <Typography variant="h5">Round 1</Typography>
+                {encounter ? (
+                    <React.Fragment>
+                        <Tooltip title="Previous turn">
+                            <IconButton color="inherit" onClick={prevTurn}>
+                                <Send style={{ transform: 'rotateY(180deg)', opacity: '0.7' }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Button variant="contained" color="primary" endIcon={<Send />} onClick={nextTurn}>Next turn</Button>
+                        <div style={{ flex: '1' }} />
+                        <Typography variant="h5">Round {encounter.currentRound}</Typography>
+                    </React.Fragment>
+                ) : (
+                    <div style={{ flex: '1' }} />
+                )}
                 <IconButton color="inherit" onClick={openMenu}>
                     <MoreVert />
                 </IconButton>
@@ -153,7 +180,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({ currentBackground
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={handleNewEncounterCancel}>Cancel</Button>
-                    <Button disabled={!canNewEncounterBeCreated} variant="contained" color="primary" onClick={closeNewEncounterDialog}>OK</Button>
+                    <Button disabled={!canNewEncounterBeCreated} variant="contained" color="primary" onClick={handleNewEncounterOk}>OK</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={isErrorDialogOpen} onClose={closeErrorDialog}>
@@ -176,4 +203,4 @@ const mapStateToProps = (state: State) => ({
     encounter: state.encounter || null,
 });
 
-export default connect(mapStateToProps, { closeErrorDialog, resetEncounter })(RootComponent);
+export default connect(mapStateToProps, { closeErrorDialog, resetEncounter, createEncounter, nextTurn, prevTurn })(RootComponent);

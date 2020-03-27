@@ -8,6 +8,9 @@ import {
     ENC_CHARACTER_INITIATIVE_UPDATED,
     ENC_NPC_INITIATIVE_UPDATED,
     ENC_RESET,
+    ENC_CREATED,
+    ENC_NEXT_TURN,
+    ENC_PREV_TURN,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
@@ -16,12 +19,18 @@ import {
     EncNPCInitiativeUpdatedAction,
     EncounterActionType,
 } from '../actions/encounter/types';
+import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
+
+const INIT_INITIATIVE = 1000000;
 
 export interface EncounterState {
     characters: Record<number, Character>;
     npcs: Record<number, NPC>;
     initiativeById: Record<number, number>;
     currentId: number;
+    currentTurnInitiative: number;
+    currentTurnKey: number;
+    currentRound: number;
 }
 
 const initialState: EncounterState = {
@@ -29,6 +38,9 @@ const initialState: EncounterState = {
     npcs: {},
     initiativeById: {},
     currentId: 0,
+    currentTurnInitiative: INIT_INITIATIVE,
+    currentTurnKey: 0,
+    currentRound: 1,
 };
 
 const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
@@ -87,8 +99,8 @@ const removeCharacter = (state: EncounterState, action: EncCharacterRemovedActio
 
     return {
         ...state,
-        characters: omit(characterKey, state.characters),
-        initiativeById: omit(characterKey, state.initiativeById),
+        characters: (omit(characterKey, state.characters) || {}) as Record<number, Character>,
+        initiativeById: (omit(characterKey, state.initiativeById) || {}) as Record<number, number>,
     };
 };
 
@@ -131,7 +143,7 @@ const removeNPC = (state: EncounterState, action: EncNPCRemovedAction) => {
 
     return {
         ...state,
-        npcs: omit(latestAddedNpc.key, npcs),
+        npcs: omit(latestAddedNpc.key, npcs) || {},
     };
 };
 
@@ -174,28 +186,129 @@ const updateNPCInitiative = (state: EncounterState, action: EncNPCInitiativeUpda
     };
 };
 
+const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
+    const { currentTurnInitiative, currentTurnKey, characters, npcs, initiativeById } = state;
+    if (currentTurnInitiative === INIT_INITIATIVE) {
+        const findMaxInitiative = (maxInitiative: { key: number, initiative: number}, keyString: string) => {
+            const key = parseInt(keyString);
+            const initiative = initiativeById[key];
+            if (initiative && initiative > maxInitiative.initiative) {
+                return { key, initiative };
+            }
+
+            return maxInitiative;
+        };
+        const { key: characterKey, initiative: characterInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(characters));
+        const { key: npcKey, initiative: npcInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(npcs));
+
+        if (npcInitiative === -100 && characterInitiative === -100) {
+            return state;
+        }
+
+        return {
+            ...state,
+            currentTurnInitiative: Math.max(characterInitiative, npcInitiative),
+            currentTurnKey: characterInitiative > npcInitiative ? characterKey : npcKey,
+        };
+    } else {
+        const findWithInitiative = (keyString: string) => {
+            const key = parseInt(keyString);
+            const initiative = initiativeById[key];
+            if (initiative && initiative === currentTurnInitiative) {
+                return true;
+            }
+            return false;
+        };
+
+        const keyWithInitiative = parseInt(keys(characters).find(findWithInitiative) as string) || parseInt(keys(npcs).find(findWithInitiative) as string);
+        if (!isNaN(keyWithInitiative)) {
+            return {
+                ...state,
+                currentTurnKey: keyWithInitiative,
+            };
+        }
+
+        return recalculateCurrentTurnKey({
+            ...state,
+            currentTurnInitiative: INIT_INITIATIVE,
+        });
+    }
+};
+
+const nextTurn = (state: EncounterState): EncounterState => {
+    const sortedEntities = sortEntitiesWithInitiative(state);
+    if (sortedEntities.length < 2) {
+        return state;
+    }
+
+    const { initiative, key } = sortedEntities[1];
+    let round = state.currentRound;
+    if (initiative > sortedEntities[0].initiative) {
+        round += 1;
+    }
+
+    return {
+        ...state,
+        currentTurnInitiative: initiative,
+        currentTurnKey: key,
+        currentRound: round,
+    };
+};
+
+const prevTurn = (state: EncounterState): EncounterState => {
+    const sortedEntities = sortEntitiesWithInitiative(state);
+    if (sortedEntities.length < 2) {
+        return state;
+    }
+
+    const { initiative, key } = sortedEntities[sortedEntities.length - 1];
+    let round = state.currentRound;
+    if (initiative < sortedEntities[0].initiative) {
+        round -= 1;
+    }
+
+    return {
+        ...state,
+        currentTurnInitiative: initiative,
+        currentTurnKey: key,
+        currentRound: round,
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
-        return addCharacter(state, action);
+        return recalculateCurrentTurnKey(addCharacter(state, action));
 
     case ENC_NPC_ADDED:
-        return addNPC(state, action);
+        return recalculateCurrentTurnKey(addNPC(state, action));
 
     case ENC_CHARACTER_REMOVED:
-        return removeCharacter(state, action);
+        return recalculateCurrentTurnKey(removeCharacter(state, action));
 
     case ENC_NPC_REMOVED:
-        return removeNPC(state, action);
+        return recalculateCurrentTurnKey(removeNPC(state, action));
 
     case ENC_CHARACTER_INITIATIVE_UPDATED:
-        return updateCharacterInitiative(state, action);
+        return recalculateCurrentTurnKey(updateCharacterInitiative(state, action));
     
     case ENC_NPC_INITIATIVE_UPDATED:
-        return updateNPCInitiative(state, action);
+        return recalculateCurrentTurnKey(updateNPCInitiative(state, action));
 
     case ENC_RESET:
         return initialState;
+
+    case ENC_CREATED:
+        return recalculateCurrentTurnKey({
+            ...state,
+            currentTurnInitiative: INIT_INITIATIVE,
+        });
+    
+    case ENC_NEXT_TURN:
+        return nextTurn(state);
+
+    case ENC_PREV_TURN:
+        return prevTurn(state);
 
     default:
         return state;

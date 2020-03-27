@@ -7,6 +7,9 @@ export const ENC_NPC_REMOVED = 'ENC_NPC_REMOVED';
 export const ENC_CHARACTER_INITIATIVE_UPDATED = 'ENC_CHARACTER_INITIATIVE_UPDATED';
 export const ENC_NPC_INITIATIVE_UPDATED = 'ENC_NPC_INITIATIVE_UPDATED';
 export const ENC_RESET = 'ENC_RESET';
+export const ENC_CREATED = 'ENC_CREATED';
+export const ENC_NEXT_TURN = 'ENC_NEXT_TURN';
+export const ENC_PREV_TURN = 'ENC_PREV_TURN';
 
 export interface EncCharacterAddedAction { 
     type: typeof ENC_CHARACTER_ADDED;
@@ -48,10 +51,25 @@ export interface EncResetAction {
     type: typeof ENC_RESET;
 }
 
+export interface EncCreatedAction {
+    type: typeof ENC_CREATED;
+}
+
+export interface EncNextTurnAction {
+    type: typeof ENC_NEXT_TURN;
+}
+
+export interface EncPrevTurnAction {
+    type: typeof ENC_PREV_TURN;
+}
+
 export type EncounterActionType = EncCharacterAddedAction |
     EncNPCAddedAction |
     EncCharacterRemovedAction |
     EncNPCRemovedAction |
     EncCharacterInitiativeUpdatedAction |
     EncNPCInitiativeUpdatedAction |
-    EncResetAction;
+    EncResetAction |
+    EncCreatedAction |
+    EncNextTurnAction |
+    EncPrevTurnAction;
