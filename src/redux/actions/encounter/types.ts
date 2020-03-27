@@ -13,6 +13,7 @@ export const ENC_PREV_TURN = 'ENC_PREV_TURN';
 export const ENC_ENTITY_SELECTED = 'ENC_ENTITY_SELECTED';
 export const ENC_NPC_HIT_POINTS_UPDATED = 'ENC_NPC_HIT_POINTS_UPDATED';
 export const ENC_TEXT_NOTES_UPDATED = 'ENC_TEXT_NOTES_UPDATED';
+export const ENC_IMG_NOTES_UPDATED = 'ENC_IMG_NOTES_UPDATED';
 
 export interface EncCharacterAddedAction { 
     type: typeof ENC_CHARACTER_ADDED;
@@ -90,6 +91,14 @@ export interface EncTextNotesUpdateAction {
     };
 }
 
+export interface EncImgNotesUpdatedAction {
+    type: typeof ENC_IMG_NOTES_UPDATED;
+    payload: {
+        key: number,
+        img: string,
+    },
+}
+
 export type EncounterActionType = EncCharacterAddedAction |
     EncNPCAddedAction |
     EncCharacterRemovedAction |
@@ -102,4 +111,5 @@ export type EncounterActionType = EncCharacterAddedAction |
     EncPrevTurnAction |
     EncEntitySelectedAction |
     EncNPCHitPointsUpdatedAction |
-    EncTextNotesUpdateAction;
+    EncTextNotesUpdateAction |
+    EncImgNotesUpdatedAction;

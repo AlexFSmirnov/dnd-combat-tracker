@@ -14,6 +14,7 @@ import {
     ENC_ENTITY_SELECTED,
     ENC_NPC_HIT_POINTS_UPDATED,
     ENC_TEXT_NOTES_UPDATED,
+    ENC_IMG_NOTES_UPDATED,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
@@ -41,6 +42,7 @@ export interface EncounterState {
         temporaryHitPoints: number;
     }>;
     textNotesByKey: Record<number, string>;
+    imgNotesByKey: Record<number, string>;
 }
 
 const initialState: EncounterState = {
@@ -54,6 +56,7 @@ const initialState: EncounterState = {
     selectedEntityKey: null,
     npcHitPoints: {},
     textNotesByKey: {},
+    imgNotesByKey: {},
 };
 
 const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
@@ -385,7 +388,16 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
             ...state,
             textNotesByKey: {
                 ...state.textNotesByKey,
-                [action.payload.key]:  action.payload.text,
+                [action.payload.key]: action.payload.text,
+            },
+        };
+
+    case ENC_IMG_NOTES_UPDATED:
+        return {
+            ...state,
+            imgNotesByKey: {
+                ...state.imgNotesByKey,
+                [action.payload.key]: action.payload.img,
             },
         };
 

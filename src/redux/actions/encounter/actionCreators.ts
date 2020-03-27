@@ -1,5 +1,5 @@
 import { Character, NPC } from '../../types';
-import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED, ENC_TEXT_NOTES_UPDATED } from './types';
+import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED, ENC_TEXT_NOTES_UPDATED, ENC_IMG_NOTES_UPDATED } from './types';
 
 export const addCharacterToEncounter = (character: Character) => ({
     type: ENC_CHARACTER_ADDED,
@@ -60,4 +60,9 @@ export const updateNPCHitPoints = (key: number, update: number, temp = 0) => ({
 export const updateTextNotes = (key: number, text: string) => ({
     type: ENC_TEXT_NOTES_UPDATED,
     payload: { key, text },
+});
+
+export const updateImgNotes = (key: number, img: string) => ({
+    type: ENC_IMG_NOTES_UPDATED,
+    payload: { key, img },
 });

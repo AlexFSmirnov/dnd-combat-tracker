@@ -6,7 +6,7 @@ export interface AnimatedImageProps {
     transitionDuration?: number;
 }
 
-const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, transitionDuration = 100 }) => {
+const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, transitionDuration = 200 }) => {
     const firstImageRef = useRef<HTMLDivElement | null>(null);
     const secondImageRef = useRef<HTMLDivElement | null>(null);
 
