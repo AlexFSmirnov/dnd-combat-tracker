@@ -34,7 +34,7 @@ export const DividedListSublistContainer = styled.div<Multisize>`
         width: 100%;
     ` : `
         width: 500px;
-        min-width: 500px;
+        min-width: 300px;
         max-width: 500px;
         margin: 16px;
     `}

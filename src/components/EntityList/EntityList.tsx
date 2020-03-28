@@ -47,7 +47,6 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullWid
                     );
                 })}
             </EntityListWrapper>
-            <EntityListTopFade />
             <EntityListBottomFade />
             <FancyFrame forceUpdateProp={`${short}${fullWidth}${fullScreen}`} />
         </EntityListContainer>
