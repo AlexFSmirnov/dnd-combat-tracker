@@ -5,4 +5,5 @@ export const NavbarContainer = styled.div`
     flex-grow: 1;
     height: 56px;
     min-height: 56px;
+    max-height: 56px;
 `;

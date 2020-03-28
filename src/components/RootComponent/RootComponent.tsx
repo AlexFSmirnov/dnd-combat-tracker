@@ -24,6 +24,7 @@ export interface StateProps {
     isErrorDialogOpen: boolean;
     errorMessage?: JSX.Element;
     encounter: EncounterState | null;
+    hasBeyondCharacters?: boolean;
 }
 
 export interface DispatchProps {
@@ -38,6 +39,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     isErrorDialogOpen,
     errorMessage,
     encounter,
+    hasBeyondCharacters,
     closeErrorDialog,
     resetEncounter,
     createEncounter,
@@ -215,12 +217,14 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                         Saved Characters
                     </Typography>
                 </Navbar>
-                <DividedList titles={['D&D Beyond Characters', 'Custom Characters']} marginBottomOverride="60">
-                    <SavedBeyondCharactersList />
-                    <SavedCustomCharactersList />
-                </DividedList>
+                <DialogContent>
+                    <DividedList titles={(hasBeyondCharacters || navigator.onLine) ? ['D&D Beyond Characters', 'Custom Characters'] : ['Custom Characters']} marginBottomOverride="60">
+                        {(hasBeyondCharacters || navigator.onLine) ? <SavedBeyondCharactersList /> : null}
+                        <SavedCustomCharactersList />
+                    </DividedList>
+                </DialogContent>
             </Dialog>
-            <Dialog maxWidth="lg" fullWidth={!small} fullScreen={small} open={isNewEncounterDialogOpen}>
+            <Dialog maxWidth="lg" fullScreen={small} open={isNewEncounterDialogOpen}>
                 {small ? (
                     <Navbar color="primary">
                         <Typography variant="h6" style={{ marginLeft: '16px' }}>
@@ -233,8 +237,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                     </DialogTitle>
                 )}
                 <DialogContent>
-                    <DividedList titles={['D&D Beyond Characters', 'Custom Characters']}>
-                        <NewEncBeyondCharactersList />
+                    <DividedList titles={hasBeyondCharacters ? ['D&D Beyond Characters', 'Custom Characters'] : ['Custom Characters']}>
+                        {hasBeyondCharacters ? <NewEncBeyondCharactersList /> : null}
                         <NewEncCustomCharactersList />
                     </DividedList>
                 </DialogContent>
@@ -260,6 +264,7 @@ const mapStateToProps = (state: State) => ({
     isErrorDialogOpen: (state.ui && state.ui.errorDialog.isOpen) || false,
     errorMessage: state.ui && state.ui.errorDialog.message,
     encounter: state.encounter || null,
+    hasBeyondCharacters: !!(state.beyondCharacters && state.beyondCharacters.length > 0),
 });
 
 export default connect(mapStateToProps, { closeErrorDialog, resetEncounter, createEncounter, nextTurn, prevTurn })(RootComponent);

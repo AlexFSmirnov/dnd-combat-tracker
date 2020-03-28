@@ -24,7 +24,7 @@ export const DividedListWrapper = styled.div<Multisize>`
     ${props => props.small && 'flex-direction: column;'}
 `;
 
-export const DividedListSublistContainer = styled.div<{ small?: boolean }>`
+export const DividedListSublistContainer = styled.div<Multisize>`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -32,11 +32,10 @@ export const DividedListSublistContainer = styled.div<{ small?: boolean }>`
 
     ${props => props.small ? `
         width: 100%;
-        padding: 16px;
-        box-sizing: border-box;
     ` : `
-        width: 40%;
-        max-width: 600px;
+        width: 500px;
+        min-width: 500px;
+        max-width: 500px;
         margin: 16px;
     `}
 

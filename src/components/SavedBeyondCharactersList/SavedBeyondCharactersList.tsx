@@ -4,6 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, T
 import { addBeyondCharacterByUrl } from '../../redux/actions/beyondCharacters';
 import { State, BeyondCharacter } from '../../redux/types';
 import { SavedBeyondCharacterListItem } from '../SavedBeyondCharacterListItem';
+import { Tooltip } from '../Tooltip';
 
 interface StateProps {
     characters: BeyondCharacter[];
@@ -37,7 +38,11 @@ const SavedBeyondCharactersList: React.FC<StateProps & DispatchProps> = ({ chara
                 ? characters.map(c => <SavedBeyondCharacterListItem key={c.id} character={c} />)
                 : <Typography variant="body1">Currently you don't have any imported D&D Beyond characters.</Typography>
             }
-            <Button variant="outlined" color="primary" onClick={openNewCharacterDialog}>Add character</Button>
+            <Tooltip title={navigator.onLine ? '' : 'You have to be online to import a new D&D Beyond character'}>
+                <span>
+                    <Button variant="outlined" color="primary" onClick={openNewCharacterDialog} disabled={!navigator.onLine}>Add character</Button>
+                </span>
+            </Tooltip>
             <Dialog open={isNewCharacterDialogOpen} onClose={closeNewCharacterDialog}>
                 <DialogTitle>Import new character from D&D Beyond</DialogTitle>
                 <DialogContent>
