@@ -39,5 +39,5 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Improve dialog animation performance 
   - [ ] Smarter CORS handling
   - [x] Fullscreen support (mobile only?) 
-  - [ ] Smarter tracking for whether fullscreen is on
-  - [ ] dynamic updated for concentration tracker based on the round separator
+  - [x] Smarter tracking for whether fullscreen is on
+  - [x] dynamic updated for concentration tracker based on the round separator
