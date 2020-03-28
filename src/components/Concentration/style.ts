@@ -28,7 +28,7 @@ export const ConcentrationLetter = styled.div<{ color: string, selected?: boolea
     line-height: ${props => props.small ? 20 : 24}px;
 
     color: ${props => props.selected ? 'white' : props.color};
-    background-color: ${props => props.selected ? props.color : 'white'};
+    background-color: ${props => props.selected ? props.color : 'rgba(0, 0, 0, 0)'};
 
     transition: 100ms;
     cursor: pointer;

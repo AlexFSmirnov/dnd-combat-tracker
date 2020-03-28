@@ -9,6 +9,7 @@ export interface EntityWithInitiative {
     entity: Character | NPC;
     key: number;
     dividerAfterThisOne?: boolean;
+    isCurrentlyFirst?: boolean;
 }
 
 export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => {
@@ -67,6 +68,8 @@ export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => 
     while (sortedByInitiative[0].key !== currentTurnKey) {
         sortedByInitiative.push(sortedByInitiative.shift() as EntityWithInitiative);
     }
+
+    sortedByInitiative[0].isCurrentlyFirst = true;
 
     return sortedByInitiative;
 };

@@ -16,6 +16,7 @@ import {
     ENC_TEXT_NOTES_UPDATED,
     ENC_IMG_NOTES_UPDATED,
     ENC_ENTITY_CONCENTRATION_UPDATED,
+    ENC_CHARACTER_UPDATED_BY_ID,
     EncCharacterAddedAction,
     EncNPCAddedAction,
     EncCharacterRemovedAction,
@@ -24,6 +25,7 @@ import {
     EncNPCInitiativeUpdatedAction,
     EncNPCHitPointsUpdatedAction,
     EncEntityConcentrationUpdatedAction,
+    EncCharacterUpdatedByIdAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
@@ -361,6 +363,24 @@ const updateEntityConcentration = (state: EncounterState, action: EncEntityConce
     };
 };
 
+const updateCharacterById = (state: EncounterState, action: EncCharacterUpdatedByIdAction) => {
+    const { id, character: updatedCharacter } = action.payload;
+    const { characters } = state;
+    const key = keys(characters).find(k => characters[parseInt(k)].id === id);
+
+    if (!key || isNaN(parseInt(key))) {
+        return state;
+    }
+
+    return {
+        ...state,
+        characters: {
+            ...characters,
+            [parseInt(key)]: updatedCharacter,
+        },
+    };
+};
+
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
     case ENC_CHARACTER_ADDED:
@@ -425,6 +445,9 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
 
     case ENC_ENTITY_CONCENTRATION_UPDATED:
         return updateEntityConcentration(state, action);
+
+    case ENC_CHARACTER_UPDATED_BY_ID:
+        return updateCharacterById(state, action);
 
     default:
         return state;

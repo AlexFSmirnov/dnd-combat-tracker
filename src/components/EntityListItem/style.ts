@@ -81,8 +81,24 @@ export const Name = styled.div<Multisize>`
 `;
 
 export const SavesContainer = styled.div<Multisize>`
-    height: 20px;
-    width: 100%;
+    height: 24px;
+    width: ${props => props.small ? '100%' : '150px'};
+    display: flex;
+    justify-content: space-between;
+`;
+
+export interface SaveItemProps {
+    fail?: boolean;
+    enabled?: boolean;
+}
+
+export const SaveItem = styled.div<SaveItemProps>`
+    height: 18px;
+    width: 18px;
+    border: 2px solid ${props => props.fail ? '#b13735' : '#08a300'};
+    border-radius: 50%;
+    box-sizing: border-box;
+    ${props => props.enabled && `background-color: ${props.fail ? '#b13735' : '#08a300'};`}
 `;
 
 export const HitPointsContainer = styled.div<Multisize & { onClick?: (e: React.MouseEvent<HTMLElement>) => void }>`

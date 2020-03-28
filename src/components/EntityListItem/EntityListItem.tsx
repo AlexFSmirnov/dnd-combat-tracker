@@ -5,6 +5,7 @@ import { useTheme, useMediaQuery, Menu, TextField, Button, ThemeProvider, create
 import { DeathSaves, State } from '../../redux/types';
 import { updateCharacterById } from '../../redux/actions/characters';
 import { selectEntity, updateNPCHitPoints } from '../../redux/actions/encounter';
+import { Concentration } from '../Concentration';
 import { SquareFrame } from '../Frame';
 import {
     EntityListItemScrollContainer,
@@ -14,13 +15,13 @@ import {
     Avatar,
     Name,
     SavesContainer,
+    SaveItem,
     HitPointsContainer,
     HitPoints,
     AvatarWrapper,
     HitPointMenuContentWrapper,
     HitPointMenuButtonWrapper,
 } from './style';
-import { Concentration } from '../Concentration';
 
 interface StateProps {
     selectedKey: number | null;
@@ -51,6 +52,7 @@ export interface EntityListItemProps {
     id?: number;
     avatarUrl?: string;
     isInCurrentTurn?: boolean;
+    isCurrentlyFirst?: boolean;
 }
 
 const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps> = ({
@@ -64,6 +66,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     deathSaves,
     avatarUrl,
     isInCurrentTurn,
+    isCurrentlyFirst,
     color,
     selectedKey,
     updateCharacterById,
@@ -82,7 +85,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
         if (type === EntityType.CHARACTER && id) {
             updateCharacterById(id, maxHitPoints);
         }
-    }, [type, id, maxHitPoints, updateCharacterById]);
+    }, [type, id, maxHitPoints, updateCharacterById, isSelected, isCurrentlyFirst]);
 
     const openMenu = (e: React.MouseEvent<HTMLElement>) => setMenuAnchorElement(e.currentTarget);
     const closeMenu = () => {
@@ -131,7 +134,19 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
                     </AvatarWrapper>
                     <NameAndSavesContainer small={small} onClick={handleClick}>
                         <Name small={small}>{name}</Name>
-                        <SavesContainer small={small} />
+                        <SavesContainer small={small}>
+                            {deathSaves && !small && (removedHitPoints >= maxHitPoints) ? (
+                                <React.Fragment>
+                                    <SaveItem fail enabled={(deathSaves.failCount && deathSaves.failCount > 0) || false} />
+                                    <SaveItem fail enabled={(deathSaves.failCount && deathSaves.failCount > 1) || false} />
+                                    <SaveItem fail enabled={(deathSaves.failCount && deathSaves.failCount > 2) || false} />
+                                    <div style={{ width: '16px' }} />
+                                    <SaveItem enabled={(deathSaves.successCount && deathSaves.successCount > 0) || false} />
+                                    <SaveItem enabled={(deathSaves.successCount && deathSaves.successCount > 1) || false} />
+                                    <SaveItem enabled={(deathSaves.successCount && deathSaves.successCount > 2) || false} />
+                                </React.Fragment>
+                            ) : null}
+                        </SavesContainer>
                     </NameAndSavesContainer>
                     <div style={{ flex: 1 }} />
                     <Concentration entityKey={entityKey} color={color} small={small} isInCurrentTurn={isInCurrentTurn} />

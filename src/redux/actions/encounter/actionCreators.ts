@@ -1,5 +1,5 @@
 import { Character, NPC } from '../../types';
-import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED, ENC_TEXT_NOTES_UPDATED, ENC_IMG_NOTES_UPDATED, ENC_ENTITY_CONCENTRATION_UPDATED } from './types';
+import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED, ENC_TEXT_NOTES_UPDATED, ENC_IMG_NOTES_UPDATED, ENC_ENTITY_CONCENTRATION_UPDATED, ENC_CHARACTER_UPDATED_BY_ID } from './types';
 
 export const addCharacterToEncounter = (character: Character) => ({
     type: ENC_CHARACTER_ADDED,
@@ -70,4 +70,9 @@ export const updateImgNotes = (key: number, img: string) => ({
 export const updateEntityConcentration = (key: number, since: number | null) => ({
     type: ENC_ENTITY_CONCENTRATION_UPDATED,
     payload: { key, since },
+});
+
+export const updateEncounterCharacterById = (id: number, character: Character) => ({
+    type: ENC_CHARACTER_UPDATED_BY_ID,
+    payload: { id, character },
 });

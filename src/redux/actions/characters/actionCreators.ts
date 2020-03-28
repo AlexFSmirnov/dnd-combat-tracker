@@ -3,6 +3,7 @@ import { getCharacterStats } from '../../../helpers/dnd-beyond';
 import { getRequestErrorMessage } from '../../../helpers/getRequestErrorMessage';
 import { State, Character } from '../../types';
 import { openErrorDialog } from '../ui';
+import { updateEncounterCharacterById } from '../encounter';
 import { CHARACTER_ADDED, CHARACTER_UPDATED, CHARACTER_MAX_HP_UPDATED, CHARACTER_FETCH_FAILED, CHARACTER_ALREADY_EXISTS, CHARACTER_DELETED } from './types';
 
 export const addCharacterByUrl = (url: string, maxHitPoints: number) => (dispatch: Dispatch<any>, getState: () => State) => {
@@ -32,6 +33,7 @@ export const updateCharacterById = (id: number, maxHitPoints: number) => (dispat
                     const { id, name, removedHitPoints, temporaryHitPoints, deathSaves, avatarUrl, themeColor, defaultBackdrop } = stats;
                     const updatedCharacter: Character = { id, name, maxHitPoints, removedHitPoints, temporaryHitPoints, deathSaves, avatarUrl, themeColor, defaultBackdrop, };
                     dispatch(updateCharacter(id, updatedCharacter));
+                    dispatch(updateEncounterCharacterById(id, updatedCharacter));
                 },
                 (error) => dispatch(openErrorDialog(getRequestErrorMessage(error))),
             );
