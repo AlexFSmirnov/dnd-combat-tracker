@@ -19,11 +19,11 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
     - [x] Touch notepad 
     - [x] Keyboard notepad 
   - [x] Breakpoints
-- [ ] UI for the admin panel 
+- [x] UI for the admin panel 
   - [x] Player character list 
   - [x] NPC list 
     - [x] New NPC dialog
-    - [ ] Default avatars
+    - [x] Default avatars
   - [x] Breakpoints
 - [x] Data storage 
   - [x] Player Characters 
@@ -39,3 +39,5 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
   - [ ] Improve dialog animation performance 
   - [ ] Smarter CORS handling
   - [x] Fullscreen support (mobile only?) 
+  - [x] Smarter tracking for whether fullscreen is on
+  - [x] dynamic updated for concentration tracker based on the round separator
