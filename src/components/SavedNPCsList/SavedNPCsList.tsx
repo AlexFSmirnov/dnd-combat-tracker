@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
+import { useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button, Typography } from '@material-ui/core';
 import { addNPCSafe } from '../../redux/actions/npcs';
 import { State, NPC } from '../../redux/types';
 import { SavedNPCListItem } from '../SavedNPCListItem';
+import { DefaultAvatarList, AvatarWrapper, Avatar } from './style';
+
+const defaultAvatarSources = [
+    `${process.env.PUBLIC_URL}/zombie.png`,
+    `${process.env.PUBLIC_URL}/skeleton.png`,
+    `${process.env.PUBLIC_URL}/devil.png`,
+    `${process.env.PUBLIC_URL}/commoner.png`,
+    `${process.env.PUBLIC_URL}/wizard.png`,
+];
 
 interface StateProps {
     npcs: NPC[];
@@ -18,6 +27,8 @@ export interface SavedCharactersListProps {
 }
 
 const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & DispatchProps> = ({ small, npcs, addNPCSafe }) => {
+    const theme = useTheme();
+
     const [isNewNPCDialogOpen, setIsNewNPCDialogOpen] = useState<boolean>(false);
     const [NPCName, setNPCName] = useState<string>('');
     const [NPCMaxHitPoints, setNPCMaxHitPoints] = useState<string>('');
@@ -58,6 +69,13 @@ const SavedCharactersList: React.FC<SavedCharactersListProps & StateProps & Disp
                     <TextField autoFocus fullWidth margin="dense" label="NPC Name" value={NPCName} onChange={handleNPCNameChange} />
                     <TextField fullWidth type="number" margin="dense" label="Max Hit Points" value={NPCMaxHitPoints} onChange={handleMaxHitPointsChange} />
                     <TextField fullWidth margin="dense" label="Avatar URL" value={NPCAvatarUrl} onChange={handleNpcAvatarUrlChange} />
+                    <DefaultAvatarList>
+                        {defaultAvatarSources.map(src => (
+                            <AvatarWrapper key={src} onClick={() => setNPCAvatarUrl(src)} color={theme.palette.primary.main} selected={src === NPCAvatarUrl}>
+                                <Avatar src={src} variant="rounded" />
+                            </AvatarWrapper>
+                        ))}
+                    </DefaultAvatarList>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeNewNPCDialog} color="secondary">Cancel</Button>
