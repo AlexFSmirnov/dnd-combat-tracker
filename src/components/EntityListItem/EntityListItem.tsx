@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { isNaN } from 'lodash/fp';
 import { useTheme, useMediaQuery, Menu, TextField, Button, ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { DeathSaves, State } from '../../redux/types';
-import { updateCharacterById } from '../../redux/actions/characters';
-import { selectEntity, updateNPCHitPoints } from '../../redux/actions/encounter';
+import { updateBeyondCharacterById } from '../../redux/actions/beyondCharacters';
+import { selectEntity, updateCustomCharacterHitPoints } from '../../redux/actions/encounter';
 import { Concentration } from '../Concentration';
 import { SquareFrame } from '../Frame';
 import {
@@ -28,14 +28,14 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    updateCharacterById: (id: number, maxHitPoints: number) => void;
+    updateBeyondCharacterById: (id: number, maxHitPoints: number) => void;
     selectEntity: typeof selectEntity;
-    updateNPCHitPoints: typeof updateNPCHitPoints;
+    updateCustomCharacterHitPoints: typeof updateCustomCharacterHitPoints;
 }
 
 export enum EntityType {
-    CHARACTER = 'CHARACTER',
-    NPC = 'NPC',
+    BeyondCharacter = 'BEYOND_CHARACTER',
+    CustomCharacter = 'CUSTOM_CHARACTER',
 }
 
 export interface EntityListItemProps {
@@ -69,9 +69,9 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     isCurrentlyFirst,
     color,
     selectedKey,
-    updateCharacterById,
+    updateBeyondCharacterById,
     selectEntity,
-    updateNPCHitPoints,
+    updateCustomCharacterHitPoints,
 }) => {
     const theme = useTheme();
     const small = useMediaQuery(theme.breakpoints.down('sm'));
@@ -82,10 +82,10 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     const isSelected = useMemo(() => selectedKey === entityKey, [selectedKey, entityKey]);
 
     useEffect(() => {
-        if (type === EntityType.CHARACTER && id) {
-            updateCharacterById(id, maxHitPoints);
+        if (type === EntityType.BeyondCharacter && id) {
+            updateBeyondCharacterById(id, maxHitPoints);
         }
-    }, [type, id, maxHitPoints, updateCharacterById, isSelected, isCurrentlyFirst]);
+    }, [type, id, maxHitPoints, updateBeyondCharacterById, isSelected, isCurrentlyFirst]);
 
     const openMenu = (e: React.MouseEvent<HTMLElement>) => setMenuAnchorElement(e.currentTarget);
     const closeMenu = () => {
@@ -103,7 +103,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     const handleDamageClick = () => {
         const updateHP = parseInt(menuInputValue);
         if (!isNaN(updateHP)) {
-            updateNPCHitPoints(entityKey, -Math.abs(updateHP), 0);
+            updateCustomCharacterHitPoints(entityKey, -Math.abs(updateHP), 0);
         }
         closeMenu();
     };
@@ -111,7 +111,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     const handleTempClick = () => {
         const updateHP = parseInt(menuInputValue);
         if (!isNaN(updateHP)) {
-            updateNPCHitPoints(entityKey, 0, Math.abs(updateHP));
+            updateCustomCharacterHitPoints(entityKey, 0, Math.abs(updateHP));
         }
         closeMenu();
     };
@@ -119,7 +119,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     const handleHealClick = () => {
         const updateHP = parseInt(menuInputValue);
         if (!isNaN(updateHP)) {
-            updateNPCHitPoints(entityKey, Math.abs(updateHP), 0);
+            updateCustomCharacterHitPoints(entityKey, Math.abs(updateHP), 0);
         }
         closeMenu();
     };
@@ -150,7 +150,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
                     </NameAndSavesContainer>
                     <div style={{ flex: 1 }} />
                     <Concentration entityKey={entityKey} color={color} small={small} isInCurrentTurn={isInCurrentTurn} />
-                    <HitPointsContainer small={small} onClick={type === EntityType.NPC ? openMenu : undefined}>
+                    <HitPointsContainer small={small} onClick={type === EntityType.CustomCharacter ? openMenu : undefined}>
                         <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints - removedHitPoints}</HitPoints>
                         <HitPoints small={small} width={small ? 16 : 12} style={{ color: 'grey' }}>/</HitPoints>
                         <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints}</HitPoints>
@@ -178,4 +178,4 @@ const mapStateToProps = (state: State) => ({
     selectedKey: (state.encounter && state.encounter.selectedEntityKey !== null) ? state.encounter.selectedEntityKey : null,
 });
 
-export default connect(mapStateToProps, { updateCharacterById, selectEntity, updateNPCHitPoints })(EntityListItem);
+export default connect(mapStateToProps, { updateBeyondCharacterById, selectEntity, updateCustomCharacterHitPoints })(EntityListItem);

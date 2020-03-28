@@ -10,12 +10,12 @@ import { AnimatedImage } from '../AnimatedImage';
 import { DividedList } from '../DividedList';
 import { EntityList } from '../EntityList';
 import { Navbar } from '../Navbar';
-import { NewEncCharactersList } from '../NewEncCharactersList';
-import { NewEncNPCsList } from '../NewEncNPCsList';
+import { NewEncBeyondCharactersList } from '../NewEncBeyondCharactersList';
+import { NewEncCustomCharactersList } from '../NewEncCustomCharactersList';
 import { Notes } from '../Notes';
 import { Numpad } from '../Numpad';
-import { SavedCharactersList } from '../SavedCharactersList';
-import { SavedNPCsList } from '../SavedNPCsList';
+import { SavedBeyondCharactersList } from '../SavedBeyondCharactersList';
+import { SavedCustomCharactersList } from '../SavedCustomCharactersList';
 import { TextNotes } from '../TextNotes';
 import { Tooltip } from '../Tooltip';
 import { RootComponentContainer, RootComponentWrapper, ContentContainer, ListAndNumpadContainer, NotesContainer } from './style';
@@ -50,8 +50,9 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
 
     const [menuAnchorElement, setMenuAnchorElement] = useState<HTMLElement | null>(null);
 
-    const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
+    const [isSavedCharactersDialogOpen, setIsSavedCharactersDialogOpen] = useState(false);
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
+
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
     const [isKeyboardMode, setIsKeyboardMode] = useState(false);
 
@@ -60,11 +61,11 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             return false;
         }
 
-        const { characters, npcs, initiativeById } = encounter;
-        const allCharactersHaveInitiative = Object.keys(characters).every(id => Object.keys(initiativeById).some(id2 => id === id2));
-        const allNpcsHaveInitiative = Object.keys(npcs).every(id => Object.keys(initiativeById).some(id2 => id === id2));
+        const { beyondCharacters, customCharacters, initiativeById } = encounter;
+        const allBeyondHaveInitiative = Object.keys(beyondCharacters).every(id => Object.keys(initiativeById).some(id2 => id === id2));
+        const allCustomHaveInitiative = Object.keys(customCharacters).every(id => Object.keys(initiativeById).some(id2 => id === id2));
 
-        return allCharactersHaveInitiative && allNpcsHaveInitiative && Object.keys(initiativeById).length > 0;
+        return allBeyondHaveInitiative && allCustomHaveInitiative && Object.keys(initiativeById).length > 0;
     }, [encounter]);
 
     const currentBackgroundUrl = useMemo(() => {
@@ -72,10 +73,10 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             return undefined;
         }
 
-        const { characters, currentTurnKey } = encounter;
-        const currentCharacter = characters[currentTurnKey];
-        if (currentCharacter) {
-            return currentCharacter.defaultBackdrop.largeBackdropAvatarUrl;
+        const { beyondCharacters, currentTurnKey } = encounter;
+        const currentBeyondCharacter = beyondCharacters[currentTurnKey];
+        if (currentBeyondCharacter) {
+            return currentBeyondCharacter.defaultBackdrop.largeBackdropAvatarUrl;
         }
 
         return undefined;
@@ -106,8 +107,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
         }
     };
 
-    const openCharacterDialog = () => setIsCharacterDialogOpen(true);
-    const closeCharacterDialog = () => setIsCharacterDialogOpen(false);
+    const openBeyondCharacterDialog = () => setIsSavedCharactersDialogOpen(true);
+    const closeBeyondCharacterDialog = () => setIsSavedCharactersDialogOpen(false);
 
     const openNewEncounterDialog = () => {
         if (!!encounter && encounter.currentId === 1) {
@@ -158,7 +159,7 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                 )}
             </Navbar>
             <Menu anchorEl={menuAnchorElement} open={!!menuAnchorElement} onClose={closeMenu}>
-                <MenuItem onClick={() => { openCharacterDialog(); closeMenu(); }}>
+                <MenuItem onClick={() => { openBeyondCharacterDialog(); closeMenu(); }}>
                     <People color="secondary" style={{ marginRight: '16px' }} /> Saved characters
                 </MenuItem>
                 <MenuItem onClick={() => { openNewEncounterDialog(); closeMenu(); }}>
@@ -205,18 +206,18 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                     }
                 </ContentContainer>
             </RootComponentWrapper>
-            <Dialog fullScreen open={isCharacterDialogOpen} onClose={closeCharacterDialog}>
+            <Dialog fullScreen open={isSavedCharactersDialogOpen} onClose={closeBeyondCharacterDialog}>
                 <Navbar color="primary">
-                    <IconButton color="inherit" onClick={closeCharacterDialog}>
+                    <IconButton color="inherit" onClick={closeBeyondCharacterDialog}>
                         <Close />
                     </IconButton>
                     <Typography variant="h6" style={{ marginLeft: '8px' }}>
                         Saved Characters
                     </Typography>
                 </Navbar>
-                <DividedList titles={['Characters', 'NPCs']} marginBottomOverride="60">
-                    <SavedCharactersList />
-                    <SavedNPCsList />
+                <DividedList titles={['D&D Beyond Characters', 'Custom Characters']} marginBottomOverride="60">
+                    <SavedBeyondCharactersList />
+                    <SavedCustomCharactersList />
                 </DividedList>
             </Dialog>
             <Dialog maxWidth="lg" fullWidth={!small} fullScreen={small} open={isNewEncounterDialogOpen}>
@@ -232,9 +233,9 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
                     </DialogTitle>
                 )}
                 <DialogContent>
-                    <DividedList titles={['Characters', 'NPCs']}>
-                        <NewEncCharactersList />
-                        <NewEncNPCsList />
+                    <DividedList titles={['D&D Beyond Characters', 'Custom Characters']}>
+                        <NewEncBeyondCharactersList />
+                        <NewEncCustomCharactersList />
                     </DividedList>
                 </DialogContent>
                 <DialogActions>

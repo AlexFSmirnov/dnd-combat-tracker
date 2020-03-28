@@ -1,34 +1,51 @@
-import { Character, NPC } from '../../types';
-import { ENC_CHARACTER_ADDED, ENC_NPC_ADDED, ENC_CHARACTER_REMOVED, ENC_NPC_REMOVED, ENC_RESET, ENC_CHARACTER_INITIATIVE_UPDATED, ENC_NPC_INITIATIVE_UPDATED, ENC_CREATED, ENC_NEXT_TURN, ENC_PREV_TURN, ENC_ENTITY_SELECTED, ENC_NPC_HIT_POINTS_UPDATED, ENC_TEXT_NOTES_UPDATED, ENC_IMG_NOTES_UPDATED, ENC_ENTITY_CONCENTRATION_UPDATED, ENC_CHARACTER_UPDATED_BY_ID } from './types';
+import { BeyondCharacter, CustomCharacter } from '../../types';
+import {
+    ENC_BEYOND_CHARACTER_ADDED,
+    ENC_CUSTOM_CHARACTER_ADDED,
+    ENC_BEYOND_CHARACTER_REMOVED,
+    ENC_CUSTOM_CHARACTER_REMOVED,
+    ENC_RESET,
+    ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED,
+    ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED,
+    ENC_CREATED,
+    ENC_NEXT_TURN,
+    ENC_PREV_TURN,
+    ENC_ENTITY_SELECTED,
+    ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED,
+    ENC_TEXT_NOTES_UPDATED,
+    ENC_IMG_NOTES_UPDATED,
+    ENC_ENTITY_CONCENTRATION_UPDATED,
+    ENC_BEYOND_CHARACTER_UPDATED_BY_ID,
+} from './types';
 
-export const addCharacterToEncounter = (character: Character) => ({
-    type: ENC_CHARACTER_ADDED,
+export const addBeyondCharacterToEncounter = (character: BeyondCharacter) => ({
+    type: ENC_BEYOND_CHARACTER_ADDED,
     payload: character,
 });
 
-export const addNPCToEncounter = (npc: NPC) => ({
-    type: ENC_NPC_ADDED,
-    payload: npc,
-});
-
-export const removeCharacterFromEncounter = (character: Character) => ({
-    type: ENC_CHARACTER_REMOVED,
+export const addCustomCharacterToEncounter = (character: CustomCharacter) => ({
+    type: ENC_CUSTOM_CHARACTER_ADDED,
     payload: character,
 });
 
-export const removeNPCFromEncounter = (npc: NPC) => ({
-    type: ENC_NPC_REMOVED,
-    payload: npc,
+export const removeBeyondCharacterFromEncounter = (character: BeyondCharacter) => ({
+    type: ENC_BEYOND_CHARACTER_REMOVED,
+    payload: character,
 });
 
-export const updateCharacterInitiative = (character: Character, initiative: number) => ({
-    type: ENC_CHARACTER_INITIATIVE_UPDATED,
+export const removeCustomCharacterFromEncounter = (character: CustomCharacter) => ({
+    type: ENC_CUSTOM_CHARACTER_REMOVED,
+    payload: character,
+});
+
+export const updateBeyondCharacterInitiative = (character: BeyondCharacter, initiative: number) => ({
+    type: ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED,
     payload: { character, initiative },
 });
 
-export const updateNPCInitiative = (npc: NPC, initiative: number) => ({
-    type: ENC_NPC_INITIATIVE_UPDATED,
-    payload: { npc, initiative },
+export const updateCustomCharacterInitiative = (character: CustomCharacter, initiative: number) => ({
+    type: ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED,
+    payload: { character, initiative },
 });
 
 export const resetEncounter = () => ({
@@ -52,8 +69,8 @@ export const selectEntity = (key: number | null) => ({
     payload: { key },
 });
 
-export const updateNPCHitPoints = (key: number, update: number, temp = 0) => ({
-    type: ENC_NPC_HIT_POINTS_UPDATED,
+export const updateCustomCharacterHitPoints = (key: number, update: number, temp = 0) => ({
+    type: ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED,
     payload: { key, update, temp },
 });
 
@@ -72,7 +89,7 @@ export const updateEntityConcentration = (key: number, since: number | null) => 
     payload: { key, since },
 });
 
-export const updateEncounterCharacterById = (id: number, character: Character) => ({
-    type: ENC_CHARACTER_UPDATED_BY_ID,
+export const updateEncounterBeyondCharacterById = (id: number, character: BeyondCharacter) => ({
+    type: ENC_BEYOND_CHARACTER_UPDATED_BY_ID,
     payload: { id, character },
 });

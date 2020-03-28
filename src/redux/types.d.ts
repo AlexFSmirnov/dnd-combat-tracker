@@ -1,16 +1,22 @@
-import { CharactersState } from './reducers/characters';
-import { NPCState } from './reducers/npcs';
+import { BeyondCharactersState } from './reducers/beyondCharacters';
+import { CustomCharactersState } from './reducers/customCharacters';
 import { UIState } from './reducers/ui';
 import { EncounterState } from './reducers/encounter';
 
 export interface State {
-    characters?: CharactersState;
-    npcs?: NPCState;
+    beyondCharacters?: BeyondCharactersState;
+    customCharacters?: CustomCharactersState;
     ui?: UIState;
     encounter?: EncounterState;
 }
 
-export interface Character {
+export interface CustomCharacter {
+    name: string;
+    maxHitPoints: number;
+    avatarUrl?: string;
+}
+
+export interface BeyondCharacter {
     id: number;
     name: string;
 
@@ -40,10 +46,4 @@ export interface DefaultBackdrop {
     smallBackdropAvatarUrl: string;
     largeBackdropAvatarUrl: string;
     thumbnailBackdropAvatarUrl: string;
-}
-
-export interface NPC {
-    name: string;
-    maxHitPoints: number;
-    avatarUrl?: string;
 }

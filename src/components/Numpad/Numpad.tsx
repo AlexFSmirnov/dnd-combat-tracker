@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
 import { State } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
-import { updateNPCHitPoints } from '../../redux/actions/encounter';
+import { updateCustomCharacterHitPoints } from '../../redux/actions/encounter';
 import { SquareFrame, ScrollFrame, FancyFrame } from '../Frame';
 import {
     NumpadFrameContainer,
@@ -50,21 +50,21 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    updateNPCHitPoints: typeof updateNPCHitPoints;
+    updateCustomCharacterHitPoints: typeof updateCustomCharacterHitPoints;
 }
 
 export interface NumpadProps {
     short?: boolean;
 }
 
-const Numpad = ({ short, encounter, updateNPCHitPoints }: NumpadProps & StateProps & DispatchProps) => {
+const Numpad = ({ short, encounter, updateCustomCharacterHitPoints }: NumpadProps & StateProps & DispatchProps) => {
     const [currentValue, setCurrentValue] = useState(0);
 
     const handleValueClick = () => setCurrentValue(0);
     const handleButtonClick = (number: number) => () => setCurrentValue(v => v * 10 + number);
     const handleSubmit = (sign: number) => () => {
-        if (encounter && encounter.selectedEntityKey && encounter.npcs[encounter.selectedEntityKey]) {
-            updateNPCHitPoints(encounter.selectedEntityKey, sign * currentValue);
+        if (encounter && encounter.selectedEntityKey && encounter.customCharacters[encounter.selectedEntityKey]) {
+            updateCustomCharacterHitPoints(encounter.selectedEntityKey, sign * currentValue);
         }
 
         setCurrentValue(0);
@@ -101,4 +101,4 @@ const mapStateToProps = (state: State) => ({
     encounter: state.encounter || null,
 });
 
-export default connect(mapStateToProps, { updateNPCHitPoints })(Numpad);
+export default connect(mapStateToProps, { updateCustomCharacterHitPoints })(Numpad);

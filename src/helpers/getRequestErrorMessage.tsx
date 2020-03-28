@@ -24,13 +24,7 @@ export const getRequestErrorMessage = (error: AxiosError): JSX.Element => {
             );
 
         default:
-            return (
-                <React.Fragment>
-                    Request was unsuccessful. Most likely your browser is blocking Cross-Origin requests (CORS). Make sure you have a CORS-allowing extension installed or disable D&D Beyond integration in settings.
-                    <br /><br />
-                    Error message: {error.message}
-                </React.Fragment>
-            );
+            break;
         }
     }
 

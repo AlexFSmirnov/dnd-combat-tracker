@@ -1,12 +1,12 @@
 import { keys } from 'lodash/fp';
 import { EncounterState } from '../redux/reducers/encounter';
-import { Character, NPC } from '../redux/types';
+import { BeyondCharacter, CustomCharacter } from '../redux/types';
 import { EntityType } from '../components/EntityListItem';
 
 export interface EntityWithInitiative {
     initiative: number;
     type: EntityType;
-    entity: Character | NPC;
+    entity: BeyondCharacter | CustomCharacter;
     key: number;
     dividerAfterThisOne?: boolean;
     isCurrentlyFirst?: boolean;
@@ -17,32 +17,32 @@ export const sortEntitiesWithInitiative = (encounter: EncounterState | null) => 
         return [];
     }
 
-    const { characters, npcs, initiativeById, currentTurnKey } = encounter;
+    const { beyondCharacters, customCharacters, initiativeById, currentTurnKey } = encounter;
 
     let sortedByInitiative: EntityWithInitiative[] = [];
 
-    keys(characters).forEach(keyString => {
+    keys(beyondCharacters).forEach(keyString => {
         const key = parseInt(keyString);
         const initiative = initiativeById[key];
         if (initiative) {
             sortedByInitiative.push({
                 initiative,
-                type: EntityType.CHARACTER,
-                entity: characters[key],
+                type: EntityType.BeyondCharacter,
+                entity: beyondCharacters[key],
                 key,
                 dividerAfterThisOne: false,
             });
         }
     });
 
-    keys(npcs).forEach(keyString => {
+    keys(customCharacters).forEach(keyString => {
         const key = parseInt(keyString);
         const initiative = initiativeById[key];
         if (initiative) {
             sortedByInitiative.push({
                 initiative,
-                type: EntityType.NPC,
-                entity: npcs[key],
+                type: EntityType.CustomCharacter,
+                entity: customCharacters[key],
                 key,
                 dividerAfterThisOne: false,
             });

@@ -1,31 +1,31 @@
 import { omit, findKey, filter, reduce, keys } from 'lodash/fp';
-import { Character, NPC } from '../types';
+import { BeyondCharacter, CustomCharacter } from '../types';
 import {
-    ENC_CHARACTER_ADDED,
-    ENC_NPC_ADDED,
-    ENC_CHARACTER_REMOVED,
-    ENC_NPC_REMOVED,
-    ENC_CHARACTER_INITIATIVE_UPDATED,
-    ENC_NPC_INITIATIVE_UPDATED,
+    ENC_BEYOND_CHARACTER_ADDED,
+    ENC_CUSTOM_CHARACTER_ADDED,
+    ENC_BEYOND_CHARACTER_REMOVED,
+    ENC_CUSTOM_CHARACTER_REMOVED,
+    ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED,
+    ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED,
     ENC_RESET,
     ENC_CREATED,
     ENC_NEXT_TURN,
     ENC_PREV_TURN,
     ENC_ENTITY_SELECTED,
-    ENC_NPC_HIT_POINTS_UPDATED,
+    ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED,
     ENC_TEXT_NOTES_UPDATED,
     ENC_IMG_NOTES_UPDATED,
     ENC_ENTITY_CONCENTRATION_UPDATED,
-    ENC_CHARACTER_UPDATED_BY_ID,
-    EncCharacterAddedAction,
-    EncNPCAddedAction,
-    EncCharacterRemovedAction,
-    EncNPCRemovedAction,
-    EncCharacterInitiativeUpdatedAction,
-    EncNPCInitiativeUpdatedAction,
-    EncNPCHitPointsUpdatedAction,
+    ENC_BEYOND_CHARACTER_UPDATED_BY_ID,
+    EncBeyondCharacterAddedAction,
+    EncCustomCharacterAddedAction,
+    EncBeyondCharacterRemovedAction,
+    EncCustomCharacterRemovedAction,
+    EncBeyondCharacterInitiativeUpdatedAction,
+    EncCustomCharacterInitiativeUpdatedAction,
+    EncCustomCharacterHitPointsUpdatedAction,
     EncEntityConcentrationUpdatedAction,
-    EncCharacterUpdatedByIdAction,
+    EncBeyondCharacterUpdatedByIdAction,
     EncounterActionType,
 } from '../actions/encounter/types';
 import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
@@ -33,15 +33,15 @@ import { sortEntitiesWithInitiative } from '../../helpers/sortEntitiesWithInitia
 const INIT_INITIATIVE = 1000000;
 
 export interface EncounterState {
-    characters: Record<number, Character>;
-    npcs: Record<number, NPC>;
+    beyondCharacters: Record<number, BeyondCharacter>;
+    customCharacters: Record<number, CustomCharacter>;
     initiativeById: Record<number, number>;
     currentId: number;
     currentTurnInitiative: number;
     currentTurnKey: number;
     currentRound: number;
     selectedEntityKey: number | null;
-    npcHitPoints: Record<number, {
+    customCharacterHitPoints: Record<number, {
         removedHitPoints: number;
         temporaryHitPoints: number;
     }>;
@@ -51,109 +51,115 @@ export interface EncounterState {
 }
 
 const initialState: EncounterState = {
-    characters: {},
-    npcs: {},
+    beyondCharacters: {},
+    customCharacters: {},
     initiativeById: {},
     currentId: 1,
     currentTurnInitiative: INIT_INITIATIVE,
     currentTurnKey: 0,
     currentRound: 1,
     selectedEntityKey: null,
-    npcHitPoints: {},
+    customCharacterHitPoints: {},
     textNotesByKey: {},
     imgNotesByKey: {},
     concentrationByKey: {},
 };
 
-const addCharacter = (state: EncounterState, action: EncCharacterAddedAction) => {
-    const { characters } = state;
+const addBeyondCharacter = (state: EncounterState, action: EncBeyondCharacterAddedAction) => {
+    const { beyondCharacters } = state;
     const { payload: { name } } = action;
 
-    const characterNumber = filter(key => characters[parseInt(key)].name.startsWith(name), keys(characters)).length;
+    const characterNumber = filter(key => beyondCharacters[parseInt(key)].name.startsWith(name), keys(beyondCharacters)).length;
 
     if (characterNumber === 0) {
         return {
             ...state,
-            characters: { ...state.characters, [state.currentId]: action.payload },
             currentId: state.currentId + 1,
+            beyondCharacters: { ...state.beyondCharacters, [state.currentId]: action.payload },
             textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} \n` }
         };
     } else {
         return {
             ...state,
-            characters: { ...state.characters, [state.currentId]: {
-                ...action.payload,
-                name: `${name} #${characterNumber + 1}`,
-                textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${characterNumber + 1} \n` }
-            }},
             currentId: state.currentId + 1,
+            beyondCharacters: {
+                ...state.beyondCharacters,
+                [state.currentId]: {
+                    ...action.payload,
+                    name: `${name} #${characterNumber + 1}`,
+                },
+            },
+            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${characterNumber + 1} \n` }
         };
     }
 };
 
-const addNPC = (state: EncounterState, action: EncNPCAddedAction) => {
-    const { npcs } = state;
+const addCustomCharacter = (state: EncounterState, action: EncCustomCharacterAddedAction) => {
+    const { customCharacters } = state;
     const { payload: { name } } = action;
 
-    const npcNumber = filter(key => npcs[parseInt(key)].name.startsWith(name), keys(npcs)).length;
+    const characterNumber = filter(key => customCharacters[parseInt(key)].name.startsWith(name), keys(customCharacters)).length;
 
-    if (npcNumber === 0) {
+    if (characterNumber === 0) {
         return {
             ...state,
-            npcs: { ...state.npcs, [state.currentId]: action.payload },
             currentId: state.currentId + 1,
-            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
+            customCharacters: { ...state.customCharacters, [state.currentId]: action.payload },
+            customCharacterHitPoints: { ...state.customCharacterHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
             textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} \n` }
         };
     } else {
         return {
             ...state,
-            npcs: { ...state.npcs, [state.currentId]: {
-                ...action.payload,
-                name: `${name} #${npcNumber + 1}`,
-            }},
             currentId: state.currentId + 1,
-            npcHitPoints: { ...state.npcHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
-            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${npcNumber + 1} \n` }
+            customCharacters: {
+                ...state.customCharacters,
+                [state.currentId]: {
+                    ...action.payload,
+                    name: `${name} #${characterNumber + 1}`,
+                },
+            },
+            customCharacterHitPoints: { ...state.customCharacterHitPoints, [state.currentId]: { removedHitPoints: 0, temporaryHitPoints: 0 } },
+            textNotesByKey: { ...state.textNotesByKey, [state.currentId]: `Notes for ${name} #${characterNumber + 1} \n` }
         };
     }
 };
 
-const removeCharacter = (state: EncounterState, action: EncCharacterRemovedAction) => {
-    const characterKey = findKey((c: Character) => c.id === action.payload.id, state.characters);
+const removeBeyondCharacter = (state: EncounterState, action: EncBeyondCharacterRemovedAction) => {
+    const characterKey = findKey((c: BeyondCharacter) => c.id === action.payload.id, state.beyondCharacters);
     if (!characterKey) {
         return state;
     }
 
     return {
         ...state,
-        characters: (omit(characterKey, state.characters) || {}) as Record<number, Character>,
+        beyondCharacters: (omit(characterKey, state.beyondCharacters) || {}) as Record<number, BeyondCharacter>,
         initiativeById: (omit(characterKey, state.initiativeById) || {}) as Record<number, number>,
     };
 };
 
-const removeNPC = (state: EncounterState, action: EncNPCRemovedAction) => {
-    const { npcs } = state;
+const removeCustomCharacter = (state: EncounterState, action: EncCustomCharacterRemovedAction) => {
+    const { customCharacters } = state;
     const { name } = action.payload;
-    const addedNPCsKeys = filter(key => npcs[parseInt(key)].name.startsWith(name), keys(npcs));
+    const addedCustomCharactersKeys = filter(key => customCharacters[parseInt(key)].name.startsWith(name), keys(customCharacters));
 
-    if (addedNPCsKeys.length === 0) {
+    if (addedCustomCharactersKeys.length === 0) {
         return state;
     }
 
-    const latestAddedNpc = reduce(
+    const latestAddedCharacter = reduce(
         (accumulator, keyString) => {
             const key = parseInt(keyString);
-            const npc = npcs[key];
+            const character = customCharacters[key];
 
-            if (npc.name === name) {
+            if (character.name === name) {
                 if (accumulator.number < 1) {
                     return { key, number: 1 };
                 }
                 return accumulator;
             }
 
-            const splitByHash = npc.name.slice(name.length).split('#');
+            const splitByHash = character.name.slice(name.length).split('#');
             const number = parseInt(splitByHash[splitByHash.length - 1]);
 
             if (number > accumulator.number) {
@@ -166,20 +172,20 @@ const removeNPC = (state: EncounterState, action: EncNPCRemovedAction) => {
             key: 0,
             number: -1,
         },
-        addedNPCsKeys,
+        addedCustomCharactersKeys,
     );
 
     return {
         ...state,
-        npcs: omit(latestAddedNpc.key, npcs) || {},
+        customCharacters: omit(latestAddedCharacter.key, customCharacters) || {},
     };
 };
 
-const updateCharacterInitiative = (state: EncounterState, action: EncCharacterInitiativeUpdatedAction) => {
-    const { characters, initiativeById } = state;
+const updateBeyondCharacterInitiative = (state: EncounterState, action: EncBeyondCharacterInitiativeUpdatedAction) => {
+    const { beyondCharacters, initiativeById } = state;
     const { character, initiative } = action.payload;
 
-    const characterKey = keys(characters).find(key => characters[parseInt(key)].id === character.id);
+    const characterKey = keys(beyondCharacters).find(key => beyondCharacters[parseInt(key)].id === character.id);
     if (!characterKey) {
         return state;
     }
@@ -193,29 +199,30 @@ const updateCharacterInitiative = (state: EncounterState, action: EncCharacterIn
     };
 };
 
-const updateNPCInitiative = (state: EncounterState, action: EncNPCInitiativeUpdatedAction) => {
-    const { npcs, initiativeById } = state;
-    const { npc, initiative } = action.payload;
+const updateCustomCharacterInitiative = (state: EncounterState, action: EncCustomCharacterInitiativeUpdatedAction) => {
+    const { customCharacters, initiativeById } = state;
+    const { character, initiative } = action.payload;
 
-    const npcKeys = keys(npcs).filter(key => npcs[parseInt(key)].name.startsWith(npc.name));
-    if (npcKeys.length === 0) {
+    const characterKeys = keys(customCharacters).filter(key => customCharacters[parseInt(key)].name.startsWith(character.name));
+    if (characterKeys.length === 0) {
         return state;
     }
 
-    let npcInitiatives: Record<number, number> = {};
-    npcKeys.forEach(key => (npcInitiatives[parseInt(key)] = initiative));
+    let initiatives: Record<number, number> = {};
+    characterKeys.forEach(key => (initiatives[parseInt(key)] = initiative));
 
     return {
         ...state,
         initiativeById: {
             ...initiativeById,
-            ...npcInitiatives,
+            ...initiatives,
         },
     };
 };
 
 const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
-    const { currentTurnInitiative, characters, npcs, initiativeById } = state;
+    const { currentTurnInitiative, beyondCharacters, customCharacters, initiativeById } = state;
+
     if (currentTurnInitiative === INIT_INITIATIVE) {
         const findMaxInitiative = (maxInitiative: { key: number, initiative: number}, keyString: string) => {
             const key = parseInt(keyString);
@@ -226,17 +233,18 @@ const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
 
             return maxInitiative;
         };
-        const { key: characterKey, initiative: characterInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(characters));
-        const { key: npcKey, initiative: npcInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(npcs));
 
-        if (npcInitiative === -100 && characterInitiative === -100) {
+        const { key: beyondKey, initiative: beyondInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(beyondCharacters));
+        const { key: customKey, initiative: customInitiative } = reduce(findMaxInitiative, { key: -1, initiative: -100 }, keys(customCharacters));
+
+        if (customInitiative === -100 && beyondInitiative === -100) {
             return state;
         }
 
         return {
             ...state,
-            currentTurnInitiative: Math.max(characterInitiative, npcInitiative),
-            currentTurnKey: characterInitiative > npcInitiative ? characterKey : npcKey,
+            currentTurnInitiative: Math.max(beyondInitiative, customInitiative),
+            currentTurnKey: beyondInitiative > customInitiative ? beyondKey : customKey,
         };
     } else {
         const findWithInitiative = (keyString: string) => {
@@ -248,7 +256,7 @@ const recalculateCurrentTurnKey = (state: EncounterState): EncounterState => {
             return false;
         };
 
-        const keyWithInitiative = parseInt(keys(characters).find(findWithInitiative) as string) || parseInt(keys(npcs).find(findWithInitiative) as string);
+        const keyWithInitiative = parseInt(keys(beyondCharacters).find(findWithInitiative) as string) || parseInt(keys(customCharacters).find(findWithInitiative) as string);
         if (!isNaN(keyWithInitiative)) {
             return {
                 ...state,
@@ -313,9 +321,9 @@ const prevTurn = (state: EncounterState): EncounterState => {
     };
 };
 
-const updateNPCHitPoints = (state: EncounterState, action: EncNPCHitPointsUpdatedAction) => {
+const updateCustomCharacterHitPoints = (state: EncounterState, action: EncCustomCharacterHitPointsUpdatedAction) => {
     const { key, update, temp } = action.payload;
-    const { removedHitPoints, temporaryHitPoints } = state.npcHitPoints[key];
+    const { removedHitPoints, temporaryHitPoints } = state.customCharacterHitPoints[key];
 
     let newTemp = temporaryHitPoints;
     if (temp) {
@@ -335,8 +343,8 @@ const updateNPCHitPoints = (state: EncounterState, action: EncNPCHitPointsUpdate
     return {
         ...state,
         selectedEntityKey: null,
-        npcHitPoints: {
-            ...state.npcHitPoints,
+        customCharacterHitPoints: {
+            ...state.customCharacterHitPoints,
             [key]: {
                 removedHitPoints: newRemoved,
                 temporaryHitPoints: newTemp,
@@ -363,10 +371,10 @@ const updateEntityConcentration = (state: EncounterState, action: EncEntityConce
     };
 };
 
-const updateCharacterById = (state: EncounterState, action: EncCharacterUpdatedByIdAction) => {
-    const { id, character: updatedCharacter } = action.payload;
-    const { characters } = state;
-    const key = keys(characters).find(k => characters[parseInt(k)].id === id);
+const updateBeyondCharacterById = (state: EncounterState, action: EncBeyondCharacterUpdatedByIdAction) => {
+    const { id, character: updatedBeyondCharacter } = action.payload;
+    const { beyondCharacters } = state;
+    const key = keys(beyondCharacters).find(k => beyondCharacters[parseInt(k)].id === id);
 
     if (!key || isNaN(parseInt(key))) {
         return state;
@@ -374,32 +382,32 @@ const updateCharacterById = (state: EncounterState, action: EncCharacterUpdatedB
 
     return {
         ...state,
-        characters: {
-            ...characters,
-            [parseInt(key)]: updatedCharacter,
+        beyondCharacters: {
+            ...beyondCharacters,
+            [parseInt(key)]: updatedBeyondCharacter,
         },
     };
 };
 
 export const encounter = (state = initialState, action: EncounterActionType) => {
     switch (action.type) {
-    case ENC_CHARACTER_ADDED:
-        return recalculateCurrentTurnKey(addCharacter(state, action));
+    case ENC_BEYOND_CHARACTER_ADDED:
+        return recalculateCurrentTurnKey(addBeyondCharacter(state, action));
 
-    case ENC_NPC_ADDED:
-        return recalculateCurrentTurnKey(addNPC(state, action));
+    case ENC_CUSTOM_CHARACTER_ADDED:
+        return recalculateCurrentTurnKey(addCustomCharacter(state, action));
 
-    case ENC_CHARACTER_REMOVED:
-        return recalculateCurrentTurnKey(removeCharacter(state, action));
+    case ENC_BEYOND_CHARACTER_REMOVED:
+        return recalculateCurrentTurnKey(removeBeyondCharacter(state, action));
 
-    case ENC_NPC_REMOVED:
-        return recalculateCurrentTurnKey(removeNPC(state, action));
+    case ENC_CUSTOM_CHARACTER_REMOVED:
+        return recalculateCurrentTurnKey(removeCustomCharacter(state, action));
 
-    case ENC_CHARACTER_INITIATIVE_UPDATED:
-        return recalculateCurrentTurnKey(updateCharacterInitiative(state, action));
+    case ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED:
+        return recalculateCurrentTurnKey(updateBeyondCharacterInitiative(state, action));
     
-    case ENC_NPC_INITIATIVE_UPDATED:
-        return recalculateCurrentTurnKey(updateNPCInitiative(state, action));
+    case ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED:
+        return recalculateCurrentTurnKey(updateCustomCharacterInitiative(state, action));
 
     case ENC_RESET:
         return initialState;
@@ -422,8 +430,8 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
             selectedEntityKey: action.payload.key,
         };
 
-    case ENC_NPC_HIT_POINTS_UPDATED:
-        return updateNPCHitPoints(state, action);
+    case ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED:
+        return updateCustomCharacterHitPoints(state, action);
 
     case ENC_TEXT_NOTES_UPDATED:
         return {
@@ -446,8 +454,8 @@ export const encounter = (state = initialState, action: EncounterActionType) => 
     case ENC_ENTITY_CONCENTRATION_UPDATED:
         return updateEntityConcentration(state, action);
 
-    case ENC_CHARACTER_UPDATED_BY_ID:
-        return updateCharacterById(state, action);
+    case ENC_BEYOND_CHARACTER_UPDATED_BY_ID:
+        return updateBeyondCharacterById(state, action);
 
     default:
         return state;

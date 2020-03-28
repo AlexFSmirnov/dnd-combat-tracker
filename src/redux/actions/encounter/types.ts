@@ -1,54 +1,54 @@
-import { Character, NPC } from '../../types';
+import { BeyondCharacter, CustomCharacter } from '../../types';
 
-export const ENC_CHARACTER_ADDED = 'ENC_CHARACTER_ADDED';
-export const ENC_NPC_ADDED = 'ENC_NPC_ADDED';
-export const ENC_CHARACTER_REMOVED = 'ENC_CHARACTER_REMOVED';
-export const ENC_NPC_REMOVED = 'ENC_NPC_REMOVED';
-export const ENC_CHARACTER_INITIATIVE_UPDATED = 'ENC_CHARACTER_INITIATIVE_UPDATED';
-export const ENC_NPC_INITIATIVE_UPDATED = 'ENC_NPC_INITIATIVE_UPDATED';
+export const ENC_BEYOND_CHARACTER_ADDED = 'ENC_BEYOND_CHARACTER_ADDED';
+export const ENC_CUSTOM_CHARACTER_ADDED = 'ENC_CUSTOM_CHARACTER_ADDED';
+export const ENC_BEYOND_CHARACTER_REMOVED = 'ENC_BEYOND_CHARACTER_REMOVED';
+export const ENC_CUSTOM_CHARACTER_REMOVED = 'ENC_CUSTOM_CHARACTER_REMOVED';
+export const ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED = 'ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED';
+export const ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED = 'ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED';
 export const ENC_RESET = 'ENC_RESET';
 export const ENC_CREATED = 'ENC_CREATED';
 export const ENC_NEXT_TURN = 'ENC_NEXT_TURN';
 export const ENC_PREV_TURN = 'ENC_PREV_TURN';
 export const ENC_ENTITY_SELECTED = 'ENC_ENTITY_SELECTED';
-export const ENC_NPC_HIT_POINTS_UPDATED = 'ENC_NPC_HIT_POINTS_UPDATED';
+export const ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED = 'ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED';
 export const ENC_TEXT_NOTES_UPDATED = 'ENC_TEXT_NOTES_UPDATED';
 export const ENC_IMG_NOTES_UPDATED = 'ENC_IMG_NOTES_UPDATED';
 export const ENC_ENTITY_CONCENTRATION_UPDATED = 'ENC_ENTITY_CONCENTRATION_UPDATED';
-export const ENC_CHARACTER_UPDATED_BY_ID = 'ENC_CHARACTER_UPDATED_BY_ID';
+export const ENC_BEYOND_CHARACTER_UPDATED_BY_ID = 'ENC_BEYOND_CHARACTER_UPDATED_BY_ID';
 
-export interface EncCharacterAddedAction { 
-    type: typeof ENC_CHARACTER_ADDED;
-    payload: Character;
+export interface EncBeyondCharacterAddedAction { 
+    type: typeof ENC_BEYOND_CHARACTER_ADDED;
+    payload: BeyondCharacter;
 }
 
-export interface EncNPCAddedAction {
-    type: typeof ENC_NPC_ADDED;
-    payload: NPC;
+export interface EncCustomCharacterAddedAction {
+    type: typeof ENC_CUSTOM_CHARACTER_ADDED;
+    payload: CustomCharacter;
 }
 
-export interface EncCharacterRemovedAction { 
-    type: typeof ENC_CHARACTER_REMOVED;
-    payload: Character;
+export interface EncBeyondCharacterRemovedAction { 
+    type: typeof ENC_BEYOND_CHARACTER_REMOVED;
+    payload: BeyondCharacter;
 }
 
-export interface EncNPCRemovedAction {
-    type: typeof ENC_NPC_REMOVED;
-    payload: NPC;
+export interface EncCustomCharacterRemovedAction {
+    type: typeof ENC_CUSTOM_CHARACTER_REMOVED;
+    payload: CustomCharacter;
 }
 
-export interface EncCharacterInitiativeUpdatedAction {
-    type: typeof ENC_CHARACTER_INITIATIVE_UPDATED;
+export interface EncBeyondCharacterInitiativeUpdatedAction {
+    type: typeof ENC_BEYOND_CHARACTER_INITIATIVE_UPDATED;
     payload: {
-        character: Character;
+        character: BeyondCharacter;
         initiative: number;
     };
 }
 
-export interface EncNPCInitiativeUpdatedAction {
-    type: typeof ENC_NPC_INITIATIVE_UPDATED;
+export interface EncCustomCharacterInitiativeUpdatedAction {
+    type: typeof ENC_CUSTOM_CHARACTER_INITIATIVE_UPDATED;
     payload: {
-        npc: NPC;
+        character: CustomCharacter;
         initiative: number;
     };
 }
@@ -76,8 +76,8 @@ export interface EncEntitySelectedAction {
     };
 }
 
-export interface EncNPCHitPointsUpdatedAction {
-    type: typeof ENC_NPC_HIT_POINTS_UPDATED;
+export interface EncCustomCharacterHitPointsUpdatedAction {
+    type: typeof ENC_CUSTOM_CHARACTER_HIT_POINTS_UPDATED;
     payload: {
         key: number,
         update: number,
@@ -109,27 +109,27 @@ export interface EncEntityConcentrationUpdatedAction {
     };
 }
 
-export interface EncCharacterUpdatedByIdAction {
-    type: typeof ENC_CHARACTER_UPDATED_BY_ID,
+export interface EncBeyondCharacterUpdatedByIdAction {
+    type: typeof ENC_BEYOND_CHARACTER_UPDATED_BY_ID,
     payload: {
         id: number,
-        character: Character,
+        character: BeyondCharacter,
     };
 }
 
-export type EncounterActionType = EncCharacterAddedAction |
-    EncNPCAddedAction |
-    EncCharacterRemovedAction |
-    EncNPCRemovedAction |
-    EncCharacterInitiativeUpdatedAction |
-    EncNPCInitiativeUpdatedAction |
+export type EncounterActionType = EncBeyondCharacterAddedAction |
+    EncCustomCharacterAddedAction |
+    EncBeyondCharacterRemovedAction |
+    EncCustomCharacterRemovedAction |
+    EncBeyondCharacterInitiativeUpdatedAction |
+    EncCustomCharacterInitiativeUpdatedAction |
     EncResetAction |
     EncCreatedAction |
     EncNextTurnAction |
     EncPrevTurnAction |
     EncEntitySelectedAction |
-    EncNPCHitPointsUpdatedAction |
+    EncCustomCharacterHitPointsUpdatedAction |
     EncTextNotesUpdateAction |
     EncImgNotesUpdatedAction |
     EncEntityConcentrationUpdatedAction |
-    EncCharacterUpdatedByIdAction;
+    EncBeyondCharacterUpdatedByIdAction;

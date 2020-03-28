@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useTheme } from '@material-ui/core';
-import { State, Character } from '../../redux/types';
+import { State, BeyondCharacter } from '../../redux/types';
 import { EncounterState } from '../../redux/reducers/encounter';
 import { sortEntitiesWithInitiative, EntityWithInitiative } from '../../helpers/sortEntitiesWithInitiative';
 import { FancyFrame } from '../Frame';
@@ -29,18 +29,19 @@ const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullWid
                 {entitiesByInitiative.map(({ type, entity, key, dividerAfterThisOne, isCurrentlyFirst }, index)=> {
                     let entityListItemProps = { key, entityKey: key, type, isInCurrentTurn: index <= dividerIndex, isCurrentlyFirst, ...entity };
 
-                    if (type === EntityType.NPC) {
+                    if (type === EntityType.CustomCharacter) {
                         entityListItemProps = {
                             ...entityListItemProps,
-                            removedHitPoints: (encounter && encounter.npcHitPoints[key] && encounter.npcHitPoints[key].removedHitPoints) || 0,
-                            temporaryHitPoints: (encounter && encounter.npcHitPoints[key] && encounter.npcHitPoints[key].temporaryHitPoints) || 0,
+                            removedHitPoints: (encounter && encounter.customCharacterHitPoints[key] && encounter.customCharacterHitPoints[key].removedHitPoints) || 0,
+                            temporaryHitPoints: (encounter && encounter.customCharacterHitPoints[key] && encounter.customCharacterHitPoints[key].temporaryHitPoints) || 0,
                         };
                     }
 
-                    const color = ((entity as Character).themeColor && (entity as Character).themeColor?.themeColor) || theme.palette.primary.main;
+                    const color = ((entity as BeyondCharacter).themeColor && (entity as BeyondCharacter).themeColor?.themeColor) || theme.palette.primary.main;
+
                     return (
                         <React.Fragment key={key}>
-                            <EntityListItem {...entityListItemProps} color={type === EntityType.CHARACTER ? color : theme.palette.secondary.main} />
+                            <EntityListItem {...entityListItemProps} color={type === EntityType.BeyondCharacter ? color : theme.palette.secondary.main} />
                             {dividerAfterThisOne ? <Divider color={theme.palette.secondary.main} key={`${key}-div`} /> : null}
                         </React.Fragment>
                     );
