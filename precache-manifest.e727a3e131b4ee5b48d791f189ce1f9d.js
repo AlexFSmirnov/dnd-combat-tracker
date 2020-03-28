@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fbfda159d6d63ffa0c93ec2b1032dfcd",
+    "revision": "07da46bc9cb35e45fcbe53775a76d337",
     "url": "/dnd-combat-tracker/index.html"
   },
   {
