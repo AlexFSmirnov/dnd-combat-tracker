@@ -34,22 +34,31 @@ export const ConcentrationLetter = styled.div<{ color: string, selected?: boolea
     cursor: pointer;
 `;
 
-export const ConcentrationDuration = styled.div<{ color: string }>`
+export const ConcentrationDuration = styled.div<{ color: string, small?: boolean }>`
     position: absolute;
-    top: -12px;
-    right: -14px;
-    width: 20px;
-    height: 20px;
     border: 2px solid white;
     border-radius: 50%;
+
+    ${props => props.small ? `
+        top: -8px;
+        right: -10px;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        line-height: 12px;
+    ` : `
+        top: -12px;
+        right: -14px;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        line-height: 14px;
+    `}
 
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    font-size: 14px;
-    line-height: 14px;
 
     color: white;
     background-color: ${props => props.color};

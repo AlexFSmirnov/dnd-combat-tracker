@@ -21,12 +21,13 @@ export interface EntityListProps {
 const EntityList: React.FC<EntityListProps & StateProps> = ({ encounter, fullWidth, fullScreen, short }) => {
     const theme = useTheme();
     const entitiesByInitiative: EntityWithInitiative[] = useMemo(() => sortEntitiesWithInitiative(encounter), [encounter]);
+    const dividerIndex = useMemo(() => entitiesByInitiative.findIndex(e => e.dividerAfterThisOne), [encounter]);
 
     return (
         <EntityListContainer fullWidth={fullWidth} fullScreen={fullScreen} short={short}>
             <EntityListWrapper>
-                {entitiesByInitiative.map(({ type, entity, key, dividerAfterThisOne })=> {
-                    let entityListItemProps = { key, entityKey: key, type, ...entity };
+                {entitiesByInitiative.map(({ type, entity, key, dividerAfterThisOne }, index)=> {
+                    let entityListItemProps = { key, entityKey: key, type, isInCurrentTurn: index <= dividerIndex, ...entity };
 
                     if (type === EntityType.NPC) {
                         entityListItemProps = {

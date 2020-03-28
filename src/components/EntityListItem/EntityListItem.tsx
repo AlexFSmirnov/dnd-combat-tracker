@@ -50,6 +50,7 @@ export interface EntityListItemProps {
     color: string;
     id?: number;
     avatarUrl?: string;
+    isInCurrentTurn?: boolean;
 }
 
 const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps> = ({
@@ -62,6 +63,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
     temporaryHitPoints = 0,
     deathSaves,
     avatarUrl,
+    isInCurrentTurn,
     color,
     selectedKey,
     updateCharacterById,
@@ -132,7 +134,7 @@ const EntityListItem: React.FC<EntityListItemProps & StateProps & DispatchProps>
                         <SavesContainer small={small} />
                     </NameAndSavesContainer>
                     <div style={{ flex: 1 }} />
-                    <Concentration entityKey={entityKey} color={color} small={small} />
+                    <Concentration entityKey={entityKey} color={color} small={small} isInCurrentTurn={isInCurrentTurn} />
                     <HitPointsContainer small={small} onClick={type === EntityType.NPC ? openMenu : undefined}>
                         <HitPoints small={small} width={small ? 64 : 48}>{maxHitPoints - removedHitPoints}</HitPoints>
                         <HitPoints small={small} width={small ? 16 : 12} style={{ color: 'grey' }}>/</HitPoints>

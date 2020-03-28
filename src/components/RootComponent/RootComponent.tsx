@@ -53,7 +53,6 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     const [isCharacterDialogOpen, setIsCharacterDialogOpen] = useState(false);
     const [isNewEncounterDialogOpen, setIsNewEncounterDialogOpen] = useState(false);
     const [isCreatingNewEncounter, setIsCreatingNewEncounter] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const [isKeyboardMode, setIsKeyboardMode] = useState(false);
 
     const canNewEncounterBeCreated = useMemo(() => {
@@ -83,16 +82,15 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
     }, [encounter]);
 
     const toggleFullscreen = () => {
+        const isFullscreen = document.fullscreenElement !== null;
         if (isFullscreen) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
-                setIsFullscreen(false);
             }
         } else {
             const element = document.documentElement;
             if (element.requestFullscreen) {
                 element.requestFullscreen();
-                setIsFullscreen(true);
             }
         }
     };
@@ -134,6 +132,8 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             createEncounter();
         }
     };
+
+    const isFullscreen = document.fullscreenElement !== null;
 
     return (
         <RootComponentContainer>

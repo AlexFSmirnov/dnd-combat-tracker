@@ -18,9 +18,10 @@ export interface ConcentrationProps {
     entityKey: number;
     color: string;
     small?: boolean;
+    isInCurrentTurn?: boolean;
 }
 
-const Concentration: React.FC<ConcentrationProps & StateProps & DispatchProps> = ({ entityKey, color, small, encounter, updateEntityConcentration }) => {
+const Concentration: React.FC<ConcentrationProps & StateProps & DispatchProps> = ({ entityKey, color, small, isInCurrentTurn, encounter, updateEntityConcentration }) => {
     const durationElementRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -43,8 +44,8 @@ const Concentration: React.FC<ConcentrationProps & StateProps & DispatchProps> =
             return 0;
         }
 
-        return encounter.currentRound - since;
-    }, [since, encounter]);
+        return encounter.currentRound - since + (isInCurrentTurn ? 0 : 1);
+    }, [since, encounter, isInCurrentTurn]);
     const [isDurationVisible, setIsDurationVisible] = useState(since !== null);
 
     const tooltipText = useMemo(() => { 
@@ -52,7 +53,16 @@ const Concentration: React.FC<ConcentrationProps & StateProps & DispatchProps> =
             return 'Click when character starts concentrating';
         }
 
-        return `Concentrating for ${duration} round${duration === 1 ? '' : 's'} (since round ${since})`;
+        let ending = 'th';
+        if ((duration + 1) % 10 === 1) {
+            ending = 'st';
+        } else if ((duration + 1) % 10 === 2) {
+            ending = 'nd';
+        } else if ((duration + 1) % 10 === 3) {
+            ending = 'rd';
+        }
+
+        return `${duration + 1}${ending} round of concentration (since round ${since})`;
     }, [since, duration]);
 
     const handleClick = () => {
@@ -84,8 +94,8 @@ const Concentration: React.FC<ConcentrationProps & StateProps & DispatchProps> =
                     C
                 </ConcentrationLetter>
                 {isDurationVisible ? (
-                    <ConcentrationDuration color={color} ref={durationElementRef}>
-                        {duration}
+                    <ConcentrationDuration color={color} ref={durationElementRef} small={small}>
+                        {duration + 1}
                     </ConcentrationDuration>
                 ) : null}
             </ConcentrationContainer>
