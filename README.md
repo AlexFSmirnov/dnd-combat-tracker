@@ -10,7 +10,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
       - [x] Name 
       - [x] HP
       - [ ] Death saves 
-      - [ ] Concentration
+      - [x] Concentration
     - [x] NPC List item 
     - [ ] Animations
     - [x] Keyboard control for HP management
