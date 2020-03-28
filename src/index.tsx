@@ -6,4 +6,4 @@ import * as serviceWorker from './serviceWorker';
 
 // ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<App />);
 ReactDOM.render(<App />, document.getElementById('root'));
-serviceWorker.unregister();
+serviceWorker.register();
