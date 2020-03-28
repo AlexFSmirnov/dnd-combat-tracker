@@ -182,28 +182,34 @@ const RootComponent: React.FC<StateProps & DispatchProps> = ({
             </Menu>
             <RootComponentWrapper>
                 <ContentContainer small={small}>
-                    {small
+                    {(encounter && encounter.currentId > 1)
                         ? (
-                            <React.Fragment>
-                                <EntityList fullWidth fullScreen={isFullscreen} />
-                                <NotesContainer>
-                                    <TextNotes fullWidth rows={isFullscreen ? '4' : '2'} />
-                                </NotesContainer>
-                            </React.Fragment>
+                            small ? (
+                                <React.Fragment>
+                                    <EntityList fullWidth fullScreen={isFullscreen} />
+                                    <NotesContainer>
+                                        <TextNotes fullWidth rows={isFullscreen ? '4' : '2'} />
+                                    </NotesContainer>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <ListAndNumpadContainer>
+                                        <EntityList short={short} />
+                                        {isKeyboardMode ? null : <Numpad short={short} />}
+                                    </ListAndNumpadContainer>
+                                    <NotesContainer>
+                                        {isKeyboardMode
+                                            ? <TextNotes rows="8" />
+                                            : <Notes short={short} />
+                                        }
+                                    </NotesContainer>
+                                </React.Fragment>
+                            )
                         )
                         : (
-                            <React.Fragment>
-                                <ListAndNumpadContainer>
-                                    <EntityList short={short} />
-                                    {isKeyboardMode ? null : <Numpad short={short} />}
-                                </ListAndNumpadContainer>
-                                <NotesContainer>
-                                    {isKeyboardMode
-                                        ? <TextNotes rows="8" />
-                                        : <Notes short={short} />
-                                    }
-                                </NotesContainer>
-                            </React.Fragment>
+                            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '32px' }}>
+                                <Typography variant="h5">Create a new encounter to begin</Typography>
+                            </div>
                         )
                     }
                 </ContentContainer>
