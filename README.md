@@ -9,7 +9,7 @@ Combat and initiative tracker for Dungeons and Dragons with D&amp;D Beyond integ
       - [x] Avatar
       - [x] Name 
       - [x] HP
-      - [ ] Death saves 
+      - [x] Death saves 
       - [x] Concentration
     - [x] NPC List item 
     - [ ] Animations
