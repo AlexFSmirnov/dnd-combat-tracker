@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/dnd-combat-tracker/static/css/main.203b13a2.chunk.css",
-    "main.js": "/dnd-combat-tracker/static/js/main.ac864d71.chunk.js",
-    "main.js.map": "/dnd-combat-tracker/static/js/main.ac864d71.chunk.js.map",
+    "main.js": "/dnd-combat-tracker/static/js/main.0ec308f2.chunk.js",
+    "main.js.map": "/dnd-combat-tracker/static/js/main.0ec308f2.chunk.js.map",
     "runtime-main.js": "/dnd-combat-tracker/static/js/runtime-main.4f8f8b08.js",
     "runtime-main.js.map": "/dnd-combat-tracker/static/js/runtime-main.4f8f8b08.js.map",
-    "static/js/2.12605cae.chunk.js": "/dnd-combat-tracker/static/js/2.12605cae.chunk.js",
-    "static/js/2.12605cae.chunk.js.map": "/dnd-combat-tracker/static/js/2.12605cae.chunk.js.map",
+    "static/js/2.e91ce535.chunk.js": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js",
+    "static/js/2.e91ce535.chunk.js.map": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js.map",
     "index.html": "/dnd-combat-tracker/index.html",
-    "precache-manifest.31b77304f452cbcf7c9389f374daef8d.js": "/dnd-combat-tracker/precache-manifest.31b77304f452cbcf7c9389f374daef8d.js",
+    "precache-manifest.27da103610e6b85743a5caaedd99e367.js": "/dnd-combat-tracker/precache-manifest.27da103610e6b85743a5caaedd99e367.js",
     "service-worker.js": "/dnd-combat-tracker/service-worker.js",
     "static/css/main.203b13a2.chunk.css.map": "/dnd-combat-tracker/static/css/main.203b13a2.chunk.css.map",
-    "static/js/2.12605cae.chunk.js.LICENSE.txt": "/dnd-combat-tracker/static/js/2.12605cae.chunk.js.LICENSE.txt"
+    "static/js/2.e91ce535.chunk.js.LICENSE.txt": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4f8f8b08.js",
-    "static/js/2.12605cae.chunk.js",
+    "static/js/2.e91ce535.chunk.js",
     "static/css/main.203b13a2.chunk.css",
-    "static/js/main.ac864d71.chunk.js"
+    "static/js/main.0ec308f2.chunk.js"
   ]
 }
