@@ -1,1 +1,4 @@
 - [ ] Source links for custom characters
+- [ ] Remove dead creatures from initiative 
+- [ ] Add a dice roller
+- [ ] Support max hp overrides and modifiers for beyond characters
