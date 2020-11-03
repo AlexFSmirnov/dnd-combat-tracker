@@ -1,22 +1,19 @@
 {
   "files": {
-    "main.css": "/dnd-combat-tracker/static/css/main.203b13a2.chunk.css",
-    "main.js": "/dnd-combat-tracker/static/js/main.f847a3d6.chunk.js",
-    "main.js.map": "/dnd-combat-tracker/static/js/main.f847a3d6.chunk.js.map",
-    "runtime-main.js": "/dnd-combat-tracker/static/js/runtime-main.4f8f8b08.js",
-    "runtime-main.js.map": "/dnd-combat-tracker/static/js/runtime-main.4f8f8b08.js.map",
-    "static/js/2.e91ce535.chunk.js": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js",
-    "static/js/2.e91ce535.chunk.js.map": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js.map",
-    "index.html": "/dnd-combat-tracker/index.html",
-    "precache-manifest.e727a3e131b4ee5b48d791f189ce1f9d.js": "/dnd-combat-tracker/precache-manifest.e727a3e131b4ee5b48d791f189ce1f9d.js",
-    "service-worker.js": "/dnd-combat-tracker/service-worker.js",
-    "static/css/main.203b13a2.chunk.css.map": "/dnd-combat-tracker/static/css/main.203b13a2.chunk.css.map",
-    "static/js/2.e91ce535.chunk.js.LICENSE.txt": "/dnd-combat-tracker/static/js/2.e91ce535.chunk.js.LICENSE.txt"
+    "main.js": "/tfjs-classification-demo/static/js/main.0f052d00.chunk.js",
+    "main.js.map": "/tfjs-classification-demo/static/js/main.0f052d00.chunk.js.map",
+    "runtime-main.js": "/tfjs-classification-demo/static/js/runtime-main.697fbec1.js",
+    "runtime-main.js.map": "/tfjs-classification-demo/static/js/runtime-main.697fbec1.js.map",
+    "static/js/2.c80fe2be.chunk.js": "/tfjs-classification-demo/static/js/2.c80fe2be.chunk.js",
+    "static/js/2.c80fe2be.chunk.js.map": "/tfjs-classification-demo/static/js/2.c80fe2be.chunk.js.map",
+    "index.html": "/tfjs-classification-demo/index.html",
+    "precache-manifest.afa7f31bd6cd3cc772b9591986d97820.js": "/tfjs-classification-demo/precache-manifest.afa7f31bd6cd3cc772b9591986d97820.js",
+    "service-worker.js": "/tfjs-classification-demo/service-worker.js",
+    "static/js/2.c80fe2be.chunk.js.LICENSE.txt": "/tfjs-classification-demo/static/js/2.c80fe2be.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4f8f8b08.js",
-    "static/js/2.e91ce535.chunk.js",
-    "static/css/main.203b13a2.chunk.css",
-    "static/js/main.f847a3d6.chunk.js"
+    "static/js/runtime-main.697fbec1.js",
+    "static/js/2.c80fe2be.chunk.js",
+    "static/js/main.0f052d00.chunk.js"
   ]
 }

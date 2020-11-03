@@ -1,16 +1,11 @@
 {
-  "short_name": "Combat Tracker",
-  "name": "DnD Combat Tracker",
+  "short_name": "TFJS Classification",
+  "name": "Classification Neural Network with React and TensorFlowJS",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo200.png",
-      "type": "image/png",
-      "sizes": "200x200"
+      "src": "network.svg",
+      "sizes": "200x200 64x64 32x32 24x24 16x16",
+      "type": "image/svg"
     }
   ],
   "start_url": ".",
